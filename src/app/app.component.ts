@@ -34,6 +34,7 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
       }
       .app-sidenav-container {
         flex: 1;
+        padding-right: 10px;
       }
       .app-is-mobile .app-sidenav-container {
         flex: 1 0 auto;
@@ -66,8 +67,10 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
             </button>
           }
           <a mat-icon-button routerLink="/home">
-            <mat-icon svgIcon="lemon"></mat-icon>
-            <span class="left-pad" data-testid="title">LemonMart</span>
+            <img src="assets/img/icons/norpac.png" alt="NorPacTech Icon" />
+            <span class="left-pad" data-testid="title"
+              >Northern Pacific Technologies</span
+            >
           </a>
           <span class="flex-spacer"></span>
           @if (auth?.status?.isAuthenticated) {

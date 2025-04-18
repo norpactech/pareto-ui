@@ -12,6 +12,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router'
       .mat-mdc-subheader {
         font-weight: bold;
       }
+      mat-nav-list {
+        padding: 0 5px; /* Add padding to ensure text is 10px from the edge */
+      }
   `,
   template: `
     <mat-nav-list>
