@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { MatTabsModule } from '@angular/material/tabs'
 
-import { ContextComponent } from './context/context.component'
+import { ContextTableComponent } from './context/context-table.component'
 import { DataTypeComponent } from './data-type/data-type.component'
 import { PropertyTypeComponent } from './property-type/property-type.component'
 
@@ -10,7 +10,7 @@ import { PropertyTypeComponent } from './property-type/property-type.component'
   template: `
     <mat-tab-group>
       <mat-tab label="Context">
-        <app-context></app-context>
+        <app-context-table></app-context-table>
       </mat-tab>
       <mat-tab label="Data Types">
         <app-data-type></app-data-type>
@@ -21,6 +21,11 @@ import { PropertyTypeComponent } from './property-type/property-type.component'
     </mat-tab-group>
   `,
   standalone: true,
-  imports: [MatTabsModule, ContextComponent, DataTypeComponent, PropertyTypeComponent],
+  imports: [
+    MatTabsModule,
+    ContextTableComponent,
+    DataTypeComponent,
+    PropertyTypeComponent,
+  ],
 })
 export class ArchitecturalComponent {}
