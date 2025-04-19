@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 
-import { ContextComponent } from './context/context.component'
+import { ArchitecturalComponent } from './architectural/architectural.component'
 import { GenericComponent } from './generic/generic.component'
 import { TablesComponent } from './tables/tables.component'
 
 const routes: Routes = [
-  { path: '', component: ContextComponent },
+  { path: '', component: ArchitecturalComponent },
   { path: 'generic', component: GenericComponent },
   { path: 'tables', component: TablesComponent },
-  { path: 'context', component: ContextComponent },
+  { path: 'architectural', component: ArchitecturalComponent },
 ]
 
 @NgModule({
