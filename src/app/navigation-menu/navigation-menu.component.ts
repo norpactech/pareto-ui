@@ -28,18 +28,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router'
       <a mat-list-item routerLinkActive="active-link" routerLink="/definitions/tables">
         Tables
       </a>
-      <h3 mat-subheader>Inventory</h3>
-      <a mat-list-item routerLinkActive="active-link" routerLink="/inventory/stock-entry">
-        Stock Entry
-      </a>
-      <a mat-list-item routerLinkActive="active-link" routerLink="/inventory/products">
-        Products
-      </a>
-      <a mat-list-item routerLinkActive="active-link" routerLink="/inventory/categories">
-        Categories
-      </a>
-      <h3 mat-subheader>Clerk</h3>
-      <a mat-list-item routerLinkActive="active-link" routerLink="/pos">POS</a>
     </mat-nav-list>
   `,
   standalone: true,
