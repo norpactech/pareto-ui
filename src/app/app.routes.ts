@@ -27,6 +27,11 @@ export const routes: Routes = [
     loadChildren: () => import('./pos/pos.module').then((m) => m.PosModule),
   },
   {
+    path: 'definitions',
+    loadChildren: () =>
+      import('./definitions/definitions.module').then((m) => m.DefinitionsModule),
+  },
+  {
     path: 'inventory',
     loadChildren: () =>
       import('./inventory/inventory.module').then((m) => m.InventoryModule),

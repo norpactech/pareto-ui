@@ -45,7 +45,15 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
       .image-cropper {
         border-radius: 50%;
       }
-  `,
+      .modern-font {
+        font-family: 'Bebas Neue', sans-serif;
+        font-weight: 400; /* Bebas Neue only supports one weight */
+        letter-spacing: 2px; /* Add spacing for a bold industrial feel */
+        text-transform: uppercase; /* Optional: Make the text uppercase for a stronger look */
+        font-size: 2rem; /* Increase the font size to make the text taller */
+        line-height: 1.2; /* Adjust line height for better spacing */
+      }
+        `,
   template: `
     <app-loading-overlay></app-loading-overlay>
     <div class="app-container">
@@ -68,9 +76,7 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
           }
           <a mat-icon-button routerLink="/home">
             <img src="assets/img/icons/norpac.png" alt="NorPacTech Icon" />
-            <span class="left-pad" data-testid="title"
-              >Northern Pacific Technologies</span
-            >
+            <span class="left-pad modern-font" data-testid="title">Pareto Factory</span>
           </a>
           <span class="flex-spacer"></span>
           @if (auth?.status?.isAuthenticated) {

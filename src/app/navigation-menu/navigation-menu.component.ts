@@ -18,12 +18,15 @@ import { RouterLink, RouterLinkActive } from '@angular/router'
   `,
   template: `
     <mat-nav-list>
-      <h3 mat-subheader>Manager</h3>
-      <a mat-list-item routerLinkActive="active-link" routerLink="/manager/users">
-        Users
+      <h3 mat-subheader>Definitions</h3>
+      <a mat-list-item routerLinkActive="active-link" routerLink="/definitions/context">
+        Context
       </a>
-      <a mat-list-item routerLinkActive="active-link" routerLink="/manager/receipts">
-        Receipts
+      <a mat-list-item routerLinkActive="active-link" routerLink="/definitions/generic">
+        Generic
+      </a>
+      <a mat-list-item routerLinkActive="active-link" routerLink="/definitions/tables">
+        Tables
       </a>
       <h3 mat-subheader>Inventory</h3>
       <a mat-list-item routerLinkActive="active-link" routerLink="/inventory/stock-entry">
