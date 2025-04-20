@@ -148,8 +148,8 @@ export class AppComponent implements OnInit {
     public media: MediaObserver
   ) {
     iconRegistry.addSvgIcon(
-      'lemon',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/lemon.svg')
+      'norpac',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/norpac.png')
     )
   }
 

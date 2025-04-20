@@ -8,7 +8,7 @@ import { UiService } from './ui.service'
     @if (uiService.isLoading()) {
       <div class="overlay">
         <div class="center">
-          <img alt="loading" class="spinner" src="assets/img/icons/lemon.svg" />
+          <img alt="loading" class="spinner" src="assets/img/icons/norpac.png" />
         </div>
       </div>
     }

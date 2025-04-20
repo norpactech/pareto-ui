@@ -1,8 +1,8 @@
 import { Component } from '@angular/core'
 import { MatTabsModule } from '@angular/material/tabs'
 
-import { DataTypeComponent } from './data-type/data-type.component'
-import { PropertyTypeComponent } from './property-type/property-type.component'
+import { GenericDataTypeComponent } from './generic-data-type/generic-data-type.component'
+import { GenericPropertyTypeComponent } from './generic-property-type/generic-property-type.component'
 import { PropertyTypeAttributeComponent } from './property-type-attribute/property-type-attribute.component'
 
 @Component({
@@ -10,10 +10,10 @@ import { PropertyTypeAttributeComponent } from './property-type-attribute/proper
   template: `
     <mat-tab-group>
       <mat-tab label="Data Types">
-        <app-data-type></app-data-type>
+        <app-generic-data-type></app-generic-data-type>
       </mat-tab>
       <mat-tab label="Property Types">
-        <app-property-type></app-property-type>
+        <app-generic-property-type></app-generic-property-type>
       </mat-tab>
       <mat-tab label="Property Type Attributes">
         <app-property-type-attribute></app-property-type-attribute>
@@ -23,8 +23,8 @@ import { PropertyTypeAttributeComponent } from './property-type-attribute/proper
   standalone: true,
   imports: [
     MatTabsModule,
-    DataTypeComponent,
-    PropertyTypeComponent,
+    GenericDataTypeComponent,
+    GenericPropertyTypeComponent,
     PropertyTypeAttributeComponent,
   ],
 })

@@ -2,8 +2,8 @@ import { Component } from '@angular/core'
 import { MatTabsModule } from '@angular/material/tabs'
 
 import { ContextTableComponent } from './context/context-table.component'
-import { DataTypeComponent } from './data-type/data-type.component'
-import { PropertyTypeComponent } from './property-type/property-type.component'
+import { ContextDataTypeComponent } from './context-data-type/context-data-type.component'
+import { ContextPropertyTypeComponent } from './context-property-type/context-property-type.component'
 
 @Component({
   selector: 'app-architectural',
@@ -13,10 +13,10 @@ import { PropertyTypeComponent } from './property-type/property-type.component'
         <app-context-table></app-context-table>
       </mat-tab>
       <mat-tab label="Data Types">
-        <app-data-type></app-data-type>
+        <app-context-data-type></app-context-data-type>
       </mat-tab>
       <mat-tab label="Property Types">
-        <app-property-type></app-property-type>
+        <app-context-property-type></app-context-property-type>
       </mat-tab>
     </mat-tab-group>
   `,
@@ -24,8 +24,8 @@ import { PropertyTypeComponent } from './property-type/property-type.component'
   imports: [
     MatTabsModule,
     ContextTableComponent,
-    DataTypeComponent,
-    PropertyTypeComponent,
+    ContextDataTypeComponent,
+    ContextPropertyTypeComponent,
   ],
 })
 export class ArchitecturalComponent {}

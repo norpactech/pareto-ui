@@ -1,10 +1,8 @@
-import { CommonModule } from '@angular/common' // Import CommonModule for AsyncPipe
+import { CommonModule } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { MatTableModule } from '@angular/material/table'
-import { Observable } from 'rxjs'
 
 import { IContext } from './context'
-import { IContexts } from './context'
 import { ContextService } from './context.service'
 
 @Component({
@@ -12,18 +10,19 @@ import { ContextService } from './context.service'
   templateUrl: './context-table.component.html',
   styleUrls: ['./context-table.component.scss'],
   standalone: true,
-  imports: [MatTableModule, CommonModule], // Add CommonModule here
+  imports: [MatTableModule, CommonModule],
 })
 export class ContextTableComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'description'] // Columns to display
-  contexts$!: Observable<IContext[]> // Observable for the data
+  dataSource: IContext[] = [] // Data source for the table
 
   constructor(private contextService: ContextService) {}
 
   ngOnInit(): void {
+    // Fetch data and populate the table
     this.contextService.getContexts().subscribe({
-      next: (response: IContexts) => {
-        console.log('Received contexts:', response)
+      next: (response) => {
+        this.dataSource = response.data // Assign the data to the table's data source
       },
       error: (err) => {
         console.error('Error fetching contexts:', err)
