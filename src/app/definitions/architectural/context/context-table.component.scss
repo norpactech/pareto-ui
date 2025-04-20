@@ -1,0 +1,46 @@
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-row {
+  min-height: 64px;
+  padding: 16px 24px 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.table-container {
+  width: calc(95%); /* Match the width of the filter-row */
+  margin: 16px auto; /* Center the table horizontally and add vertical spacing */
+  background: rgba(255, 255, 255, 0.9); /* Light background for the table */
+  padding: 16px; /* Add padding inside the container */
+  border-radius: 8px; /* Add rounded corners */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a raised shadow effect */
+  position: relative; /* Ensure the table is positioned properly within the tab */
+  z-index: 2; /* Raise the table above other elements */
+}
+
+.mat-mdc-paginator {
+  background: transparent;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+  background-color: #efefef;
+}
+
+.selected {
+  font-weight: 500;
+  background-color: #efefef;
+}

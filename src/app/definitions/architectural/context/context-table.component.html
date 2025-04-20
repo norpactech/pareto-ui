@@ -1,25 +1,60 @@
-<div class="mat-elevation-z8">
-  <mat-table [dataSource]="dataSource" class="full-width">
-    <!-- ID Column -->
-    <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-      <mat-cell *matCellDef="let context"> {{ context.id }} </mat-cell>
-    </ng-container>
-
-    <!-- Name Column -->
+<div class="filter-row">
+  <form style="margin-bottom: 8px">
+    <div fxLayout="row">
+      <mat-form-field class="full-width">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput placeholder="Search" aria-label="Search" [formControl]="search" />
+        <mat-hint>Search By Name</mat-hint>
+        <mat-error *ngIf="search.invalid"
+          >Type more than one character to search</mat-error
+        >
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<div class="table-container">
+  @if (isLoading) {
+    <div class="loading-shade">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
+  @if (hasError) {
+    <div class="error">
+      {{ errorText }}
+    </div>
+  }
+  <mat-table
+    [dataSource]="items$"
+    matSort
+    matSortActive="name"
+    matSortDirection="asc"
+    matSortDisableClear>
+    <mat-header-row *matHeaderRowDef="['name', 'description']"></mat-header-row>
     <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let context"> {{ context.name }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.name }}
+      </mat-cell>
     </ng-container>
-
-    <!-- Description Column -->
     <ng-container matColumnDef="description">
-      <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
-      <mat-cell *matCellDef="let context"> {{ context.description }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.description }}</mat-cell>
     </ng-container>
-
-    <!-- Header and Row Definitions -->
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    <mat-row
+      matRipple
+      (click)="selectedRow = row"
+      [class.selected]="selectedRow === row"
+      *matRowDef="let row; columns: displayedColumns()"></mat-row>
   </mat-table>
+
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <button mat-icon-button (click)="refresh$.next()">
+        <mat-icon title="Refresh">refresh</mat-icon>
+      </button>
+      <span class="flex-spacer"></span>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [length]="resultsLength">
+      </mat-paginator>
+    </mat-toolbar-row>
+  </mat-toolbar>
 </div>

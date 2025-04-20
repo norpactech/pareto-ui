@@ -29,12 +29,21 @@ export class ContextService implements IContextService {
     return this.httpClient.get<IContext>(`${environment.baseUrl}/v2/context/${id}`)
   }
 
-  getContexts(): Observable<IContext[]> {
+  getContexts(
+    pageSize: number,
+    searchText = '',
+    pagesToSkip = 0,
+    sortColumn = '',
+    sortDirection: '' | 'asc' | 'desc' = 'asc'
+  ): Observable<IContexts> {
     return this.httpClient
       .get<IApiResponse<IContext[]>>(`${environment.baseUrl}/context/search`)
       .pipe(
-        tap((response) => console.log('API Response:', response)),
-        map((response) => response.data ?? [])
+        tap((response) => console.log('API Response:', response)), // Log the full API response
+        map((response) => ({
+          data: response.data ?? [], // Ensure `data` is always an array
+          total: (response.data ?? []).length, // Calculate the total as the array size
+        }))
       )
   }
 }
