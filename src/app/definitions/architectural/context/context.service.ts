@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { Observable, throwError } from 'rxjs'
+import { tap } from 'rxjs/operators'
 import { map } from 'rxjs/operators'
 
 import { environment } from '../../../../environments/environment'
 import { IApiResponse } from '../../../common/api-response'
 import { IContext } from './context'
-
 export interface IContexts {
   data: IContext[]
   total: number
@@ -29,9 +29,12 @@ export class ContextService implements IContextService {
     return this.httpClient.get<IContext>(`${environment.baseUrl}/v2/context/${id}`)
   }
 
-  getContexts(): Observable<IContexts> {
+  getContexts(): Observable<IContext[]> {
     return this.httpClient
-      .get<IApiResponse<IContexts>>(`${environment.baseUrl}/context/search`)
-      .pipe(map((response) => response.data as IContexts))
+      .get<IApiResponse<IContext[]>>(`${environment.baseUrl}/context/search`)
+      .pipe(
+        tap((response) => console.log('API Response:', response)),
+        map((response) => response.data ?? [])
+      )
   }
 }

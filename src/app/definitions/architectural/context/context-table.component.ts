@@ -19,10 +19,12 @@ export class ContextTableComponent implements OnInit {
   constructor(private contextService: ContextService) {}
 
   ngOnInit(): void {
-    // Fetch data and populate the table
+    console.log('Fetching contexts...') // Log the fetching process
+
     this.contextService.getContexts().subscribe({
-      next: (response) => {
-        this.dataSource = response.data // Assign the data to the table's data source
+      next: (data) => {
+        this.dataSource = data // Directly assign the array of IContext objects
+        console.log('Contexts fetched successfully:', this.dataSource) // Log the fetched contexts
       },
       error: (err) => {
         console.error('Error fetching contexts:', err)
