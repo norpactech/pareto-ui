@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common'
 import {
   AfterViewInit,
   Component,
@@ -19,16 +20,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatSort, MatSortModule } from '@angular/material/sort'
 import { MatTableModule } from '@angular/material/table'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { ActivatedRoute, Router, RouterLink } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { FlexModule } from '@ngbracket/ngx-layout/flex'
 import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
 
-import { OptionalTextValidation } from '../../../common/validations'
 import { IContext } from './context'
 import { ContextService } from './context.service'
-
 @Component({
   selector: 'app-context-table',
   templateUrl: './context-table.component.html',
@@ -49,7 +48,7 @@ import { ContextService } from './context.service'
     MatTableModule,
     MatToolbarModule,
     ReactiveFormsModule,
-    RouterLink,
+    CommonModule,
   ],
 })
 export class ContextTableComponent implements AfterViewInit {
@@ -73,23 +72,22 @@ export class ContextTableComponent implements AfterViewInit {
   errorText = ''
   selectedRow?: IContext
 
-  search = new FormControl<string>('', OptionalTextValidation)
+  search = new FormControl<string>('', null)
 
   resetPage(stayOnPage = false) {
     if (!stayOnPage) {
       this.paginator.firstPage()
     }
-    // this.outletCloser.closeOutlet('detail')
-    this.router.navigate(['../contexts', { outlets: { detail: null } }], {
-      skipLocationChange: true,
-      relativeTo: this.activatedRoute,
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute, // Stay on the current route
+      queryParamsHandling: 'merge', // Keep existing query parameters
     })
     this.selectedRow = undefined
   }
 
   showDetail(id: string) {
     this.router.navigate(
-      ['../contexts', { outlets: { detail: ['context', { id: id }] } }],
+      ['../architectural', { outlets: { detail: ['context', { id: id }] } }],
       {
         skipLocationChange: true,
         relativeTo: this.activatedRoute,

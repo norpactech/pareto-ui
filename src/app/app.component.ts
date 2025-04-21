@@ -42,6 +42,16 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
       mat-sidenav {
         width: 200px;
       }
+      .mat-sidenav-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .main-content {
+        flex: 1; /* Take up remaining space */
+        padding: 16px; /* Add padding for content */
+      }
+
       .image-cropper {
         border-radius: 50%;
       }
@@ -52,6 +62,18 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
         text-transform: uppercase; /* Optional: Make the text uppercase for a stronger look */
         font-size: 2rem; /* Increase the font size to make the text taller */
         line-height: 1.2; /* Adjust line height for better spacing */
+      }
+      footer {
+        text-align: center;
+        padding: 16px;
+        background-color: #f5f5f5;
+        border-top: 1px solid #ddd;
+        font-size: 0.9rem;
+        color: #666;
+      }
+      footer img {
+        margin-right: 8px; /* Center the image and add spacing below it */
+        height: 20px; /* Set a fixed height for the image */
       }
         `,
   template: `
@@ -117,7 +139,13 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
           <app-navigation-menu></app-navigation-menu>
         </mat-sidenav>
         <mat-sidenav-content>
-          <router-outlet></router-outlet>
+          <div class="main-content">
+            <router-outlet></router-outlet>
+          </div>
+          <footer>
+            &copy; {{ currentYear }} Northern Pacific Technologies, LLC. All rights
+            reserved. <br /><i>Be Consistent!</i>
+          </footer>
         </mat-sidenav-content>
       </mat-sidenav-container>
     </div>
@@ -138,6 +166,7 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
   ],
 })
 export class AppComponent implements OnInit {
+  currentYear: number = new Date().getFullYear()
   private readonly destroyRef = inject(DestroyRef)
   opened!: boolean
 

@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { Observable, throwError } from 'rxjs'
-import { tap } from 'rxjs/operators'
 import { map } from 'rxjs/operators'
 
 import { environment } from '../../../../environments/environment'
@@ -30,19 +29,39 @@ export class ContextService implements IContextService {
   }
 
   getContexts(
-    pageSize: number,
-    searchText = '',
-    pagesToSkip = 0,
-    sortColumn = '',
+    limit: number,
+    search: string,
+    page: number,
+    sortColumn: string,
     sortDirection: '' | 'asc' | 'desc' = 'asc'
   ): Observable<IContexts> {
+    const params: { [key: string]: string } = {}
+
+    if (limit) {
+      params['limit'] = limit.toString()
+    }
+    if (search) {
+      params['name'] = `*${search}*`
+    }
+    if (page) {
+      params['page'] = page.toString()
+    }
+    if (sortColumn) {
+      params['sortColumn'] = sortColumn
+    }
+    if (sortDirection) {
+      params['sortDirection'] = sortDirection
+    }
+    if (sortColumn === 'name') {
+      params['sortColumn'] = 'name'
+    }
+
     return this.httpClient
-      .get<IApiResponse<IContext[]>>(`${environment.baseUrl}/context/search`)
+      .get<IApiResponse<IContext[]>>(`${environment.baseUrl}/context/table`, { params })
       .pipe(
-        tap((response) => console.log('API Response:', response)), // Log the full API response
         map((response) => ({
-          data: response.data ?? [], // Ensure `data` is always an array
-          total: (response.data ?? []).length, // Calculate the total as the array size
+          data: response.data ?? [],
+          total: (response.data ?? []).length,
         }))
       )
   }
