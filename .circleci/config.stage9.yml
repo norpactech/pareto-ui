@@ -33,7 +33,7 @@ commands:
     parameters:
       project:
         type: string
-        default: 'lemon-mart'
+        default: 'pareto-factory'
       run-tests:
         type: boolean
         default: true
@@ -52,7 +52,7 @@ commands:
     parameters:
       project:
         type: string
-        default: 'lemon-mart'
+        default: 'pareto-factory'
     steps:
       - store_test_results:
           path: ./test_results
@@ -86,7 +86,7 @@ commands:
     parameters:
       project:
         type: string
-        default: 'lemon-mart'
+        default: 'pareto-factory'
     steps:
       - attach_workspace:
           at: /tmp/workspace
@@ -112,7 +112,7 @@ jobs:
       - install
       - lint
       - build_and_test
-      - run: npx ng run lemon-mart:cypress-run
+      - run: npx ng run pareto-factory:cypress-run
       - store
   deploy:
     docker:

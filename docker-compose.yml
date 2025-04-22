@@ -8,6 +8,6 @@ services:
       - server
 
   server:
-    image: duluca/lemon-mart-swagger-server
+    image: duluca/pareto-factory-swagger-server
     ports:
       - '3000:3000'

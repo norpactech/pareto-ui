@@ -12,20 +12,20 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$lemon-mart-primary: mat.define-palette(mat.$green-palette, 700);
-// $lemon-mart-accent: mat.define-palette(mat.$green-palette, 800);
-$lemon-mart-accent: mat.define-palette(mat.$green-palette, 300);
+$pareto-factory-primary: mat.define-palette(mat.$green-palette, 700);
+// $pareto-factory-accent: mat.define-palette(mat.$green-palette, 800);
+$pareto-factory-accent: mat.define-palette(mat.$green-palette, 300);
 
 // The warn palette is optional (defaults to red).
-$lemon-mart-warn: mat.define-palette(mat.$red-palette);
+$pareto-factory-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$lemon-mart-theme: mat.define-light-theme(
+$pareto-factory-theme: mat.define-light-theme(
   (
     color: (
-      primary: $lemon-mart-primary,
-      accent: $lemon-mart-accent,
-      warn: $lemon-mart-warn,
+      primary: $pareto-factory-primary,
+      accent: $pareto-factory-accent,
+      warn: $pareto-factory-warn,
     ),
     typography: mat.define-typography-config(),
     density: 0,
@@ -33,12 +33,12 @@ $lemon-mart-theme: mat.define-light-theme(
 );
 
 // create a dark theme
-$lemon-mart-dark-theme: mat.define-dark-theme(
+$pareto-factory-dark-theme: mat.define-dark-theme(
   (
     color: (
-      primary: $lemon-mart-primary,
-      accent: $lemon-mart-accent,
-      warn: $lemon-mart-warn,
+      primary: $pareto-factory-primary,
+      accent: $pareto-factory-accent,
+      warn: $pareto-factory-warn,
     ),
     typography: mat.define-typography-config(),
     density: 0,
@@ -46,11 +46,11 @@ $lemon-mart-dark-theme: mat.define-dark-theme(
 );
 
 .dark-theme {
-  @include mat.all-component-colors($lemon-mart-dark-theme);
+  @include mat.all-component-colors($pareto-factory-dark-theme);
 }
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($lemon-mart-theme);
-@include mat.strong-focus-indicators-theme($lemon-mart-theme);
+@include mat.all-component-themes($pareto-factory-theme);
+@include mat.strong-focus-indicators-theme($pareto-factory-theme);

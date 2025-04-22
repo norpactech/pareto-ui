@@ -58,10 +58,10 @@ function provideFirebase() {
       provideFirebaseApp(() =>
         initializeApp({
           apiKey: 'AIzaSyA_39OnkusNS7WeMqTuhRosonMV20WntcA',
-          authDomain: 'lemon-mart-007.firebaseapp.com',
-          databaseURL: 'https://lemon-mart-007.firebaseio.com',
-          projectId: 'lemon-mart-007',
-          storageBucket: 'lemon-mart-007.appspot.com',
+          authDomain: 'pareto-factory-007.firebaseapp.com',
+          databaseURL: 'https://pareto-factory-007.firebaseio.com',
+          projectId: 'pareto-factory-007',
+          storageBucket: 'pareto-factory-007.appspot.com',
           messagingSenderId: '416892066612',
           appId: '1:416892066612:web:ec2f404c18fd4bd8',
           measurementId: 'G-2L4VLZEFWX',

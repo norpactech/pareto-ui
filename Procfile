@@ -1,1 +1,1 @@
-web: npx http-server ./dist/lemon-mart -p $PORT
+web: npx http-server ./dist/pareto-factory -p $PORT

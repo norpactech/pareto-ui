@@ -12,9 +12,9 @@ jobs:
       - run:
           name: Execute Pipeline (Build Source -> Test -> Build Web Server)
           command: |
-            docker build -f integration.Dockerfile . -t lemon-mart:$CIRCLE_BRANCH
+            docker build -f integration.Dockerfile . -t pareto-factory:$CIRCLE_BRANCH
             mkdir -p docker-cache
-            docker save lemon-mart:$CIRCLE_BRANCH | gzip > docker-cache/built-image.tar.gz
+            docker save pareto-factory:$CIRCLE_BRANCH | gzip > docker-cache/built-image.tar.gz
 
       - store_artifacts:
           path: docker-cache/built-image.tar.gz
@@ -48,13 +48,13 @@ jobs:
       - run:
           name: Sign Docker into AWS ECR
           command: |
-            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/lemon-mart
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/pareto-factory
       - run:
           name: Push it to ECR
           command: |
             docker load < /tmp/workspace/built-image.tar.gz
-            ECR_URI=$AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/lemon-mart
-            docker image tag lemon-mart:$CIRCLE_BRANCH $ECR_URI:$CIRCLE_BRANCH
+            ECR_URI=$AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/pareto-factory
+            docker image tag pareto-factory:$CIRCLE_BRANCH $ECR_URI:$CIRCLE_BRANCH
             docker image tag $ECR_URI:$CIRCLE_BRANCH $ECR_URI:latest
             docker image push $ECR_URI:$CIRCLE_BRANCH
             docker image push $ECR_URI:latest

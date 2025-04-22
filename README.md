@@ -6,15 +6,15 @@ The enterprise-ready Angular template project with REST and GraphQL RBAC pre-con
 > See [Changes](#changes) section for important or breaking changes made to the project.
 
 ![Angular Version](https://img.shields.io/badge/angular-v17-326839)
-[![CircleCI](https://circleci.com/gh/duluca/lemon-mart.svg?style=svg)](https://circleci.com/gh/duluca/lemon-mart)
-[![Coverage Status](https://coveralls.io/repos/github/duluca/lemon-mart/badge.svg?branch=main)](https://coveralls.io/github/duluca/lemon-mart?branch=main)
+[![CircleCI](https://circleci.com/gh/duluca/pareto-factory.svg?style=svg)](https://circleci.com/gh/duluca/pareto-factory)
+[![Coverage Status](https://coveralls.io/repos/github/duluca/pareto-factory/badge.svg?branch=main)](https://coveralls.io/github/duluca/pareto-factory?branch=main)
 [![DeepScan grade](https://deepscan.io/api/projects/2669/branches/18284/badge/grade.svg)](https://deepscan.io/dashboard#view=project&pid=2669&bid=18284)
 
 ![devs served](https://img.shields.io/badge/devs%20served-32%2C528-F3DE48)
 ![lemons served](https://img.shields.io/badge/lemons%20served-257%2C428-F3DE48)
 <sup>As of August 2023</sup>
 
-![lemon-mart-profile](https://github.com/duluca/lemon-mart/assets/822159/d90b9aba-bc34-409f-a55b-ade3fb6c0b7f)
+![pareto-factory-profile](https://github.com/duluca/pareto-factory/assets/822159/d90b9aba-bc34-409f-a55b-ade3fb6c0b7f)
 
 ## Get the book & watch the talk
 
@@ -45,7 +45,7 @@ In order to pull off a router-first implementation, you need to:
 ### Design Artifacts
 
 Head over to the Wiki for user roles, site maps, data entity diagrams, and user mock-ups:
-https://github.com/duluca/lemon-mart/wiki.
+https://github.com/duluca/pareto-factory/wiki.
 
 ## Building Lemon Mart
 
@@ -57,10 +57,10 @@ https://github.com/duluca/lemon-mart/wiki.
 
 For demonstration purposes, the login screen shows the _Authentication Mode_ of the app. There are three modes:
 
-- InMemory: [auth.in-memory.service.ts](https://github.com/duluca/lemon-mart/blob/main/src/app/auth/auth.in-memory.service.ts)
-- Custom: [auth.custom.service.ts](https://github.com/duluca/lemon-mart/blob/main/src/app/auth/auth.custom.service.ts)
-- Custom GraphQL: [auth.graphql.custom.service.ts](https://github.com/duluca/lemon-mart/blob/main/src/app/auth/auth.graphql.custom.service.ts)
-- Firebase: [auth.firebase.service.ts](https://github.com/duluca/lemon-mart/blob/main/src/app/auth/auth.firebase.service.ts)
+- InMemory: [auth.in-memory.service.ts](https://github.com/duluca/pareto-factory/blob/main/src/app/auth/auth.in-memory.service.ts)
+- Custom: [auth.custom.service.ts](https://github.com/duluca/pareto-factory/blob/main/src/app/auth/auth.custom.service.ts)
+- Custom GraphQL: [auth.graphql.custom.service.ts](https://github.com/duluca/pareto-factory/blob/main/src/app/auth/auth.graphql.custom.service.ts)
+- Firebase: [auth.firebase.service.ts](https://github.com/duluca/pareto-factory/blob/main/src/app/auth/auth.firebase.service.ts)
 
 The current mode can be adjusted in `environment.ts`. You can see how each mode is implemented in the link source files above.
 
@@ -78,15 +78,15 @@ Executing `npm run build:prod` or `npx ng build --configuration production` or `
 
 Executing `npx ng build --configuration=firebase` leverages `Firebase` authentication. For this to work, you must set up your own Firebase back-end and create a user in the Firebase console.
 
-3. Lemon-Mart-Server:
+3. pareto-factory-Server:
 
-Executing `npx ng build --configuration=lemon-mart-server` leverages `Custom` authentication. This is implemented by the example project Lemon Mart Server, which is detailed below.
+Executing `npx ng build --configuration=pareto-factory-server` leverages `Custom` authentication. This is implemented by the example project Lemon Mart Server, which is detailed below.
 
 ### Lemon Mart Server
 
-Lemon Mart Server is an easy-to-learn and use TypeScript Node.js server using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/lemon-mart).
+Lemon Mart Server is an easy-to-learn and use TypeScript Node.js server using [Minimal MEAN](https://github.com/duluca/minimal-mean) for [Lemon Mart](https://github.com/duluca/pareto-factory).
 
-To run Lemon Mart in a full-stack setup, visit https://github.com/duluca/lemon-mart-server.
+To run Lemon Mart in a full-stack setup, visit https://github.com/duluca/pareto-factory-server.
 
 ## Developers
 
@@ -115,7 +115,7 @@ If you'd like to use this project as a starter or a template project for your pr
 
 - Fork and clone this repo.
 - Rename the repo on GitHub to match the name of your project.
-- Search and replace references to `lemon-mart` with your project name and git repo.
+- Search and replace references to `pareto-factory` with your project name and git repo.
 - Remove `manager`, `pos`, and `inventory` folders and references to them from `app-routing.module.ts`.
 - You may modify `profile.component.ts` and `view-user.component.ts` under the `user` folder to fit your needs.
 - Edit `lemonmart-theme.scss` to match your desired color scheme.
@@ -139,7 +139,7 @@ If you'd like to use this project as a starter or a template project for your pr
 
 ### Full-Stack Setup with Docker Compose and Deploying to AWS
 
-See the example project here https://github.com/duluca/lemon-mart-server
+See the example project here https://github.com/duluca/pareto-factory-server
 
 # Changes
 
