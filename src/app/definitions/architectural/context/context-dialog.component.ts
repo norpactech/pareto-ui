@@ -14,6 +14,7 @@ import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { ChangeDetectorRef } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatCardModule } from '@angular/material/card'
+import { MatDivider } from '@angular/material/divider'
 
 @Component({
   selector: 'app-context-dialog',
@@ -29,6 +30,7 @@ import { MatCardModule } from '@angular/material/card'
     MatDialogModule,
     CommonModule,
     MatCardModule,
+    MatDivider,
   ],
 })
 export class ContextDialogComponent
