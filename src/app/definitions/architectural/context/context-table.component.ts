@@ -25,9 +25,12 @@ import { FlexModule } from '@ngbracket/ngx-layout/flex'
 import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
+import { MatDialog } from '@angular/material/dialog';
+import { ContextDialogComponent } from './context-dialog.component';
 
 import { IContext } from './context'
 import { ContextService } from './context.service'
+
 @Component({
   selector: 'app-context-table',
   templateUrl: './context-table.component.html',
@@ -55,6 +58,8 @@ export class ContextTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator
   @ViewChild(MatSort) sort!: MatSort
 
+  private dialog: MatDialog = inject(MatDialog);
+
   private skipLoading = false
   private readonly ContextService = inject(ContextService)
   private readonly router = inject(Router)
@@ -64,7 +69,7 @@ export class ContextTableComponent implements AfterViewInit {
   readonly refresh$ = new Subject<void>()
 
   items$!: Observable<IContext[]>
-  displayedColumns = computed(() => ['name', 'description'])
+  displayedColumns = computed(() => ['id', 'name', 'description'])
 
   isLoading = true
   resultsLength = 0
@@ -85,14 +90,26 @@ export class ContextTableComponent implements AfterViewInit {
     this.selectedRow = undefined
   }
 
-  showDetail(id: string) {
-    this.router.navigate(
-      ['../architectural', { outlets: { detail: ['context', { id: id }] } }],
-      {
-        skipLocationChange: true,
-        relativeTo: this.activatedRoute,
-      }
-    )
+  showDetail(id: string): void {
+
+    this.ContextService.getContext(id).subscribe({
+      next: (context: IContext) => {
+        const dialogRef = this.dialog.open(ContextDialogComponent, {
+          width: '800px',
+          data: context, // Pass the entire IContext object to the dialog
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            console.log('Dialog result:', result);
+            // Handle the result (e.g., save changes)
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Failed to fetch context data:', err);
+      },
+    });
   }
 
   ngAfterViewInit() {

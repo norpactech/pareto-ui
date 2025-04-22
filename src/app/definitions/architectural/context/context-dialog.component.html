@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Context Details</h2>
+<mat-card class="context-card">
+  <mat-card-content>
+    <form [formGroup]="formGroup">
+      <!-- ID Section -->
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" class="form-row">
+        <div class="full-width">
+          <strong>ID:</strong> {{ formGroup.get('id')?.value }}
+        </div>
+      </div>
+
+      <!-- Name Section -->
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" class="form-row">
+        <mat-form-field appearance="outline" fxFlex="50%">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" />
+          <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+            Name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Description Section -->
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" class="form-row">
+        <mat-form-field appearance="outline" fxFlex="100%">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+          <mat-error *ngIf="formGroup.get('description')?.hasError('required')">
+            Description is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Actions Section -->
+      <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px" class="form-actions">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+          Save
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

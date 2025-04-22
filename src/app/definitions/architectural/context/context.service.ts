@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators'
 
 import { environment } from '../../../../environments/environment'
 import { IApiResponse } from '../../../common/api-response'
-import { IContext } from './context'
+import { Context, IContext } from './context'
 export interface IContexts {
   data: IContext[]
   total: number
@@ -18,14 +18,24 @@ export interface IContextService {
 @Injectable({
   providedIn: 'root',
 })
+
 export class ContextService implements IContextService {
   private readonly httpClient = inject(HttpClient)
 
   getContext(id: string | null): Observable<IContext> {
-    if (id === null) {
-      return throwError(() => 'Context id is not set')
+    if (!id) {
+      return throwError(() => new Error('Context id is not set'));
     }
-    return this.httpClient.get<IContext>(`${environment.baseUrl}/v2/context/${id}`)
+    return this.httpClient
+      .get<IApiResponse<IContext>>(`${environment.baseUrl}/context?id=${id}`)
+      .pipe(
+        map((response) => {
+          if (!response.data) {
+            throw new Error('No context data found');
+          }
+          return Context.Build(response.data);
+        })
+      );
   }
 
   getContexts(
