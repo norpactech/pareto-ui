@@ -1,12 +1,12 @@
 import '../support/commands'
 
-describe('LemonMart', () => {
+describe('ParetoFactory', () => {
   beforeEach(() => {
     cy.visit('/')
   })
 
   it('has the correct title', () => {
-    cy.byTestId('title').should('have.text', 'LemonMart')
+    cy.byTestId('title').should('have.text', 'ParetoFactory')
   })
 
   it('can login as cashier', () => {

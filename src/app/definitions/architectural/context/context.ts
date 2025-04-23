@@ -16,7 +16,6 @@ export interface IContext {
 
 export class Context implements IContext {
   constructor(
-    // tslint:disable-next-line: variable-name
     public id = '',
     public name = '',
     public description = '',
@@ -25,7 +24,6 @@ export class Context implements IContext {
     public updatedAt: Date = new Date(),
     public updatedBy = '',
     public isActive = true,
-    public phones: IContext[] = []
   ) {}
 
   static Build(context: IContext) {
@@ -37,9 +35,9 @@ export class Context implements IContext {
       context.id,
       context.name,
       context.description,
-      context.createdAt,
+      new Date(context.createdAt), // Converts to Local Date
       context.createdBy,
-      context.updatedAt,
+      new Date(context.updatedAt), // Converts to Local Date
       context.updatedBy,
       context.isActive
     )

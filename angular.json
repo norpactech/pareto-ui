@@ -44,7 +44,7 @@
             "styles": [
               "src/styles.scss",
               {
-                "input": "src/lemonmart-theme.scss",
+                "input": "src/pareto-factory-theme.scss",
                 "inject": false
               }
             ],

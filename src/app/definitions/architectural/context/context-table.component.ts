@@ -6,6 +6,7 @@ import {
   DestroyRef,
   inject,
   ViewChild,
+  Renderer2,
 } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -59,6 +60,7 @@ export class ContextTableComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort
 
   private dialog: MatDialog = inject(MatDialog);
+  private renderer: Renderer2 = inject(Renderer2);
 
   private skipLoading = false
   private readonly ContextService = inject(ContextService)
@@ -91,19 +93,25 @@ export class ContextTableComponent implements AfterViewInit {
   }
 
   showDetail(id: string): void {
-
     this.ContextService.getContext(id).subscribe({
       next: (context: IContext) => {
-        const dialogRef = this.dialog.open(ContextDialogComponent, {
-          width: '800px',
-          data: context, // Pass the entire IContext object to the dialog
+        // Otherwise there will be an aria-hidden="true" warning in the console
+        const allElements = document.querySelectorAll('*');
+        allElements.forEach((element) => {
+          if (typeof (element as HTMLElement).blur === 'function') {
+            (element as HTMLElement).blur(); // Call blur() if the method exists
+          }
         });
 
-        dialogRef.afterClosed().subscribe((result) => {
-          if (result) {
-            console.log('Dialog result:', result);
-            // Handle the result (e.g., save changes)
-          }
+        const dialogRef = this.dialog.open(ContextDialogComponent, {
+          width: '800px',
+          data: context,
+          autoFocus: true,
+          restoreFocus: true,
+        });
+
+        dialogRef.afterClosed().subscribe(() => {
+          console.log('Dialog closed');
         });
       },
       error: (err) => {

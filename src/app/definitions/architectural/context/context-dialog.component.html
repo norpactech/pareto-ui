@@ -2,7 +2,7 @@
 <mat-divider></mat-divider>
 <mat-card class="context-card">
   <mat-card-content>
-    <form [formGroup]="formGroup">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
       <!-- Name Section -->
       <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
         <mat-form-field appearance="fill" fxFlex="50%">
@@ -26,14 +26,62 @@
         </mat-form-field>
       </div>
 
-      <!-- Actions Section -->
+      <div class="blank-line"></div>
       <mat-divider></mat-divider>
-      <div class="blank-line"></div> <!-- Blank line for spacing -->
-      <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="16px" class="form-actions">
-        <div>
-          <button mat-stroked-button color="warn">Cancel</button>
-          <button mat-raised-button color="primary">Save</button>
-        </div>      </div>
+      <div class="blank-line"></div>
+
+      <!-- Created At and Created By -->
+      <mat-divider></mat-divider>
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
+        <!-- Created At -->
+        <mat-form-field appearance="fill" fxFlex="50%">
+        <mat-label>Created At</mat-label>
+        <input matInput formControlName="createdAt" readonly />
+      </mat-form-field>
+
+      <!-- Created By -->
+      <mat-form-field appearance="fill" fxFlex="50%">
+      <mat-label>Created By</mat-label>
+      <input matInput formControlName="createdBy" readonly />
+      </mat-form-field>
+      </div>
+
+      <!--Updated At and Updated By -->
+      <mat-divider></mat-divider>
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
+        <!-- Created At -->
+        <mat-form-field appearance="fill" fxFlex="50%">
+        <mat-label>Updated At</mat-label>
+        <input matInput formControlName="updatedAt" readonly />
+      </mat-form-field>
+
+      <!-- Created By -->
+      <mat-form-field appearance="fill" fxFlex="50%">
+      <mat-label>Updated By</mat-label>
+      <input matInput formControlName="updatedBy" readonly />
+      </mat-form-field>
+      </div>
+
+      <!-- Is Active -->
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
+        <mat-slide-toggle formControlName="isActive" fxFlex="50%">
+          Is Active
+        </mat-slide-toggle>
+      </div>
+
+      <!-- Actions Section -->
+      <div class="blank-line"></div>
+      <mat-divider></mat-divider>
+      <div class="blank-line"></div>
+  <!-- Form content -->
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="16px" class="form-actions">
+    <button mat-stroked-button color="warn" mat-dialog-close>
+      Cancel
+    </button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+      Save
+    </button>
+  </div>
     </form>
   </mat-card-content>
 </mat-card>
