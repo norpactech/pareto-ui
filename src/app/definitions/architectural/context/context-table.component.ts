@@ -59,6 +59,8 @@ export class ContextTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator
   @ViewChild(MatSort) sort!: MatSort
 
+
+
   private dialog: MatDialog = inject(MatDialog)
   private renderer: Renderer2 = inject(Renderer2)
 
@@ -80,6 +82,7 @@ export class ContextTableComponent implements AfterViewInit {
   selectedRow?: IContext
 
   search = new FormControl<string>('', null)
+  isActive = new FormControl(false); // Default to false
 
   resetPage(stayOnPage = false) {
     if (!stayOnPage) {
@@ -90,6 +93,22 @@ export class ContextTableComponent implements AfterViewInit {
       queryParamsHandling: 'merge', // Keep existing query parameters
     })
     this.selectedRow = undefined
+  }
+
+  onCreate(): void {
+    const dialogRef = this.dialog.open(ContextDialogComponent, {
+      width: '800px',
+      data: null,
+      autoFocus: true,
+      restoreFocus: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('New context created:', result);
+        this.refresh$.next();
+      }
+    });
   }
 
   showDetail(id: string): void {
@@ -121,60 +140,44 @@ export class ContextTableComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.sort.sortChange
-      .pipe(
-        tap(() => this.resetPage()),
-        takeUntilDestroyed(this.destroyRef)
+    this.items$ = merge(
+      this.refresh$,
+      this.sort.sortChange,
+      this.paginator.page,
+      this.search.valueChanges.pipe(
+        debounceTime(1000),
+        tap(() => this.resetPage())
+      ),
+      this.isActive.valueChanges.pipe(
+        tap(() => this.resetPage())
       )
-      .subscribe()
+    ).pipe(
+      startWith({}),
+      switchMap(() => {
+        this.isLoading = true;
+        return this.ContextService.getContexts(
+          this.paginator.pageSize,
+          this.search.value as string,
+          this.paginator.pageIndex,
+          this.sort.active,
+          this.sort.direction,
+          this.isActive.value ?? true
+        );
+      }),
+      map((results: { total: number; data: IContext[] }) => {
+        this.isLoading = false;
+        this.hasError = false;
+        this.resultsLength = results.total;
 
-    this.paginator.page
-      .pipe(
-        tap(() => this.resetPage(true)),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe()
-
-    if (this.skipLoading) {
-      return
-    }
-
-    setTimeout(() => {
-      this.items$ = merge(
-        this.refresh$,
-        this.sort.sortChange,
-        this.paginator.page,
-        this.search.valueChanges.pipe(
-          debounceTime(1000),
-          tap(() => this.resetPage())
-        )
-      ).pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoading = true
-          return this.ContextService.getContexts(
-            this.paginator.pageSize,
-            this.search.value as string,
-            this.paginator.pageIndex,
-            this.sort.active,
-            this.sort.direction
-          )
-        }),
-        map((results: { total: number; data: IContext[] }) => {
-          this.isLoading = false
-          this.hasError = false
-          this.resultsLength = results.total
-
-          return results.data
-        }),
-        catchError((err) => {
-          this.isLoading = false
-          this.hasError = true
-          this.errorText = err
-          return of([])
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-    })
+        return results.data;
+      }),
+      catchError((err) => {
+        this.isLoading = false;
+        this.hasError = true;
+        this.errorText = err;
+        return of([]);
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    );
   }
 }

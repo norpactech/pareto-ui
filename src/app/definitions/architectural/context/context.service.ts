@@ -45,7 +45,8 @@ export class ContextService implements IContextService {
     search: string,
     page: number,
     sortColumn: string,
-    sortDirection: '' | 'asc' | 'desc' = 'asc'
+    sortDirection: '' | 'asc' | 'desc' = 'asc',
+    isActive: boolean
   ): Observable<IContexts> {
     const params: { [key: string]: string } = {}
 
@@ -66,6 +67,9 @@ export class ContextService implements IContextService {
     }
     if (sortColumn === 'name') {
       params['sortColumn'] = 'name'
+    }
+    if (isActive === true) {
+      params['isActive'] = 'true'
     }
 
     return this.httpClient

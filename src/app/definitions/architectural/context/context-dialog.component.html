@@ -30,44 +30,39 @@
       <mat-divider></mat-divider>
       <div class="blank-line"></div>
 
-      <!-- Created At and Created By -->
-      <mat-divider></mat-divider>
-      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
-        <!-- Created At -->
-        <mat-form-field appearance="fill" fxFlex="50%">
-          <mat-label>Created At</mat-label>
-          <input matInput formControlName="createdAt" readonly />
-        </mat-form-field>
+      <!-- Form Updates -->
+      <mat-card *ngIf="formGroup.get('id')?.value" class="audit-card">
+        <mat-card-content>
+          <!-- Is Active -->
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
+            <mat-slide-toggle formControlName="isActive" fxFlex="50%">
+              Is Active
+            </mat-slide-toggle>
+          </div>
 
-        <!-- Created By -->
-        <mat-form-field appearance="fill" fxFlex="50%">
-          <mat-label>Created By</mat-label>
-          <input matInput formControlName="createdBy" readonly />
-        </mat-form-field>
-      </div>
+          <div class="blank-line"></div>
+          <mat-divider></mat-divider>
+          <div class="blank-line"></div>
 
-      <!--Updated At and Updated By -->
-      <mat-divider></mat-divider>
-      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
-        <!-- Created At -->
-        <mat-form-field appearance="fill" fxFlex="50%">
-          <mat-label>Updated At</mat-label>
-          <input matInput formControlName="updatedAt" readonly />
-        </mat-form-field>
-
-        <!-- Created By -->
-        <mat-form-field appearance="fill" fxFlex="50%">
-          <mat-label>Updated By</mat-label>
-          <input matInput formControlName="updatedBy" readonly />
-        </mat-form-field>
-      </div>
-
-      <!-- Is Active -->
-      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
-        <mat-slide-toggle formControlName="isActive" fxFlex="50%">
-          Is Active
-        </mat-slide-toggle>
-      </div>
+          <!-- Audit Fields -->
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
+            <div fxFlex="20%">
+              Created By:&nbsp;<span>{{ formGroup.get('createdBy')?.value }}</span>&nbsp;
+            </div>
+            <div fxFlex="80%">
+              Created At:&nbsp;<span>{{ formGroup.get('createdAt')?.value | date: 'yyyy-MM-dd h:mm a z' }}</span>
+            </div>
+          </div>
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
+            <div fxFlex="20%">
+              Updated By:&nbsp;<span>{{ formGroup.get('updatedBy')?.value }}</span>&nbsp;
+            </div>
+            <div fxFlex="80%">
+              Updated At:&nbsp;<span>{{ formGroup.get('updatedAt')?.value | date: 'yyyy-MM-dd h:mm a z' }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
 
       <!-- Actions Section -->
       <div class="blank-line"></div>
@@ -75,7 +70,7 @@
       <div class="blank-line"></div>
       <!-- Form content -->
       <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="16px" class="form-actions">
-        <button mat-stroked-button color="warn" mat-dialog-close>Cancel</button>
+        <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
         <button
           mat-raised-button
           color="primary"
@@ -83,7 +78,7 @@
           [disabled]="formGroup.invalid">
           Save
         </button>
-      </div>
+     </div>
     </form>
   </mat-card-content>
 </mat-card>

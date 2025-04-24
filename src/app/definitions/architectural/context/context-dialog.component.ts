@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { FlexModule } from '@ngbracket/ngx-layout/flex'
+import { MatButtonModule } from '@angular/material/button';
 
 import { BaseFormDirective } from '../../../common/base-form.class'
 import {
@@ -39,6 +40,7 @@ import { ContextService } from './context.service'
     MatDatepickerModule,
     MatNativeDateModule,
     MatSlideToggleModule,
+    MatButtonModule,
   ],
 })
 export class ContextDialogComponent
