@@ -46,19 +46,23 @@
 
           <!-- Audit Fields -->
           <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
-            <div fxFlex="20%">
-              Created By:&nbsp;<span>{{ formGroup.get('createdBy')?.value }}</span>&nbsp;
+            <div fxFlex="30%">
+              <span class="mono-font">Created By:</span>&nbsp;
+              <span class="mono-font">{{ formGroup.get('createdBy')?.value }}</span>&nbsp;
             </div>
-            <div fxFlex="80%">
-              Created At:&nbsp;<span>{{ formGroup.get('createdAt')?.value | date: 'yyyy-MM-dd h:mm a z' }}</span>
+            <div fxFlex="70%">
+              <span class="mono-font">Created At:</span>&nbsp;
+              <span class="mono-font">{{ formGroup.get('createdAt')?.value | date: 'yyyy-MM-dd h:mm a z' }}</span>
             </div>
           </div>
           <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
-            <div fxFlex="20%">
-              Updated By:&nbsp;<span>{{ formGroup.get('updatedBy')?.value }}</span>&nbsp;
+            <div fxFlex="30%">
+              <span class="mono-font">Updated By:</span>&nbsp;
+              <span class="mono-font">{{ formGroup.get('updatedBy')?.value }}</span>&nbsp;
             </div>
-            <div fxFlex="80%">
-              Updated At:&nbsp;<span>{{ formGroup.get('updatedAt')?.value | date: 'yyyy-MM-dd h:mm a z' }}</span>
+            <div fxFlex="70%">
+              <span class="mono-font">Updated At:</span>&nbsp;
+              <span class="mono-font">{{ formGroup.get('updatedAt')?.value | date: 'yyyy-MM-dd h:mm a z' }}</span>
             </div>
           </div>
         </mat-card-content>

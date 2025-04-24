@@ -31,6 +31,7 @@ import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operat
 import { IContext } from './context'
 import { ContextService } from './context.service'
 import { ContextDialogComponent } from './context-dialog.component'
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-context-table',
@@ -60,7 +61,7 @@ export class ContextTableComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort
 
 
-
+  private readonly cdr = inject(ChangeDetectorRef);
   private dialog: MatDialog = inject(MatDialog)
   private renderer: Renderer2 = inject(Renderer2)
 
@@ -179,5 +180,6 @@ export class ContextTableComponent implements AfterViewInit {
       }),
       takeUntilDestroyed(this.destroyRef)
     );
+    this.cdr.detectChanges();
   }
 }
