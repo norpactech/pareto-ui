@@ -1,23 +1,25 @@
-import { Component, OnChanges, OnInit, SimpleChanges, Inject } from '@angular/core'
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import { CommonModule } from '@angular/common'
+import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { ChangeDetectorRef } from '@angular/core'
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import { MatCardModule } from '@angular/material/card'
+import { MatNativeDateModule } from '@angular/material/core'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog'
+import { MatDialogRef } from '@angular/material/dialog'
+import { MatDivider } from '@angular/material/divider'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { BaseFormDirective } from '../../../common/base-form.class'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { FlexModule } from '@ngbracket/ngx-layout/flex'
+
+import { BaseFormDirective } from '../../../common/base-form.class'
 import {
   ErrorSets,
   FieldErrorDirective,
 } from '../../../user-controls/field-error/field-error.directive'
-import { ContextService } from './context.service';
-import { IContext } from './context';
-import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { ChangeDetectorRef } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { MatCardModule } from '@angular/material/card'
-import { MatDivider } from '@angular/material/divider'
-import { MatDatepickerModule } from '@angular/material/datepicker'
-import { MatNativeDateModule } from '@angular/material/core'
-import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { IContext } from './context'
+import { ContextService } from './context.service'
 
 @Component({
   selector: 'app-context-dialog',
@@ -49,15 +51,16 @@ export class ContextDialogComponent
     private formBuilder: FormBuilder,
     private contextService: ContextService,
     private cdr: ChangeDetectorRef,
-    @Inject(MAT_DIALOG_DATA) public data: IContext
+    @Inject(MAT_DIALOG_DATA) public data: IContext,
+    private dialogRef: MatDialogRef<ContextDialogComponent>
   ) {
-    super();
+    super()
   }
 
-  isHidden = true;
+  isHidden = true
 
   toggleVisibility(): void {
-    this.isHidden = !this.isHidden;
+    this.isHidden = !this.isHidden
   }
 
   ngOnInit(): void {
@@ -66,9 +69,6 @@ export class ContextDialogComponent
   }
 
   buildForm(initialData?: IContext | null): FormGroup {
-
-    console.log('Initial data:', initialData)
-
     const context = initialData
     return this.formBuilder.group({
       // Context Fields
@@ -90,51 +90,22 @@ export class ContextDialogComponent
     this.patchUpdatedDataIfChanged(changes)
   }
 
-  save(): void {
-
-    console.log('Saving Data: ', this.formGroup.value)
-
-    if (this.formGroup.valid) {
-
-      const formData = this.formGroup.getRawValue()
-      console.log('Form submitted:', formData);
-
-      this.contextService.persist(formData).subscribe({
-        next: () => {
-          console.log('Context saved successfully')
-        },
-        error: (err) => {
-          console.error('Error saving context:', err)
-        },
-      });
-    } else {
-      console.error('Form is invalid')
-    }
-  }
-
   submit(): void {
-
-    console.log('Submitting form...')
-    console.log('Form value:', this.formGroup.value)
-
     if (this.formGroup.valid) {
-      const formData = this.formGroup.getRawValue(); // Get all form values, including disabled fields
-      console.log('Form submitted:', formData);
+      const formData = this.formGroup.getRawValue()
+      console.log('Form submitted:', formData)
 
-      // Call a service to save the data
       this.contextService.persist(formData).subscribe({
         next: (response) => {
-          console.log('Data saved successfully:', response);
-          // this.dialogRef.close(response); // Close the dialog and pass the response
+          this.dialogRef.close(response)
         },
         error: (err) => {
-          console.error('Error saving data:', err);
+          console.error('Error saving data:', err)
         },
-      });
-    }
-    else {
-      console.error('Form is invalid');
-      this.formGroup.markAllAsTouched(); // Mark all fields as touched to show validation errors
+      })
+    } else {
+      console.error('Form is invalid')
+      this.formGroup.markAllAsTouched()
     }
   }
 }

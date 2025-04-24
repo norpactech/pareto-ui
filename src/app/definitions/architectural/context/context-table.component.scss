@@ -21,14 +21,14 @@
 }
 
 .table-container {
-  width: calc(95%); /* Match the width of the filter-row */
-  margin: 16px auto; /* Center the table horizontally and add vertical spacing */
-  background: rgba(255, 255, 255, 0.9); /* Light background for the table */
-  padding: 16px; /* Add padding inside the container */
-  border-radius: 8px; /* Add rounded corners */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a raised shadow effect */
-  position: relative; /* Ensure the table is positioned properly within the tab */
-  z-index: 2; /* Raise the table above other elements */
+  width: calc(95%);
+  margin: 16px auto;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
 }
 
 .mat-mdc-paginator {

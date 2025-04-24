@@ -5,13 +5,14 @@ import {
   computed,
   DestroyRef,
   inject,
-  ViewChild,
   Renderer2,
+  ViewChild,
 } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatRippleModule } from '@angular/material/core'
+import { MatDialog } from '@angular/material/dialog'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
@@ -26,11 +27,10 @@ import { FlexModule } from '@ngbracket/ngx-layout/flex'
 import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
-import { MatDialog } from '@angular/material/dialog';
-import { ContextDialogComponent } from './context-dialog.component';
 
 import { IContext } from './context'
 import { ContextService } from './context.service'
+import { ContextDialogComponent } from './context-dialog.component'
 
 @Component({
   selector: 'app-context-table',
@@ -59,8 +59,8 @@ export class ContextTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator
   @ViewChild(MatSort) sort!: MatSort
 
-  private dialog: MatDialog = inject(MatDialog);
-  private renderer: Renderer2 = inject(Renderer2);
+  private dialog: MatDialog = inject(MatDialog)
+  private renderer: Renderer2 = inject(Renderer2)
 
   private skipLoading = false
   private readonly ContextService = inject(ContextService)
@@ -71,7 +71,7 @@ export class ContextTableComponent implements AfterViewInit {
   readonly refresh$ = new Subject<void>()
 
   items$!: Observable<IContext[]>
-  displayedColumns = computed(() => ['id', 'name', 'description'])
+  displayedColumns = computed(() => ['name', 'description'])
 
   isLoading = true
   resultsLength = 0
@@ -96,28 +96,28 @@ export class ContextTableComponent implements AfterViewInit {
     this.ContextService.getContext(id).subscribe({
       next: (context: IContext) => {
         // Otherwise there will be an aria-hidden="true" warning in the console
-        const allElements = document.querySelectorAll('*');
+        const allElements = document.querySelectorAll('*')
         allElements.forEach((element) => {
           if (typeof (element as HTMLElement).blur === 'function') {
-            (element as HTMLElement).blur(); // Call blur() if the method exists
+            (element as HTMLElement).blur()
           }
-        });
+        })
 
         const dialogRef = this.dialog.open(ContextDialogComponent, {
           width: '800px',
           data: context,
           autoFocus: true,
           restoreFocus: true,
-        });
+        })
 
         dialogRef.afterClosed().subscribe(() => {
-          console.log('Dialog closed');
-        });
+          this.refresh$.next()
+        })
       },
       error: (err) => {
-        console.error('Failed to fetch context data:', err);
+        console.error('Failed to fetch context data:', err)
       },
-    });
+    })
   }
 
   ngAfterViewInit() {

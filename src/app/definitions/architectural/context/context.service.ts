@@ -3,8 +3,6 @@ import { inject, Injectable } from '@angular/core'
 import { Observable, throwError } from 'rxjs'
 import { map } from 'rxjs/operators'
 
-import { DateTime } from 'luxon'
-
 import { environment } from '../../../../environments/environment'
 import { IApiResponse } from '../../../common/api-response'
 import { IPersistResponse } from '../../../common/persist-response'
@@ -21,27 +19,25 @@ export interface IContextService {
 @Injectable({
   providedIn: 'root',
 })
-
 export class ContextService implements IContextService {
   private readonly httpClient = inject(HttpClient)
 
   getContext(id: string | null): Observable<IContext> {
     if (!id) {
-      return throwError(() => new Error('Context id is not set'));
+      return throwError(() => new Error('Context id is not set'))
     }
     return this.httpClient
       .get<IApiResponse<IContext>>(`${environment.baseUrl}/context?id=${id}`)
       .pipe(
         map((response) => {
           if (!response.data) {
-            throw new Error('No context data found');
+            throw new Error('No context data found')
           }
           console.log(response.data)
 
-
-          return Context.Build(response.data);
+          return Context.Build(response.data)
         })
-      );
+      )
   }
 
   getContexts(
@@ -84,46 +80,47 @@ export class ContextService implements IContextService {
 
   persist(data: IContext): Observable<IPersistResponse> {
     if (!data) {
-      return throwError(() => new Error('Null or undefined context data'));
-    }
-    else if (!data.id) {
-      const params: { [key: string]: string } = {}
-      params['name'] = data.name
-      params['description'] = data.description
-      params['createdBy'] = data.createdBy
+      return throwError(() => new Error('Null or undefined context data'))
+    } else if (!data.id) {
+      const { name, description, createdBy } = data
+      const params: { [key: string]: any } = {
+        name,
+        description,
+        createdBy,
+      }
 
-      return this.httpClient.post<IApiResponse<IPersistResponse>>(`${environment.baseUrl}/context`, data).pipe(
-        map((response) => {
-          if (!response.data) {
-            throw new Error('No context data found');
-          }
-          return response.data;
-        })
-      )
-    }
-    else {
-      const params: { [key: string]: any } = {};
+      return this.httpClient
+        .post<IApiResponse<IPersistResponse>>(`${environment.baseUrl}/context`, params)
+        .pipe(
+          map((response) => {
+            if (!response.data) {
+              throw new Error('No context data found')
+            }
+            return response.data
+          })
+        )
+    } else {
+      const { id, name, description, updatedAt, updatedBy } = data
+      const params: { [key: string]: any } = {
+        id,
+        name,
+        description,
+        updatedAt: updatedAt.toISOString(),
+        updatedBy,
+      }
 
-      const updatedAt = DateTime.fromJSDate(data.updatedAt);
+      return this.httpClient
+        .put<IApiResponse<IPersistResponse>>(`${environment.baseUrl}/context`, params)
+        .pipe(
+          map((response) => {
+            console.log(response.data)
 
-      params['id'] = data.id;
-      params['name'] = data.name;
-      params['description'] = data.description;
-      params['updatedAt'] = data.updatedAt.toISOString();
-      params['updatedBy'] = data.updatedBy;
-
-      console.log(`PUT BEING SENT: ${JSON.stringify(params)}`);
-
-      return this.httpClient.put<IApiResponse<IPersistResponse>>(`${environment.baseUrl}/context`, params).pipe(
-        map((response) => {
-          console.log(response.data);
-
-          if (!response.data) {
-            throw new Error('No context data found');
-          }
-          return response.data;
-        })
-      );
+            if (!response.data) {
+              throw new Error('No context data found')
+            }
+            return response.data
+          })
+        )
     }
   }
 }

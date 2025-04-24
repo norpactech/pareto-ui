@@ -23,7 +23,7 @@ export class Context implements IContext {
     public createdBy = '',
     public updatedAt: Date = new Date(),
     public updatedBy = '',
-    public isActive = true,
+    public isActive = true
   ) {}
 
   static Build(context: IContext) {

@@ -29,21 +29,17 @@
     matSortActive="name"
     matSortDirection="asc"
     matSortDisableClear>
-    <mat-header-row *matHeaderRowDef="['id', 'name', 'description']"></mat-header-row>
-    <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <button mat-button (click)="showDetail(row.id)">
-          {{ row.id }}
-        </button>
-      </mat-cell>
-    </ng-container>
+    <mat-header-row *matHeaderRowDef="['name', 'description']"></mat-header-row>
+
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
       <mat-cell *matCellDef="let row">
-        {{ row.name }}
+        <button mat-button (click)="showDetail(row.id)">
+          {{ row.name }}
+        </button>
       </mat-cell>
     </ng-container>
+
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
       <mat-cell *matCellDef="let row">{{ row.description }}</mat-cell>
