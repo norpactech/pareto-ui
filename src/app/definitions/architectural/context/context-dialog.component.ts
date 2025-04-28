@@ -60,14 +60,51 @@ export class ContextDialogComponent
   }
 
   isHidden = true
+  private isPatching = false;
 
   toggleVisibility(): void {
     this.isHidden = !this.isHidden
   }
 
   ngOnInit(): void {
-    this.formGroup = this.buildForm(this.data)
-    this.formReady.emit(this.formGroup)
+    this.formGroup = this.buildForm(this.data);
+    this.formReady.emit(this.formGroup);
+
+    // Subscribe to isActive value changes
+    this.formGroup.get('isActive')?.valueChanges.subscribe((isActive) => {
+      if (this.isPatching) {
+        return;
+      }
+      this.isActiveChanged(isActive);
+    });
+  }
+
+  isActiveChanged(isActive: boolean): void {
+
+    const formData = this.formGroup.getRawValue();
+
+    if (!this.formGroup.valid) {
+      console.error('Form is invalid');
+      this.formGroup.markAllAsTouched();
+      return;
+    }
+    this.contextService.deactReact(formData).subscribe({
+      next: (response) => {
+        const { updatedAt, updatedBy } = response;
+
+        this.isPatching = true;
+        this.formGroup.patchValue({
+          isActive: isActive,
+          updatedAt: new Date(updatedAt),
+          updatedBy: updatedBy,
+        });
+        this.isPatching = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error saving data:', err);
+      },
+    });
   }
 
   buildForm(initialData?: IContext | null): FormGroup {

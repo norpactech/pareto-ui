@@ -104,7 +104,8 @@ export class ContextService implements IContextService {
           })
         )
     } else {
-      const { id, name, description, updatedAt, updatedBy } = data
+      const { id, name, description, updatedAt } = data
+      const updatedBy = 'Change Me!'
       const params: { [key: string]: any } = {
         id,
         name,
@@ -126,5 +127,31 @@ export class ContextService implements IContextService {
           })
         )
     }
+  }
+
+  deactReact(data: IContext): Observable<IPersistResponse> {
+    if (!data) {
+      return throwError(() => new Error('Null or undefined context data'))
+    }
+    const { id, updatedAt, isActive } = data
+    const action = isActive ? 'react' : 'deact'
+    const updatedBy = 'Change Me!'
+
+    const params: { [key: string]: any } = {
+      id,
+      updatedAt: updatedAt.toISOString(),
+      updatedBy,
+    }
+
+    return this.httpClient
+      .put<IApiResponse<IPersistResponse>>(`${environment.baseUrl}/context/${action}`, params)
+      .pipe(
+        map((response) => {
+          if (!response.data) {
+            throw new Error('No context data found')
+          }
+          return response.data
+      })
+     )
   }
 }
