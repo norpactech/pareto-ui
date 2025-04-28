@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card'
 import { MatNativeDateModule } from '@angular/material/core'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog'
-import { MatDialogRef } from '@angular/material/dialog'
+import { MatDialogRef, MatDialog } from '@angular/material/dialog'
 import { MatDivider } from '@angular/material/divider'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
@@ -21,6 +21,8 @@ import {
 } from '../../../user-controls/field-error/field-error.directive'
 import { IContext } from './context'
 import { ContextService } from './context.service'
+import { ConfirmationDialogComponent } from '../../../common/is-active.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-context-dialog',
@@ -53,10 +55,12 @@ export class ContextDialogComponent
     private formBuilder: FormBuilder,
     private contextService: ContextService,
     private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: IContext,
     private dialogRef: MatDialogRef<ContextDialogComponent>
   ) {
-    super()
+    super();
   }
 
   isHidden = true
@@ -75,20 +79,30 @@ export class ContextDialogComponent
       if (this.isPatching) {
         return;
       }
-      this.isActiveChanged(isActive);
+      this.confirmToggleChange(isActive)
+    });
+  }
+
+  confirmToggleChange(isActive: boolean): void {
+    const action = isActive ? 'Activate' : 'Deactivate';
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { message: `Are you sure you want to ${action} this record?` },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) {
+        this.isPatching = true;
+        this.formGroup.patchValue({ isActive: !isActive });
+        this.isPatching = false;
+      } else {
+        this.isActiveChanged(isActive);
+      }
     });
   }
 
   isActiveChanged(isActive: boolean): void {
 
-    const formData = this.formGroup.getRawValue();
-
-    if (!this.formGroup.valid) {
-      console.error('Form is invalid');
-      this.formGroup.markAllAsTouched();
-      return;
-    }
-    this.contextService.deactReact(formData).subscribe({
+    this.contextService.deactReact(this.formGroup.getRawValue()).subscribe({
       next: (response) => {
         const { updatedAt, updatedBy } = response;
 
@@ -100,6 +114,13 @@ export class ContextDialogComponent
         });
         this.isPatching = false;
         this.cdr.detectChanges();
+
+        const action = isActive ? 'Activated' : 'Deactivated';
+        this.snackBar.open(`Record Successfully ${action}.`, 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        });
       },
       error: (err) => {
         console.error('Error saving data:', err);
