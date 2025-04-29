@@ -24,7 +24,21 @@ export class Context implements IContext {
     public updatedAt: Date = new Date(),
     public updatedBy = '',
     public isActive = true
-  ) {}
+  )
+  {}
+
+  static IsActiveParams(id: string, updatedAt: Date, isActive: boolean): Context {
+    return new Context(
+      id,
+      '',
+      '',
+      new Date(), // Converts to Local Date
+      '',
+      new Date(updatedAt), // Converts to Local Date
+      '',
+      isActive
+    )
+  }
 
   static Build(context: IContext) {
     if (!context) {

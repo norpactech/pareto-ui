@@ -29,11 +29,14 @@ import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
 
-import { IContext } from './context'
+import { Context, IContext } from './context'
 import { ContextService } from './context.service'
 import { ContextDialogComponent } from './context-dialog.component'
 import { ChangeDetectorRef } from '@angular/core';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { IPersistResponse } from 'src/app/common/persist-response'
+import { ConfirmationDialogComponent } from '../../../common/is-active.component';
 
 @Component({
   selector: 'app-context-table',
@@ -63,7 +66,6 @@ export class ContextTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator
   @ViewChild(MatSort) sort!: MatSort
 
-
   private readonly cdr = inject(ChangeDetectorRef);
   private dialog: MatDialog = inject(MatDialog)
   private renderer: Renderer2 = inject(Renderer2)
@@ -76,6 +78,8 @@ export class ContextTableComponent implements AfterViewInit {
 
   readonly refresh$ = new Subject<void>()
   readonly isActiveColumn = signal(false)
+
+  constructor(private snackBar: MatSnackBar) {}
 
   items$!: Observable<IContext[]>
   displayedColumns = computed(() => [
@@ -119,28 +123,63 @@ export class ContextTableComponent implements AfterViewInit {
       }
     });
   }
-  private readonly baseUrl = '/api/contexts'
 
   onCheckboxChange(event: MatCheckboxChange, row: IContext): void {
     const isChecked = event.checked; // Access the checked state
     console.log(`Checkbox state for row ${row.id}:`, isChecked);
 
-    // Update the row's isActive value
-    row.isActive = isChecked;
+    // Call the updateContext method and update the row on success
+    this.updateContext(row.id, row.updatedAt, isChecked).subscribe({
+      next: (response) => {
+        row.isActive = isChecked;
+        row.updatedAt = new Date(response.updatedAt);
+        row.updatedBy = response.updatedBy;
+        this.cdr.detectChanges();
 
-    // Optionally, call a service to persist the change
-    /*
-    this.ContextService.updateContext(row.id, { isActive: isChecked }).subscribe({
-      next: () => console.log(`Row ${row.id} updated successfully.`),
-      error: (err) => console.error(`Failed to update row ${row.id}:`, err),
+        const action = isChecked ? 'Activated' : 'Deactivated';
+        this.snackBar.open(`Record successfully ${action}.`, 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        });
+      },
+      error: (err) => {
+        console.error(`Failed to update row ${row.id}:`, err);
+        row.isActive = !isChecked;
+        this.cdr.detectChanges();
+      },
     });
-    */
   }
-/*
-  updateContext(id: string, updateData: Partial<IContext>): Observable<IContext> {
-    return this.http.patch<IContext>(`${this.baseUrl}/${id}`, updateData);
+
+  updateContext(id: string, updatedAt: Date, isActive: boolean): Observable<IPersistResponse> {
+
+    const params = Context.IsActiveParams(id, updatedAt, isActive)
+    return this.ContextService.deactReact(params);
   }
-*/
+
+  confirmToggleChange(isActive: boolean, row: IContext): void {
+
+    const allElements = document.querySelectorAll('*')
+    allElements.forEach((element) => {
+      if (typeof (element as HTMLElement).blur === 'function') {
+        (element as HTMLElement).blur()
+      }
+    })
+
+    const action = isActive ? 'Activate' : 'Deactivate';
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { message: `Are you sure you want to ${action} this record?` },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) {
+        row.isActive = !isActive;
+        this.cdr.detectChanges();
+      } else {
+        this.onCheckboxChange({ checked: isActive } as MatCheckboxChange, row);
+      }
+    });
+  }
 
   showDetail(id: string): void {
     this.ContextService.getContext(id).subscribe({

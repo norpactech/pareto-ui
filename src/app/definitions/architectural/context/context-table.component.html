@@ -76,7 +76,7 @@
             [checked]="row.isActive"
             color="primary"
             fxFlex="auto"
-            (change)="onCheckboxChange($event, row)">
+            (change)="confirmToggleChange($event.checked, row)">
           </mat-checkbox>
         </div>
       </mat-cell>
