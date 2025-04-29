@@ -7,6 +7,7 @@ import {
   inject,
   Renderer2,
   ViewChild,
+  signal,
 } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -32,6 +33,7 @@ import { IContext } from './context'
 import { ContextService } from './context.service'
 import { ContextDialogComponent } from './context-dialog.component'
 import { ChangeDetectorRef } from '@angular/core';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-context-table',
@@ -54,6 +56,7 @@ import { ChangeDetectorRef } from '@angular/core';
     MatToolbarModule,
     ReactiveFormsModule,
     CommonModule,
+    MatCheckboxModule,
   ],
 })
 export class ContextTableComponent implements AfterViewInit {
@@ -72,9 +75,13 @@ export class ContextTableComponent implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef)
 
   readonly refresh$ = new Subject<void>()
+  readonly isActiveColumn = signal(false)
 
   items$!: Observable<IContext[]>
-  displayedColumns = computed(() => ['name', 'description'])
+  displayedColumns = computed(() => [
+    'name',
+    'description',
+    ...(this.isActiveColumn() ? ['isActive'] : []),])
 
   isLoading = true
   resultsLength = 0
@@ -91,6 +98,7 @@ export class ContextTableComponent implements AfterViewInit {
     }
     this.router.navigate([], {
       relativeTo: this.activatedRoute, // Stay on the current route
+      skipLocationChange: true,
       queryParamsHandling: 'merge', // Keep existing query parameters
     })
     this.selectedRow = undefined
@@ -111,6 +119,28 @@ export class ContextTableComponent implements AfterViewInit {
       }
     });
   }
+  private readonly baseUrl = '/api/contexts'
+
+  onCheckboxChange(event: MatCheckboxChange, row: IContext): void {
+    const isChecked = event.checked; // Access the checked state
+    console.log(`Checkbox state for row ${row.id}:`, isChecked);
+
+    // Update the row's isActive value
+    row.isActive = isChecked;
+
+    // Optionally, call a service to persist the change
+    /*
+    this.ContextService.updateContext(row.id, { isActive: isChecked }).subscribe({
+      next: () => console.log(`Row ${row.id} updated successfully.`),
+      error: (err) => console.error(`Failed to update row ${row.id}:`, err),
+    });
+    */
+  }
+/*
+  updateContext(id: string, updateData: Partial<IContext>): Observable<IContext> {
+    return this.http.patch<IContext>(`${this.baseUrl}/${id}`, updateData);
+  }
+*/
 
   showDetail(id: string): void {
     this.ContextService.getContext(id).subscribe({

@@ -17,7 +17,9 @@
           [formControl]="isActive"
           color="primary"
           fxFlex="auto"
-        >
+
+          [checked]="isActiveColumn()"
+          (change)="isActiveColumn.set($event.checked)">
           Inactive
         </mat-slide-toggle>
       </div>
@@ -47,7 +49,8 @@
     matSortActive="name"
     matSortDirection="asc"
     matSortDisableClear>
-    <mat-header-row *matHeaderRowDef="['name', 'description']"></mat-header-row>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns()"></mat-header-row>
 
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -63,6 +66,20 @@
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
       <mat-cell *matCellDef="let row">{{ row.description }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isActive">
+      <mat-header-cell *matHeaderCellDef >Active</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="margin-right: 10px">
+        <div fxLayout="row"  fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
+          <mat-checkbox
+            [checked]="row.isActive"
+            color="primary"
+            fxFlex="auto"
+            (change)="onCheckboxChange($event, row)">
+          </mat-checkbox>
+        </div>
+      </mat-cell>
     </ng-container>
 
     <mat-row
