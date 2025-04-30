@@ -24,8 +24,7 @@ export class Context implements IContext {
     public updatedAt: Date = new Date(),
     public updatedBy = '',
     public isActive = true
-  )
-  {}
+  ) {}
 
   static IsActiveParams(id: string, updatedAt: Date, isActive: boolean): Context {
     return new Context(

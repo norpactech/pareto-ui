@@ -1,15 +1,14 @@
+import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
+import { MatButtonModule } from '@angular/material/button'
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { RouterModule, Routes } from '@angular/router'
 
+import { ConfirmationDialogComponent } from '../common/is-active.component'
 import { ArchitecturalComponent } from './architectural/architectural.component'
 import { GenericComponent } from './generic/generic.component'
 import { TablesComponent } from './tables/tables.component'
-import { CommonModule } from '@angular/common';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-
-import { ConfirmationDialogComponent } from '../common/is-active.component'
 
 const routes: Routes = [
   { path: '', component: ArchitecturalComponent },

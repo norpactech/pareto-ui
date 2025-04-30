@@ -6,12 +6,14 @@ import {
   DestroyRef,
   inject,
   Renderer2,
-  ViewChild,
   signal,
+  ViewChild,
 } from '@angular/core'
+import { ChangeDetectorRef } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox'
 import { MatRippleModule } from '@angular/material/core'
 import { MatDialog } from '@angular/material/dialog'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -20,6 +22,7 @@ import { MatInputModule } from '@angular/material/input'
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatSort, MatSortModule } from '@angular/material/sort'
 import { MatTableModule } from '@angular/material/table'
 import { MatToolbarModule } from '@angular/material/toolbar'
@@ -28,15 +31,12 @@ import { FlexModule } from '@ngbracket/ngx-layout/flex'
 import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
+import { IPersistResponse } from 'src/app/common/persist-response'
 
+import { ConfirmationDialogComponent } from '../../../common/is-active.component'
 import { Context, IContext } from './context'
 import { ContextService } from './context.service'
 import { ContextDialogComponent } from './context-dialog.component'
-import { ChangeDetectorRef } from '@angular/core';
-import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { IPersistResponse } from 'src/app/common/persist-response'
-import { ConfirmationDialogComponent } from '../../../common/is-active.component';
 
 @Component({
   selector: 'app-context-table',
@@ -66,7 +66,7 @@ export class ContextTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator
   @ViewChild(MatSort) sort!: MatSort
 
-  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly cdr = inject(ChangeDetectorRef)
   private dialog: MatDialog = inject(MatDialog)
   private renderer: Renderer2 = inject(Renderer2)
 
@@ -85,7 +85,8 @@ export class ContextTableComponent implements AfterViewInit {
   displayedColumns = computed(() => [
     'name',
     'description',
-    ...(this.isActiveColumn() ? ['isActive'] : []),])
+    ...(this.isActiveColumn() ? ['isActive'] : []),
+  ])
 
   isLoading = true
   resultsLength = 0
@@ -94,7 +95,7 @@ export class ContextTableComponent implements AfterViewInit {
   selectedRow?: IContext
 
   search = new FormControl<string>('', null)
-  isActive = new FormControl(false); // Default to false
+  isActive = new FormControl(false) // Default to false
 
   resetPage(stayOnPage = false) {
     if (!stayOnPage) {
@@ -114,47 +115,44 @@ export class ContextTableComponent implements AfterViewInit {
       data: null,
       autoFocus: true,
       restoreFocus: true,
-    });
+    })
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('New context created:', result);
-        this.refresh$.next();
+        console.log('New context created:', result)
+        this.refresh$.next()
       }
-    });
+    })
   }
 
   onCheckboxChange(event: MatCheckboxChange, row: IContext): void {
-    const isChecked = event.checked; // Access the checked state
-    console.log(`Checkbox state for row ${row.id}:`, isChecked);
+    const isChecked = event.checked
 
-    // Call the updateContext method and update the row on success
     this.updateContext(row.id, row.updatedAt, isChecked).subscribe({
       next: (response) => {
-        row.isActive = isChecked;
-        row.updatedAt = new Date(response.updatedAt);
-        row.updatedBy = response.updatedBy;
-        this.cdr.detectChanges();
+        row.isActive = isChecked
+        row.updatedAt = new Date(response.updatedAt)
+        row.updatedBy = response.updatedBy
+        this.cdr.detectChanges()
 
-        const action = isChecked ? 'Activated' : 'Deactivated';
+        const action = isChecked ? 'Activated' : 'Deactivated'
         this.snackBar.open(`Record successfully ${action}.`, 'Close', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'bottom',
-        });
+        })
       },
       error: (err) => {
-        console.error(`Failed to update row ${row.id}:`, err);
-        row.isActive = !isChecked;
-        this.cdr.detectChanges();
+        console.error(`Failed to update row ${row.id}:`, err)
+        row.isActive = !isChecked
+        this.cdr.detectChanges()
       },
-    });
+    })
   }
 
   updateContext(id: string, updatedAt: Date, isActive: boolean): Observable<IPersistResponse> {
-
     const params = Context.IsActiveParams(id, updatedAt, isActive)
-    return this.ContextService.deactReact(params);
+    return this.ContextService.deactReact(params)
   }
 
   confirmToggleChange(isActive: boolean, row: IContext): void {
@@ -166,19 +164,21 @@ export class ContextTableComponent implements AfterViewInit {
       }
     })
 
-    const action = isActive ? 'Activate' : 'Deactivate';
+    const action = isActive ? 'Activate' : 'Deactivate'
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: { message: `Are you sure you want to ${action} this record?` },
-    });
+    })
 
     dialogRef.afterClosed().subscribe((confirmed) => {
       if (!confirmed) {
-        row.isActive = !isActive;
-        this.cdr.detectChanges();
+        row.isActive = !isActive
+        this.cdr.detectChanges()
+        const control = this.isActive;
+        control.patchValue(row.isActive);
       } else {
-        this.onCheckboxChange({ checked: isActive } as MatCheckboxChange, row);
+        this.onCheckboxChange({ checked: isActive } as MatCheckboxChange, row)
       }
-    });
+    })
   }
 
   showDetail(id: string): void {
@@ -218,13 +218,11 @@ export class ContextTableComponent implements AfterViewInit {
         debounceTime(1000),
         tap(() => this.resetPage())
       ),
-      this.isActive.valueChanges.pipe(
-        tap(() => this.resetPage())
-      )
+      this.isActive.valueChanges.pipe(tap(() => this.resetPage()))
     ).pipe(
       startWith({}),
       switchMap(() => {
-        this.isLoading = true;
+        this.isLoading = true
         return this.ContextService.getContexts(
           this.paginator.pageSize,
           this.search.value as string,
@@ -232,23 +230,23 @@ export class ContextTableComponent implements AfterViewInit {
           this.sort.active,
           this.sort.direction,
           this.isActive.value ?? true
-        );
+        )
       }),
       map((results: { total: number; data: IContext[] }) => {
-        this.isLoading = false;
-        this.hasError = false;
-        this.resultsLength = results.total;
+        this.isLoading = false
+        this.hasError = false
+        this.resultsLength = results.total
 
-        return results.data;
+        return results.data
       }),
       catchError((err) => {
-        this.isLoading = false;
-        this.hasError = true;
-        this.errorText = err;
-        return of([]);
+        this.isLoading = false
+        this.hasError = true
+        this.errorText = err
+        return of([])
       }),
       takeUntilDestroyed(this.destroyRef)
-    );
-    this.cdr.detectChanges();
+    )
+    this.cdr.detectChanges()
   }
 }

@@ -2,28 +2,27 @@ import { CommonModule } from '@angular/common'
 import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { ChangeDetectorRef } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
+import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatNativeDateModule } from '@angular/material/core'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog'
-import { MatDialogRef, MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { MatDivider } from '@angular/material/divider'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { FlexModule } from '@ngbracket/ngx-layout/flex'
-import { MatButtonModule } from '@angular/material/button';
 
 import { BaseFormDirective } from '../../../common/base-form.class'
+import { ConfirmationDialogComponent } from '../../../common/is-active.component'
 import {
   ErrorSets,
   FieldErrorDirective,
 } from '../../../user-controls/field-error/field-error.directive'
 import { IContext } from './context'
 import { ContextService } from './context.service'
-import { ConfirmationDialogComponent } from '../../../common/is-active.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-context-dialog',
@@ -61,72 +60,71 @@ export class ContextDialogComponent
     @Inject(MAT_DIALOG_DATA) public data: IContext,
     private dialogRef: MatDialogRef<ContextDialogComponent>
   ) {
-    super();
+    super()
   }
 
   isHidden = true
-  private isPatching = false;
+  private isPatching = false
 
   toggleVisibility(): void {
     this.isHidden = !this.isHidden
   }
 
   ngOnInit(): void {
-    this.formGroup = this.buildForm(this.data);
-    this.formReady.emit(this.formGroup);
+    this.formGroup = this.buildForm(this.data)
+    this.formReady.emit(this.formGroup)
 
     // Subscribe to isActive value changes
     this.formGroup.get('isActive')?.valueChanges.subscribe((isActive) => {
       if (this.isPatching) {
-        return;
+        return
       }
       this.confirmToggleChange(isActive)
-    });
+    })
   }
 
   confirmToggleChange(isActive: boolean): void {
-    const action = isActive ? 'Activate' : 'Deactivate';
+    const action = isActive ? 'Activate' : 'Deactivate'
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: { message: `Are you sure you want to ${action} this record?` },
-    });
+    })
 
     dialogRef.afterClosed().subscribe((confirmed) => {
       if (!confirmed) {
-        this.isPatching = true;
-        this.formGroup.patchValue({ isActive: !isActive });
-        this.isPatching = false;
+        this.isPatching = true
+        this.formGroup.patchValue({ isActive: !isActive })
+        this.isPatching = false
       } else {
-        this.isActiveChanged(isActive);
+        this.isActiveChanged(isActive)
       }
-    });
+    })
   }
 
   isActiveChanged(isActive: boolean): void {
-
     this.contextService.deactReact(this.formGroup.getRawValue()).subscribe({
       next: (response) => {
-        const { updatedAt, updatedBy } = response;
+        const { updatedAt, updatedBy } = response
 
-        this.isPatching = true;
+        this.isPatching = true
         this.formGroup.patchValue({
           isActive: isActive,
           updatedAt: new Date(updatedAt),
           updatedBy: updatedBy,
-        });
-        this.isPatching = false;
-        this.cdr.detectChanges();
+        })
+        this.isPatching = false
+        this.cdr.detectChanges()
 
-        const action = isActive ? 'Activated' : 'Deactivated';
+        const action = isActive ? 'Activated' : 'Deactivated'
         this.snackBar.open(`Record Successfully ${action}.`, 'Close', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'bottom',
-        });
+        })
       },
       error: (err) => {
-        console.error('Error saving data:', err);
+        console.error('Error saving data:', err)
       },
-    });
+    })
   }
 
   buildForm(initialData?: IContext | null): FormGroup {

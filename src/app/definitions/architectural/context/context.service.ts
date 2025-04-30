@@ -144,14 +144,17 @@ export class ContextService implements IContextService {
     }
 
     return this.httpClient
-      .put<IApiResponse<IPersistResponse>>(`${environment.baseUrl}/context/${action}`, params)
+      .put<IApiResponse<IPersistResponse>>(
+        `${environment.baseUrl}/context/${action}`,
+        params
+      )
       .pipe(
         map((response) => {
           if (!response.data) {
             throw new Error('No context data found')
           }
           return response.data
-      })
-     )
+        })
+      )
   }
 }

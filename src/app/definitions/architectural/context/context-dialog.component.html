@@ -48,21 +48,27 @@
           <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
             <div fxFlex="30%">
               <span class="mono-font">Created By:</span>&nbsp;
-              <span class="mono-font">{{ formGroup.get('createdBy')?.value }}</span>&nbsp;
+              <span class="mono-font">{{ formGroup.get('createdBy')?.value }}</span
+              >&nbsp;
             </div>
             <div fxFlex="70%">
               <span class="mono-font">Created At:</span>&nbsp;
-              <span class="mono-font">{{ formGroup.get('createdAt')?.value | date: 'yyyy-MM-dd h:mm a z' }}</span>
+              <span class="mono-font">{{
+                formGroup.get('createdAt')?.value | date: 'yyyy-MM-dd h:mm a z'
+              }}</span>
             </div>
           </div>
           <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
             <div fxFlex="30%">
               <span class="mono-font">Updated By:</span>&nbsp;
-              <span class="mono-font">{{ formGroup.get('updatedBy')?.value }}</span>&nbsp;
+              <span class="mono-font">{{ formGroup.get('updatedBy')?.value }}</span
+              >&nbsp;
             </div>
             <div fxFlex="70%">
               <span class="mono-font">Updated At:</span>&nbsp;
-              <span class="mono-font">{{ formGroup.get('updatedAt')?.value | date: 'yyyy-MM-dd h:mm a z' }}</span>
+              <span class="mono-font">{{
+                formGroup.get('updatedAt')?.value | date: 'yyyy-MM-dd h:mm a z'
+              }}</span>
             </div>
           </div>
         </mat-card-content>
@@ -82,7 +88,7 @@
           [disabled]="formGroup.invalid">
           Save
         </button>
-     </div>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>
