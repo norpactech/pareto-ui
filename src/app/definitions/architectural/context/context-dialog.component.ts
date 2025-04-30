@@ -23,6 +23,7 @@ import { IContext } from './context'
 import { ContextService } from './context.service'
 import { ConfirmationDialogComponent } from '../../../common/is-active.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-context-dialog',
@@ -41,8 +42,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatDivider,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSlideToggleModule,
     MatButtonModule,
+    MatCheckboxModule,
   ],
 })
 export class ContextDialogComponent
