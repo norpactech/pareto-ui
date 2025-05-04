@@ -5,14 +5,14 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router'
 import { FlexModule } from '@ngbracket/ngx-layout/flex'
 
 @Component({
-  selector: 'app-manager',
-  styles: `
+    selector: 'app-manager',
+    styles: `
       .active-link {
         font-weight: bold;
         border-bottom: 2px solid #005005;
       }
   `,
-  template: `
+    template: `
     <mat-toolbar color="accent" fxLayoutGap="8px">
       <a mat-button routerLink="home" routerLinkActive="active-link">
         Manager's Dashboard
@@ -26,14 +26,13 @@ import { FlexModule } from '@ngbracket/ngx-layout/flex'
     </mat-toolbar>
     <router-outlet></router-outlet>
   `,
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    FlexModule,
-    MatButtonModule,
-    RouterLink,
-    RouterLinkActive,
-    RouterOutlet,
-  ],
+    imports: [
+        MatToolbarModule,
+        FlexModule,
+        MatButtonModule,
+        RouterLink,
+        RouterLinkActive,
+        RouterOutlet,
+    ]
 })
 export class ManagerComponent {}

@@ -17,8 +17,8 @@ import { LoadingOverlayComponent } from './common/loading-overlay.component'
 import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component'
 
 @Component({
-  selector: 'app-root',
-  styles: `
+    selector: 'app-root',
+    styles: `
       .app-container {
         display: flex;
         flex-direction: column;
@@ -76,7 +76,7 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
         height: 20px; /* Set a fixed height for the image */
       }
         `,
-  template: `
+    template: `
     <app-loading-overlay></app-loading-overlay>
     <div class="app-container">
       @if (
@@ -150,20 +150,19 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
       </mat-sidenav-container>
     </div>
   `,
-  standalone: true,
-  imports: [
-    FlexLayoutModule,
-    RouterLink,
-    NavigationMenuComponent,
-    RouterOutlet,
-    AsyncPipe,
-    MatIconModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    NgOptimizedImage,
-    LoadingOverlayComponent,
-  ],
+    imports: [
+        FlexLayoutModule,
+        RouterLink,
+        NavigationMenuComponent,
+        RouterOutlet,
+        AsyncPipe,
+        MatIconModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        NgOptimizedImage,
+        LoadingOverlayComponent,
+    ]
 })
 export class AppComponent implements OnInit {
   currentYear: number = new Date().getFullYear()

@@ -20,25 +20,24 @@ import { EmailValidation, PasswordValidation } from '../common/validations'
 import { FieldErrorDirective } from '../user-controls/field-error/field-error.directive'
 
 @Component({
-  selector: 'app-login',
-  templateUrl: 'login.component.html',
-  styles: `
+    selector: 'app-login',
+    templateUrl: 'login.component.html',
+    styles: `
       .error { color: red; }
       div[fxLayout] { margin-top: 32px; }
     `,
-  standalone: true,
-  imports: [
-    FlexModule,
-    MatCardModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FieldErrorDirective,
-    MatButtonModule,
-    MatExpansionModule,
-    MatGridListModule,
-  ],
+    imports: [
+        FlexModule,
+        MatCardModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FieldErrorDirective,
+        MatButtonModule,
+        MatExpansionModule,
+        MatGridListModule,
+    ]
 })
 export class LoginComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder)

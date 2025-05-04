@@ -3,8 +3,8 @@ import { MatListModule } from '@angular/material/list'
 import { RouterLink, RouterLinkActive } from '@angular/router'
 
 @Component({
-  selector: 'app-navigation-menu',
-  styles: `
+    selector: 'app-navigation-menu',
+    styles: `
       .active-link {
         font-weight: bold;
         border-left: 3px solid green;
@@ -16,7 +16,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router'
         padding: 0 5px; /* Add padding to ensure text is 10px from the edge */
       }
   `,
-  template: `
+    template: `
     <mat-nav-list>
       <h3 mat-subheader>Definitions</h3>
       <a mat-list-item routerLinkActive="active-link" routerLink="/definitions/generic">
@@ -38,7 +38,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router'
       </a>
     </mat-nav-list>
   `,
-  standalone: true,
-  imports: [MatListModule, RouterLinkActive, RouterLink],
+    imports: [MatListModule, RouterLinkActive, RouterLink]
 })
 export class NavigationMenuComponent {}

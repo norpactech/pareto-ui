@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common'
 import {
   AfterViewInit,
   Component,
@@ -32,28 +31,26 @@ import { IUser } from '../../user/user/user'
 import { UserService } from '../../user/user/user.service'
 
 @Component({
-  selector: 'app-user-table',
-  templateUrl: './user-table.component.html',
-  styleUrls: ['./user-table.component.scss'],
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    FlexModule,
-    FormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatRippleModule,
-    MatSlideToggleModule,
-    MatSortModule,
-    MatTableModule,
-    MatToolbarModule,
-    ReactiveFormsModule,
-    RouterLink,
-  ],
+    selector: 'app-user-table',
+    templateUrl: './user-table.component.html',
+    styleUrls: ['./user-table.component.scss'],
+    imports: [
+        FlexModule,
+        FormsModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatProgressSpinnerModule,
+        MatRippleModule,
+        MatSlideToggleModule,
+        MatSortModule,
+        MatTableModule,
+        MatToolbarModule,
+        ReactiveFormsModule,
+        RouterLink,
+    ]
 })
 export class UserTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator

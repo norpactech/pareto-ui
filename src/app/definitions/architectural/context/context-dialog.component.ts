@@ -13,7 +13,7 @@ import { MatDivider } from '@angular/material/divider'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { FlexModule } from '@ngbracket/ngx-layout/flex'
+// import { FlexModule } from '@ngbracket/ngx-layout/flex'
 
 import { BaseFormDirective } from '../../../common/base-form.class'
 import { ConfirmationDialogComponent } from '../../../common/is-active.component'
@@ -25,25 +25,24 @@ import { IContext } from './context'
 import { ContextService } from './context.service'
 
 @Component({
-  selector: 'app-context-dialog',
-  templateUrl: './context-dialog.component.html',
-  styleUrls: ['./context-dialog.component.scss'],
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    FlexModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FieldErrorDirective,
-    MatDialogModule,
-    CommonModule,
-    MatCardModule,
-    MatDivider,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatButtonModule,
-    MatCheckboxModule,
-  ],
+    selector: 'app-context-dialog',
+    templateUrl: './context-dialog.component.html',
+    styleUrls: ['./context-dialog.component.scss'],
+    imports: [
+        ReactiveFormsModule,
+//        FlexModule,
+        MatFormFieldModule,
+        MatInputModule,
+//        FieldErrorDirective,
+        MatDialogModule,
+        CommonModule,
+        MatCardModule,
+        MatDivider,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatButtonModule,
+        MatCheckboxModule,
+    ]
 })
 export class ContextDialogComponent
   extends BaseFormDirective<IContext>

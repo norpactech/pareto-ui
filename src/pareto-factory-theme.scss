@@ -1,38 +1,41 @@
 @use '@angular/material' as mat;
-@include mat.all-component-typographies();
-@include mat.core();
 
-$pareto-factory-primary: mat.define-palette(mat.$green-palette, 700);
-$pareto-factory-accent: mat.define-palette(mat.$green-palette, 300);
-$pareto-factory-warn: mat.define-palette(mat.$red-palette);
+// Define the primary, accent, and warn palettes
+$pareto-factory-primary: mat.m2-define-palette(mat.$m2-indigo-palette, 500);
+$pareto-factory-accent: mat.m2-define-palette(mat.$m2-pink-palette, 300);
+$pareto-factory-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
-$pareto-factory-theme: mat.define-light-theme(
+// Define the light theme
+$pareto-factory-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $pareto-factory-primary,
       accent: $pareto-factory-accent,
       warn: $pareto-factory-warn,
     ),
-    typography: mat.define-typography-config(),
+    typography: mat.m2-define-typography-config(),
     density: 0,
   )
 );
 
-$pareto-factory-dark-theme: mat.define-dark-theme(
+// Define the dark theme
+$pareto-factory-dark-theme: mat.m2-define-dark-theme(
   (
     color: (
       primary: $pareto-factory-primary,
       accent: $pareto-factory-accent,
       warn: $pareto-factory-warn,
     ),
-    typography: mat.define-typography-config(),
+    typography: mat.m2-define-typography-config(),
     density: 0,
   )
 );
 
+// Apply the dark theme to elements with the .dark-theme class
 .dark-theme {
   @include mat.all-component-colors($pareto-factory-dark-theme);
 }
 
+// Apply the light theme globally
 @include mat.all-component-themes($pareto-factory-theme);
 @include mat.strong-focus-indicators-theme($pareto-factory-theme);

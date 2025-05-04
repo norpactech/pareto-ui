@@ -39,28 +39,27 @@ import { ContextService } from './context.service'
 import { ContextDialogComponent } from './context-dialog.component'
 
 @Component({
-  selector: 'app-context-table',
-  templateUrl: './context-table.component.html',
-  styleUrls: ['./context-table.component.scss'],
-  standalone: true,
-  imports: [
-    FlexModule,
-    FormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatRippleModule,
-    MatSlideToggleModule,
-    MatSortModule,
-    MatTableModule,
-    MatToolbarModule,
-    ReactiveFormsModule,
-    CommonModule,
-    MatCheckboxModule,
-  ],
+    selector: 'app-context-table',
+    templateUrl: './context-table.component.html',
+    styleUrls: ['./context-table.component.scss'],
+    imports: [
+        FlexModule,
+        FormsModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatProgressSpinnerModule,
+        MatRippleModule,
+        MatSlideToggleModule,
+        MatSortModule,
+        MatTableModule,
+        MatToolbarModule,
+        ReactiveFormsModule,
+        CommonModule,
+        MatCheckboxModule,
+    ]
 })
 export class ContextTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator

@@ -6,8 +6,8 @@ import { ContextDataTypeComponent } from './context-data-type/context-data-type.
 import { ContextPropertyTypeComponent } from './context-property-type/context-property-type.component'
 
 @Component({
-  selector: 'app-architectural',
-  template: `
+    selector: 'app-architectural',
+    template: `
     <mat-tab-group>
       <mat-tab label="Context">
         <app-context-table></app-context-table>
@@ -20,12 +20,11 @@ import { ContextPropertyTypeComponent } from './context-property-type/context-pr
       </mat-tab>
     </mat-tab-group>
   `,
-  standalone: true,
-  imports: [
-    MatTabsModule,
-    ContextTableComponent,
-    ContextDataTypeComponent,
-    ContextPropertyTypeComponent,
-  ],
+    imports: [
+        MatTabsModule,
+        ContextTableComponent,
+        ContextDataTypeComponent,
+        ContextPropertyTypeComponent,
+    ]
 })
 export class ArchitecturalComponent {}
