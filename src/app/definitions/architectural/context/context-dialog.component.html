@@ -79,8 +79,9 @@
       <mat-divider></mat-divider>
       <div class="blank-line"></div>
       <!-- Form content -->
-      <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="16px" class="form-actions">
-        <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+      <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px" class="form-actions">
+        <button mat-raised-button mat-dialog-close>Cancel</button>
+        <button mat-raised-button color="warn" type="button" (click)="confirmDelete()">Delete</button>
         <button
           mat-raised-button
           color="primary"

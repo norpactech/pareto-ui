@@ -157,4 +157,30 @@ export class ContextService implements IContextService {
         })
       )
   }
+
+  delete(data: IContext): Observable<IPersistResponse> {
+    if (!data) {
+      return throwError(() => new Error('Null or undefined context data'));
+    }
+    const { id, updatedAt, updatedBy } = data;
+    const params = {
+      id,
+      updatedAt: updatedAt.toISOString(),
+      updatedBy,
+    };
+
+    return this.httpClient
+    .request<IApiResponse<IPersistResponse>>('DELETE', `${environment.baseUrl}/context`, {
+      body: params, // Include the JSON payload in the body
+    })
+    .pipe(
+      map((response) => {
+        if (!response.data) {
+          throw new Error('No context data found');
+        }
+        console.log('Delete Response:', response.data);
+        return response.data;
+      })
+    );
+  }
 }

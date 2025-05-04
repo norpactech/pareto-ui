@@ -68,7 +68,6 @@ export class ContextDialogComponent
     this.formGroup = this.buildForm(this.data)
     this.formReady.emit(this.formGroup)
 
-    // Subscribe to isActive value changes
     this.formGroup.get('isActive')?.valueChanges.subscribe((isActive) => {
       if (this.isPatching) {
         return
@@ -121,6 +120,41 @@ export class ContextDialogComponent
     })
   }
 
+  confirmDelete(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { message: `Are you sure you want to delete this record?` },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.delete();
+        this.dialogRef.close(true);
+      }
+      else {
+        this.snackBar.open('Delete Cancelled', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        });
+      }
+    });
+  }
+
+  delete(): void {
+    this.contextService.delete(this.formGroup.getRawValue()).subscribe({
+      next: (response) => {
+        this.snackBar.open(`Record Successfully Deleted`, 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        })
+      },
+      error: (err) => {
+        console.error('Error saving data:', err)
+      },
+   })
+  }
+
   buildForm(initialData?: IContext | null): FormGroup {
     const context = initialData
     return this.formBuilder.group({
@@ -151,6 +185,11 @@ export class ContextDialogComponent
       this.contextService.persist(formData).subscribe({
         next: (response) => {
           console.log('Data saved successfully:', response)
+          this.snackBar.open('Record Successfully Saved', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+          })
           this.dialogRef.close(true)
         },
         error: (err) => {
