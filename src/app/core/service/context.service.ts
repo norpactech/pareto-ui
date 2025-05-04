@@ -69,7 +69,8 @@ export class ContextService implements IContextService {
     if (sortColumn === 'name') {
       params['sortColumn'] = 'name'
     }
-    if (isActive === true) {
+    // isActive button is not checked (to inactive)
+    if (isActive === false) {
       params['isActive'] = 'true'
     }
 
