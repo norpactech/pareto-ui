@@ -95,16 +95,16 @@ export class ContextTableComponent implements AfterViewInit {
   selectedRow?: IContext
 
   search = new FormControl<string>('', null)
-  isActive = new FormControl(false) // Default to false
+  isActive = new FormControl(false)
 
   resetPage(stayOnPage = false) {
     if (!stayOnPage) {
       this.paginator.firstPage()
     }
     this.router.navigate([], {
-      relativeTo: this.activatedRoute, // Stay on the current route
+      relativeTo: this.activatedRoute,
       skipLocationChange: true,
-      queryParamsHandling: 'merge', // Keep existing query parameters
+      queryParamsHandling: 'merge',
     })
     this.selectedRow = undefined
   }
@@ -118,44 +118,19 @@ export class ContextTableComponent implements AfterViewInit {
     })
 
     dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed with result:', result)
       if (result) {
-        console.log('New context created:', result)
+        this.snackBar.open(`Record Successfully Saved`, 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        });
         this.refresh$.next()
       }
     })
   }
 
-  onCheckboxChange(event: MatCheckboxChange, row: IContext): void {
-    const isChecked = event.checked
-
-    this.updateContext(row.id, row.updatedAt, isChecked).subscribe({
-      next: (response) => {
-        row.isActive = isChecked
-        row.updatedAt = new Date(response.updatedAt)
-        row.updatedBy = response.updatedBy
-        this.cdr.detectChanges()
-
-        const action = isChecked ? 'Activated' : 'Deactivated'
-        this.snackBar.open(`Record successfully ${action}.`, 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-        })
-      },
-      error: (err) => {
-        console.error(`Failed to update row ${row.id}:`, err)
-        row.isActive = !isChecked
-        this.cdr.detectChanges()
-      },
-    })
-  }
-
-  updateContext(id: string, updatedAt: Date, isActive: boolean): Observable<IPersistResponse> {
-    const params = Context.IsActiveParams(id, updatedAt, isActive)
-    return this.ContextService.deactReact(params)
-  }
-
-  confirmToggleChange(isActive: boolean, row: IContext): void {
+  confirmIsActive(isActive: boolean, row: IContext): void {
 
     const allElements = document.querySelectorAll('*')
     allElements.forEach((element) => {
@@ -176,10 +151,38 @@ export class ContextTableComponent implements AfterViewInit {
         const control = this.isActive;
         control.patchValue(row.isActive);
       } else {
-        this.onCheckboxChange({ checked: isActive } as MatCheckboxChange, row)
+        this.updateIsActive({ checked: isActive } as MatCheckboxChange, row)
       }
     })
   }
+
+  updateIsActive(event: MatCheckboxChange, row: IContext): void {
+
+    const isChecked = event.checked;
+    const params = Context.IsActiveParams(row.id, row.updatedAt, isChecked);
+    this.ContextService.deactReact(params).subscribe({
+      next: (response) => {
+        row.isActive = isChecked;
+        row.updatedAt = new Date(response.updatedAt);
+        row.updatedBy = response.updatedBy;
+        this.cdr.detectChanges();
+
+        const action = isChecked ? 'Activated' : 'Deactivated';
+        this.snackBar.open(`Record Successfully ${action}.`, 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        });
+      },
+      error: (err) => {
+        // Handle errors and revert the checkbox state
+        console.error(`Failed to update row ${row.id}:`, err);
+        row.isActive = !isChecked;
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
 
   showDetail(id: string): void {
     this.ContextService.getContext(id).subscribe({

@@ -79,11 +79,11 @@ export class ContextDialogComponent
       if (this.isPatching) {
         return
       }
-      this.confirmToggleChange(isActive)
+      this.confirmIsActive(isActive)
     })
   }
 
-  confirmToggleChange(isActive: boolean): void {
+  confirmIsActive(isActive: boolean): void {
     const action = isActive ? 'Activate' : 'Deactivate'
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: { message: `Are you sure you want to ${action} this record?` },
@@ -95,12 +95,12 @@ export class ContextDialogComponent
         this.formGroup.patchValue({ isActive: !isActive })
         this.isPatching = false
       } else {
-        this.isActiveChanged(isActive)
+        this.updateIsActive(isActive)
       }
     })
   }
 
-  isActiveChanged(isActive: boolean): void {
+  updateIsActive(isActive: boolean): void {
     this.contextService.deactReact(this.formGroup.getRawValue()).subscribe({
       next: (response) => {
         const { updatedAt, updatedBy } = response
@@ -156,7 +156,8 @@ export class ContextDialogComponent
 
       this.contextService.persist(formData).subscribe({
         next: (response) => {
-          this.dialogRef.close(response)
+          console.log('Data saved successfully:', response)
+          this.dialogRef.close(true)
         },
         error: (err) => {
           console.error('Error saving data:', err)
@@ -166,5 +167,10 @@ export class ContextDialogComponent
       console.error('Form is invalid')
       this.formGroup.markAllAsTouched()
     }
+  }
+
+  closeDialog(): void {
+    console.log('Dialog closed')
+    this.dialogRef.close(false)
   }
 }
