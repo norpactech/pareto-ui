@@ -7,8 +7,8 @@ import {
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
-import { Context } from './context'
-import { ContextService } from './context.service'
+import { Context } from '../../../shared/models/context.dto'
+import { ContextService } from '../../../core/service/context.service'
 
 @Injectable({ providedIn: 'root' })
 export class ContextEntityService extends EntityCollectionServiceBase<Context> {

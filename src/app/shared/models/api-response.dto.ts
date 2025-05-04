@@ -1,5 +1,5 @@
 import { EnumStatus } from './enum-status'
-import { IMeta } from './meta'
+import { IMeta } from './meta.dto'
 
 export interface IApiResponse<T> {
   status: EnumStatus

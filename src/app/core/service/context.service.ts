@@ -3,14 +3,15 @@ import { inject, Injectable } from '@angular/core'
 import { Observable, throwError } from 'rxjs'
 import { map } from 'rxjs/operators'
 
-import { environment } from '../../../../environments/environment'
-import { IApiResponse } from '../../../common/api-response'
-import { IPersistResponse } from '../../../common/persist-response'
-import { Context, IContext } from './context'
-export interface IContexts {
-  data: IContext[]
-  total: number
-}
+import { environment } from '../../../environments/environment'
+
+import {
+  Context,
+  IContext,
+  IContexts,
+  IApiResponse,
+  IPersistResponse
+} from '@shared/models'
 
 export interface IContextService {
   getContext(id: string): Observable<IContext>

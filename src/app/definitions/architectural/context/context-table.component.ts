@@ -33,8 +33,9 @@ import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
 
 import { ConfirmationDialogComponent } from '../../../common/is-active.component'
-import { Context, IContext } from './context'
-import { ContextService } from './context.service'
+
+import { Context, IContext } from '@shared/models'
+import { ContextService } from '@core/service/context.service'
 import { ContextDialogComponent } from './context-dialog.component'
 
 @Component({
