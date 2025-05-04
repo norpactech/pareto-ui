@@ -97,8 +97,6 @@ export class LoginComponent implements OnInit {
     switch (role) {
       case Role.Cashier:
         return '/pos'
-      case Role.Clerk:
-        return '/inventory'
       case Role.Manager:
         return '/manager'
       default:

@@ -17,8 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { BaseFormDirective } from '../../../common/base-form.class'
 import { ErrorSets } from '../../../user-controls/field-error/field-error.directive'
 
-import { ConfirmationDialogComponent } from '../../../common/is-active.component'
-
+import { ConfirmationDialogComponent } from '@common/dialogs/is-active.component'
 import { IContext } from '@shared/models'
 import { ContextService } from '@core/service/context.service'
 
@@ -28,10 +27,8 @@ import { ContextService } from '@core/service/context.service'
   styleUrls: ['./context-dialog.component.scss'],
   imports: [
     ReactiveFormsModule,
-    //        FlexModule,
     MatFormFieldModule,
     MatInputModule,
-    //        FieldErrorDirective,
     MatDialogModule,
     CommonModule,
     MatCardModule,

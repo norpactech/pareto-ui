@@ -32,11 +32,6 @@ export const routes: Routes = [
       import('./definitions/definitions.module').then((m) => m.DefinitionsModule),
   },
   {
-    path: 'inventory',
-    loadChildren: () =>
-      import('./inventory/inventory.module').then((m) => m.InventoryModule),
-  },
-  {
     path: '**',
     loadComponent: () =>
       import('./page-not-found/page-not-found.component').then(

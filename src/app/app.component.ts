@@ -28,9 +28,32 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
       left: 0;
       right: 0;
     }
-    .app-is-mobile .app-toolbar {
-      position: fixed;
-      z-index: 2;
+    .app-toolbar {
+      display: flex;
+      align-items: center; /* Vertically center items */
+      justify-content: space-between; /* Distribute space between items */
+    }
+    .left-pad {
+      display: inline-block;
+      vertical-align: middle;
+      transform: translateY(2px);
+      margin-left: 8px;
+    }
+    .logo {
+      height: 40px;
+      width: 40px;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: black;
+    }
+
+    .logo-link:hover {
+      color: black;
     }
     .app-sidenav-container {
       flex: 1;
@@ -48,8 +71,8 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
       height: 100%;
     }
     .main-content {
-      flex: 1; /* Take up remaining space */
-      padding: 16px; /* Add padding for content */
+      flex: 1;
+      padding: 16px;
     }
 
     .image-cropper {
@@ -96,9 +119,9 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
               <mat-icon>menu</mat-icon>
             </button>
           }
-          <a mat-icon-button routerLink="/home">
-            <img src="assets/img/icons/norpac.png" alt="NorPacTech Icon" />
-            <span class="left-pad modern-font" data-testid="title">Pareto Factory</span>
+          <a routerLink="/home" class="logo-link">
+            <img src="assets/img/icons/norpac.png" alt="NorPacTech Icon" class="logo" />
+            <span class="left-pad modern-font">Pareto Factory</span>
           </a>
           <span class="flex-spacer"></span>
           @if (auth?.status?.isAuthenticated) {

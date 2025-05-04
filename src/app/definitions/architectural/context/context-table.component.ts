@@ -32,7 +32,7 @@ import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
 
-import { ConfirmationDialogComponent } from '../../../common/is-active.component'
+import { ConfirmationDialogComponent } from '../../../common/dialogs/is-active.component'
 
 import { Context, IContext } from '@shared/models'
 import { ContextService } from '@core/service/context.service'

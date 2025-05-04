@@ -5,7 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { RouterModule, Routes } from '@angular/router'
 
-import { ConfirmationDialogComponent } from '../common/is-active.component'
+import { ConfirmationDialogComponent } from '../common/dialogs/is-active.component'
 import { ArchitecturalComponent } from './architectural/architectural.component'
 import { GenericComponent } from './generic/generic.component'
 import { TablesComponent } from './tables/tables.component'

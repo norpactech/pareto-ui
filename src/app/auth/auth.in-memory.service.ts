@@ -15,7 +15,7 @@ export class InMemoryAuthService extends AuthService {
     _id: '5da01751da27cc462d265913',
     email: 'duluca@gmail.com',
     name: { first: 'Doguhan', last: 'Uluca' },
-    picture: 'https://secure.gravatar.com/avatar/7cbaa9afb5ca78d97f3c689f8ce6c985',
+    picture: '',
     role: Role.Manager,
     dateOfBirth: new Date(1980, 1, 1),
     userStatus: true,

@@ -77,7 +77,6 @@
     "@ngrx/signals": "^17.1.0",
     "@ngrx/store": "^17.1.0",
     "@ngrx/store-devtools": "^17.1.0",
-    "graphql": "^16.8.1",
     "jwt-decode": "^4.0.0",
     "luxon": "^3.6.1",
     "ngx-mask": "^17.0.4",
