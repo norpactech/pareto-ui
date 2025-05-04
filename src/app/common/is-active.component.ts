@@ -2,8 +2,8 @@ import { Component, Inject } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 
 @Component({
-    selector: 'app-confirmation-dialog',
-    template: `
+  selector: 'app-confirmation-dialog',
+  template: `
     <h2 mat-dialog-title>Confirm Action</h2>
     <mat-dialog-content>{{ data.message }}</mat-dialog-content>
     <mat-dialog-actions align="end">
@@ -11,7 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
       <button mat-raised-button color="primary" [mat-dialog-close]="true">Yes</button>
     </mat-dialog-actions>
   `,
-    standalone: false
+  standalone: false,
 })
 export class ConfirmationDialogComponent {
   constructor(

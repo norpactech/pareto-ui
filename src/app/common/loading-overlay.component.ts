@@ -28,21 +28,25 @@ import { UiService } from './ui.service'
       width: 48px;
       height: 48px;
       animation-name: spin;
-      animation-duration: 1.00s;
+      animation-duration: 1s;
       animation-iteration-count: infinite;
       animation-timing-function: ease-in-out;
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
     }
     .center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   `,
   standalone: true,
   encapsulation: ViewEncapsulation.ShadowDom,

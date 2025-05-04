@@ -87,7 +87,7 @@ export class ContextService implements IContextService {
       return throwError(() => new Error('Null or undefined context data'))
     } else if (!data.id) {
       const { name, description, createdBy } = data
-      const params: { [key: string]: any } = {
+      const params: { [key: string]: string } = {
         name,
         description,
         createdBy,
@@ -106,7 +106,7 @@ export class ContextService implements IContextService {
     } else {
       const { id, name, description, updatedAt } = data
       const updatedBy = 'Change Me!'
-      const params: { [key: string]: any } = {
+      const params: { [key: string]: string } = {
         id,
         name,
         description,
@@ -137,17 +137,16 @@ export class ContextService implements IContextService {
     const action = isActive ? 'react' : 'deact'
     const updatedBy = 'Change Me!'
 
-    const params: { [key: string]: any } = {
+    const params: { [key: string]: string } = {
       id,
       updatedAt: updatedAt.toISOString(),
       updatedBy,
     }
 
     return this.httpClient
-      .put<IApiResponse<IPersistResponse>>(
-        `${environment.baseUrl}/context/${action}`,
-        params
-      )
+      .put<
+        IApiResponse<IPersistResponse>
+      >(`${environment.baseUrl}/context/${action}`, params)
       .pipe(
         map((response) => {
           if (!response.data) {

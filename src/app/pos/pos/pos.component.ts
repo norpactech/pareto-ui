@@ -15,10 +15,10 @@ interface IEvent {
 declare let dataLayer: IEvent[]
 
 @Component({
-    selector: 'app-pos',
-    templateUrl: './pos.component.html',
-    styleUrls: ['./pos.component.scss'],
-    imports: [MatButtonModule, MatIconModule]
+  selector: 'app-pos',
+  templateUrl: './pos.component.html',
+  styleUrls: ['./pos.component.scss'],
+  imports: [MatButtonModule, MatIconModule],
 })
 export class PosComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef)

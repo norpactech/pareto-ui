@@ -58,7 +58,7 @@
           mat-icon-button
           [routerLink]="[
             '../users',
-            { outlets: { detail: ['user', { userId: row._id }] } }
+            { outlets: { detail: ['user', { userId: row._id }] } },
           ]"
           [skipLocationChange]="true">
           <mat-icon>visibility</mat-icon>

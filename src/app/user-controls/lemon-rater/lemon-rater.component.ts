@@ -9,17 +9,17 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 
 @Component({
-    selector: 'app-lemon-rater',
-    templateUrl: 'lemon-rater.component.html',
-    styleUrls: ['lemon-rater.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => LemonRaterComponent),
-            multi: true,
-        },
-    ],
-    imports: [NgClass]
+  selector: 'app-lemon-rater',
+  templateUrl: 'lemon-rater.component.html',
+  styleUrls: ['lemon-rater.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => LemonRaterComponent),
+      multi: true,
+    },
+  ],
+  imports: [NgClass],
 })
 export class LemonRaterComponent implements ControlValueAccessor, AfterViewInit {
   @ViewChild('displayText', { static: false }) displayTextRef!: ElementRef

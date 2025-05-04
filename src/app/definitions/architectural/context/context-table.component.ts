@@ -31,7 +31,6 @@ import { FlexModule } from '@ngbracket/ngx-layout/flex'
 import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
-import { IPersistResponse } from 'src/app/common/persist-response'
 
 import { ConfirmationDialogComponent } from '../../../common/is-active.component'
 import { Context, IContext } from './context'
@@ -39,27 +38,27 @@ import { ContextService } from './context.service'
 import { ContextDialogComponent } from './context-dialog.component'
 
 @Component({
-    selector: 'app-context-table',
-    templateUrl: './context-table.component.html',
-    styleUrls: ['./context-table.component.scss'],
-    imports: [
-        FlexModule,
-        FormsModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatPaginatorModule,
-        MatProgressSpinnerModule,
-        MatRippleModule,
-        MatSlideToggleModule,
-        MatSortModule,
-        MatTableModule,
-        MatToolbarModule,
-        ReactiveFormsModule,
-        CommonModule,
-        MatCheckboxModule,
-    ]
+  selector: 'app-context-table',
+  templateUrl: './context-table.component.html',
+  styleUrls: ['./context-table.component.scss'],
+  imports: [
+    FlexModule,
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatRippleModule,
+    MatSlideToggleModule,
+    MatSortModule,
+    MatTableModule,
+    MatToolbarModule,
+    ReactiveFormsModule,
+    CommonModule,
+    MatCheckboxModule,
+  ],
 })
 export class ContextTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator
@@ -123,18 +122,17 @@ export class ContextTableComponent implements AfterViewInit {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'bottom',
-        });
+        })
         this.refresh$.next()
       }
     })
   }
 
   confirmIsActive(isActive: boolean, row: IContext): void {
-
     const allElements = document.querySelectorAll('*')
     allElements.forEach((element) => {
       if (typeof (element as HTMLElement).blur === 'function') {
-        (element as HTMLElement).blur()
+        ;(element as HTMLElement).blur()
       }
     })
 
@@ -147,8 +145,8 @@ export class ContextTableComponent implements AfterViewInit {
       if (!confirmed) {
         row.isActive = !isActive
         this.cdr.detectChanges()
-        const control = this.isActive;
-        control.patchValue(row.isActive);
+        const control = this.isActive
+        control.patchValue(row.isActive)
       } else {
         this.updateIsActive({ checked: isActive } as MatCheckboxChange, row)
       }
@@ -156,32 +154,30 @@ export class ContextTableComponent implements AfterViewInit {
   }
 
   updateIsActive(event: MatCheckboxChange, row: IContext): void {
-
-    const isChecked = event.checked;
-    const params = Context.IsActiveParams(row.id, row.updatedAt, isChecked);
+    const isChecked = event.checked
+    const params = Context.IsActiveParams(row.id, row.updatedAt, isChecked)
     this.ContextService.deactReact(params).subscribe({
       next: (response) => {
-        row.isActive = isChecked;
-        row.updatedAt = new Date(response.updatedAt);
-        row.updatedBy = response.updatedBy;
-        this.cdr.detectChanges();
+        row.isActive = isChecked
+        row.updatedAt = new Date(response.updatedAt)
+        row.updatedBy = response.updatedBy
+        this.cdr.detectChanges()
 
-        const action = isChecked ? 'Activated' : 'Deactivated';
+        const action = isChecked ? 'Activated' : 'Deactivated'
         this.snackBar.open(`Record Successfully ${action}.`, 'Close', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'bottom',
-        });
+        })
       },
       error: (err) => {
         // Handle errors and revert the checkbox state
-        console.error(`Failed to update row ${row.id}:`, err);
-        row.isActive = !isChecked;
-        this.cdr.detectChanges();
+        console.error(`Failed to update row ${row.id}:`, err)
+        row.isActive = !isChecked
+        this.cdr.detectChanges()
       },
-    });
+    })
   }
-
 
   showDetail(id: string): void {
     this.ContextService.getContext(id).subscribe({
@@ -190,7 +186,7 @@ export class ContextTableComponent implements AfterViewInit {
         const allElements = document.querySelectorAll('*')
         allElements.forEach((element) => {
           if (typeof (element as HTMLElement).blur === 'function') {
-            (element as HTMLElement).blur()
+            ;(element as HTMLElement).blur()
           }
         })
 

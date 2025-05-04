@@ -4,14 +4,14 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router'
 
 @Component({
-    selector: 'app-inventory',
-    styles: `
-      .active-link {
-        font-weight: bold;
-        border-bottom: 2px solid #005005;
-      }
+  selector: 'app-inventory',
+  styles: `
+    .active-link {
+      font-weight: bold;
+      border-bottom: 2px solid #005005;
+    }
   `,
-    template: `
+  template: `
     <mat-toolbar color="accent" fxLayoutGap="8px">
       <a mat-button routerLink="home" routerLinkActive="active-link">
         Inventory Dashboard
@@ -26,12 +26,12 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router'
     </mat-toolbar>
     <router-outlet></router-outlet>
   `,
-    imports: [
-        MatToolbarModule,
-        MatButtonModule,
-        RouterLink,
-        RouterLinkActive,
-        RouterOutlet,
-    ]
+  imports: [
+    MatToolbarModule,
+    MatButtonModule,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+  ],
 })
 export class InventoryComponent {}

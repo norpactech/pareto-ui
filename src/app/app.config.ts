@@ -1,9 +1,5 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http'
-import {
-  ApplicationConfig,
-  importProvidersFrom,
-  makeEnvironmentProviders,
-} from '@angular/core'
+import { ApplicationConfig } from '@angular/core'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import { provideRouter } from '@angular/router'
 import { provideEntityData } from '@ngrx/data'
@@ -13,7 +9,6 @@ import { provideStoreDevtools } from '@ngrx/store-devtools'
 import { environment } from 'src/environments/environment'
 
 import { routes } from './app.routes'
-import { AuthMode } from './auth/auth.enum'
 import { authFactory } from './auth/auth.factory'
 import { AuthHttpInterceptor } from './auth/auth.http.interceptor'
 import { AuthService } from './auth/auth.service'

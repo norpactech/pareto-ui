@@ -6,8 +6,8 @@ import { GenericPropertyTypeComponent } from './generic-property-type/generic-pr
 import { PropertyTypeAttributeComponent } from './property-type-attribute/property-type-attribute.component'
 
 @Component({
-    selector: 'app-architectural',
-    template: `
+  selector: 'app-architectural',
+  template: `
     <mat-tab-group>
       <mat-tab label="Data Types">
         <app-generic-data-type></app-generic-data-type>
@@ -20,11 +20,11 @@ import { PropertyTypeAttributeComponent } from './property-type-attribute/proper
       </mat-tab>
     </mat-tab-group>
   `,
-    imports: [
-        MatTabsModule,
-        GenericDataTypeComponent,
-        GenericPropertyTypeComponent,
-        PropertyTypeAttributeComponent,
-    ]
+  imports: [
+    MatTabsModule,
+    GenericDataTypeComponent,
+    GenericPropertyTypeComponent,
+    PropertyTypeAttributeComponent,
+  ],
 })
 export class GenericComponent {}

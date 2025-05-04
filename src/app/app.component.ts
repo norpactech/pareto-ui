@@ -17,72 +17,72 @@ import { LoadingOverlayComponent } from './common/loading-overlay.component'
 import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component'
 
 @Component({
-    selector: 'app-root',
-    styles: `
-      .app-container {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-      }
-      .app-is-mobile .app-toolbar {
-        position: fixed;
-        z-index: 2;
-      }
-      .app-sidenav-container {
-        flex: 1;
-        padding-right: 10px;
-      }
-      .app-is-mobile .app-sidenav-container {
-        flex: 1 0 auto;
-      }
-      mat-sidenav {
-        width: 200px;
-      }
-      .mat-sidenav-content {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-      }
-      .main-content {
-        flex: 1; /* Take up remaining space */
-        padding: 16px; /* Add padding for content */
-      }
+  selector: 'app-root',
+  styles: `
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+    .app-is-mobile .app-toolbar {
+      position: fixed;
+      z-index: 2;
+    }
+    .app-sidenav-container {
+      flex: 1;
+      padding-right: 10px;
+    }
+    .app-is-mobile .app-sidenav-container {
+      flex: 1 0 auto;
+    }
+    mat-sidenav {
+      width: 200px;
+    }
+    .mat-sidenav-content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .main-content {
+      flex: 1; /* Take up remaining space */
+      padding: 16px; /* Add padding for content */
+    }
 
-      .image-cropper {
-        border-radius: 50%;
-      }
-      .modern-font {
-        font-family: 'Bebas Neue', sans-serif;
-        font-weight: 400; /* Bebas Neue only supports one weight */
-        letter-spacing: 2px; /* Add spacing for a bold industrial feel */
-        text-transform: uppercase; /* Optional: Make the text uppercase for a stronger look */
-        font-size: 2rem; /* Increase the font size to make the text taller */
-        line-height: 1.2; /* Adjust line height for better spacing */
-      }
-      footer {
-        text-align: center;
-        padding: 16px;
-        background-color: #f5f5f5;
-        border-top: 1px solid #ddd;
-        font-size: 0.9rem;
-        color: #666;
-      }
-      footer img {
-        margin-right: 8px; /* Center the image and add spacing below it */
-        height: 20px; /* Set a fixed height for the image */
-      }
-        `,
-    template: `
+    .image-cropper {
+      border-radius: 50%;
+    }
+    .modern-font {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400; /* Bebas Neue only supports one weight */
+      letter-spacing: 2px; /* Add spacing for a bold industrial feel */
+      text-transform: uppercase; /* Optional: Make the text uppercase for a stronger look */
+      font-size: 2rem; /* Increase the font size to make the text taller */
+      line-height: 1.2; /* Adjust line height for better spacing */
+    }
+    footer {
+      text-align: center;
+      padding: 16px;
+      background-color: #f5f5f5;
+      border-top: 1px solid #ddd;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    footer img {
+      margin-right: 8px; /* Center the image and add spacing below it */
+      height: 20px; /* Set a fixed height for the image */
+    }
+  `,
+  template: `
     <app-loading-overlay></app-loading-overlay>
     <div class="app-container">
       @if (
         {
           status: authService.authStatus$ | async,
-          user: authService.currentUser$ | async
+          user: authService.currentUser$ | async,
         };
         as auth
       ) {
@@ -150,19 +150,19 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
       </mat-sidenav-container>
     </div>
   `,
-    imports: [
-        FlexLayoutModule,
-        RouterLink,
-        NavigationMenuComponent,
-        RouterOutlet,
-        AsyncPipe,
-        MatIconModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        NgOptimizedImage,
-        LoadingOverlayComponent,
-    ]
+  imports: [
+    FlexLayoutModule,
+    RouterLink,
+    NavigationMenuComponent,
+    RouterOutlet,
+    AsyncPipe,
+    MatIconModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    NgOptimizedImage,
+    LoadingOverlayComponent,
+  ],
 })
 export class AppComponent implements OnInit {
   currentYear: number = new Date().getFullYear()

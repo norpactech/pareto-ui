@@ -5,8 +5,8 @@ import { AuthService } from '../auth/auth.service'
 import { LoginComponent } from '../login/login.component'
 
 @Component({
-    selector: 'app-home',
-    template: `
+  selector: 'app-home',
+  template: `
     @if ((authService.authStatus$ | async)?.isAuthenticated) {
       <div>
         <div class="mat-headline-4">Welcome to The Pareto Factory!</div>
@@ -15,7 +15,7 @@ import { LoginComponent } from '../login/login.component'
       <app-login></app-login>
     }
   `,
-    imports: [LoginComponent, AsyncPipe]
+  imports: [LoginComponent, AsyncPipe],
 })
 export class HomeComponent {
   constructor(public authService: AuthService) {}
