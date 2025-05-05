@@ -220,6 +220,9 @@ export class ContextTableComponent implements AfterViewInit {
       startWith({}),
       switchMap(() => {
         this.isLoading = true
+
+        console.log(this.paginator.pageIndex)
+
         return this.ContextService.getContexts(
           this.paginator.pageSize,
           this.search.value as string,

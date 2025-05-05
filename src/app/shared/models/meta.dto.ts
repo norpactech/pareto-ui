@@ -3,5 +3,6 @@ export interface IMeta {
   errorCode: string
   message: string
   hint: string
+  count: number
   detail: string
 }

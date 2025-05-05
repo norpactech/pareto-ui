@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { ErrorDialogComponent } from '@common/dialogs/error-dialog.component' // Adjust the path as needed
+import { ErrorDialogComponent } from '@common/dialogs/error-dialog.component'
 import { environment } from '@environment/environment'
 import {
   Context,
@@ -20,7 +20,7 @@ export interface IContextService {
 @Injectable({
   providedIn: 'root',
 })
-export class ContextService implements IContextService {
+export class ContextService {
   private readonly httpClient = inject(HttpClient)
   private readonly dialog = inject(MatDialog)
 
@@ -61,7 +61,7 @@ export class ContextService implements IContextService {
       params['name'] = `*${search}*`
     }
     if (page) {
-      params['page'] = page.toString()
+      params['offset'] = page.toString()
     }
     if (sortColumn) {
       params['sortColumn'] = sortColumn
@@ -82,7 +82,7 @@ export class ContextService implements IContextService {
       .pipe(
         map((response) => ({
           data: response.data ?? [],
-          total: (response.data ?? []).length,
+          total: response.meta?.count ?? 0,
         }))
       )
   }
