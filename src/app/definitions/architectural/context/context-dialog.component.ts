@@ -13,13 +13,12 @@ import { MatDivider } from '@angular/material/divider'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { ConfirmationDialogComponent } from '@common/dialogs/is-active.component'
+import { ContextService } from '@core/service/context.service'
+import { IContext } from '@shared/models'
 
 import { BaseFormDirective } from '../../../common/base-form.class'
 import { ErrorSets } from '../../../user-controls/field-error/field-error.directive'
-
-import { ConfirmationDialogComponent } from '@common/dialogs/is-active.component'
-import { IContext } from '@shared/models'
-import { ContextService } from '@core/service/context.service'
 
 @Component({
   selector: 'app-context-dialog',
@@ -123,21 +122,20 @@ export class ContextDialogComponent
   confirmDelete(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: { message: `Are you sure you want to delete this record?` },
-    });
+    })
 
     dialogRef.afterClosed().subscribe((confirmed) => {
       if (confirmed) {
-        this.delete();
-        this.dialogRef.close(true);
-      }
-      else {
+        this.delete()
+        this.dialogRef.close(true)
+      } else {
         this.snackBar.open('Delete Cancelled', 'Close', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'bottom',
-        });
+        })
       }
-    });
+    })
   }
 
   delete(): void {
@@ -152,7 +150,7 @@ export class ContextDialogComponent
       error: (err) => {
         console.error('Error saving data:', err)
       },
-   })
+    })
   }
 
   buildForm(initialData?: IContext | null): FormGroup {
@@ -180,20 +178,15 @@ export class ContextDialogComponent
   submit(): void {
     if (this.formGroup.valid) {
       const formData = this.formGroup.getRawValue()
-      console.log('Form submitted:', formData)
 
       this.contextService.persist(formData).subscribe({
-        next: (response) => {
-          console.log('Data saved successfully:', response)
+        next: () => {
           this.snackBar.open('Record Successfully Saved', 'Close', {
             duration: 3000,
             horizontalPosition: 'center',
             verticalPosition: 'bottom',
           })
           this.dialogRef.close(true)
-        },
-        error: (err) => {
-          console.error('Error saving data:', err)
         },
       })
     } else {

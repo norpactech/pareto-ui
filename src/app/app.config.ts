@@ -1,5 +1,6 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http'
 import { ApplicationConfig } from '@angular/core'
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import { provideRouter } from '@angular/router'
 import { provideEntityData } from '@ngrx/data'
@@ -15,7 +16,6 @@ import { AuthService } from './auth/auth.service'
 import { LoadingHttpInterceptor } from './common/loading.http.interceptor'
 import { provideUiService } from './common/ui.service'
 import { entityConfig } from './entity-metadata'
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS, // Default options for Angular Material dialogs
-      useValue: { disableClose: true },  // Prevent closing the dialog on backdrop click
+      useValue: { disableClose: true }, // Prevent closing the dialog on backdrop click
     },
     provideStore(),
     provideEffects(),

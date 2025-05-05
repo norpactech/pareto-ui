@@ -27,15 +27,14 @@ import { MatSort, MatSortModule } from '@angular/material/sort'
 import { MatTableModule } from '@angular/material/table'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { ActivatedRoute, Router } from '@angular/router'
+import { ContextService } from '@core/service/context.service'
 import { FlexModule } from '@ngbracket/ngx-layout/flex'
+import { Context, IContext } from '@shared/models'
 import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
 
 import { ConfirmationDialogComponent } from '../../../common/dialogs/is-active.component'
-
-import { Context, IContext } from '@shared/models'
-import { ContextService } from '@core/service/context.service'
 import { ContextDialogComponent } from './context-dialog.component'
 
 @Component({
@@ -117,7 +116,6 @@ export class ContextTableComponent implements AfterViewInit {
     })
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog closed with result:', result)
       if (result) {
         this.snackBar.open(`Record Successfully Saved`, 'Close', {
           duration: 3000,
