@@ -16,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfirmationDialogComponent } from '@common/dialogs/is-active.component'
 import { ContextService } from '@core/service/context.service'
 import { IContext } from '@shared/models'
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators'
 
 import { BaseFormDirective } from '../../../common/base-form.class'
 import { ErrorSets } from '../../../user-controls/field-error/field-error.directive'
@@ -59,13 +60,35 @@ export class ContextDialogComponent
   isHidden = true
   private isPatching = false
 
-  toggleVisibility(): void {
-    this.isHidden = !this.isHidden
-  }
 
   ngOnInit(): void {
     this.formGroup = this.buildForm(this.data)
     this.formReady.emit(this.formGroup)
+
+    // Debouncer for the name field
+    this.formGroup.get('name')?.valueChanges
+      .pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+        switchMap((name) => {
+          const id = this.data?.id || null; // Handle null id
+          return this.contextService.checkAvailability(id, name);
+        })      )
+        .subscribe({
+          next: (isAvailable) => {
+            const nameControl = this.formGroup.get('name')
+            if (!isAvailable) {
+              nameControl?.setErrors({ nameTaken: true })
+              nameControl?.markAsTouched()
+            } else {
+              nameControl?.setErrors(null)
+            }
+            this.cdr.markForCheck()
+          },
+      error: (err) => {
+        console.error('Error checking name availability:', err);
+      },
+    });
 
     this.formGroup.get('isActive')?.valueChanges.subscribe((isActive) => {
       if (this.isPatching) {

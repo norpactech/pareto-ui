@@ -12,6 +12,7 @@ import {
 } from '@shared/models'
 import { Observable, throwError } from 'rxjs'
 import { map } from 'rxjs/operators'
+import { of } from 'rxjs'
 
 export interface IContextService {
   getContext(id: string): Observable<IContext>
@@ -42,6 +43,38 @@ export class ContextService {
           return Context.Build(response.data)
         })
       )
+  }
+
+  checkAvailability(id: string | null, name: string): Observable<boolean> {
+
+    if (!name) {
+      return throwError(() => new Error('Context name is not set'));
+    }
+
+    const params: { [key: string]: string } = {
+      name: `${name}`,
+    };
+
+    return this.httpClient
+      .get<IApiResponse<IContext[]>>(`${environment.baseUrl}/context/find`, { params })
+      .pipe(
+        map((response) => {
+          const count = response.meta?.count ?? 0;
+          console.log('count', count);
+          if (count === 0) {
+            return true; // Name is available
+          }
+
+          const data = response.data?.[0];
+          console.log('data', JSON.stringify(data));
+          if (data?.id === id) {
+
+
+            return true; // Name belongs to the same ID
+          }
+          return false; // Name belongs to a different ID or is already taken
+        })
+      );
   }
 
   getContexts(

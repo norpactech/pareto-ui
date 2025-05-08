@@ -32,3 +32,8 @@ mat-form-field {
   flex: 1;
   max-width: 100px;
 }
+
+mat-error {
+  color: red;
+  font-size: 12px;
+}
