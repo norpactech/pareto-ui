@@ -3,10 +3,12 @@
  *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IContext {
+export interface IProjectComponentProperty {
   id: string
-  name: string
-  description: string
+  idProjectComponent: string
+  sequence: number
+  dataObjectFilter: string
+  propertyFilter: string
   createdAt: Date
   createdBy: string
   updatedAt: Date

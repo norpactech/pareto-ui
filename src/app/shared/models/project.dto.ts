@@ -3,10 +3,13 @@
  *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IContext {
+export interface IProject {
   id: string
+  idTenant: string
   name: string
   description: string
+  domain: string
+  artifact: string
   createdAt: Date
   createdBy: string
   updatedAt: Date

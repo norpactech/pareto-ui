@@ -3,10 +3,17 @@
  *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IContext {
+export interface IGenericPropertyType {
   id: string
+  idGenericDataType: string
+  idTenant: string
+  idValidation: string
   name: string
   description: string
+  length: number
+  scale: number
+  isNullable: boolean
+  defaultValue: string
   createdAt: Date
   createdBy: string
   updatedAt: Date

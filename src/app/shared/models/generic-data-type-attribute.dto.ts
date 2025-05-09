@@ -3,8 +3,10 @@
  *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IContext {
+export interface IGenericDataTypeAttribute {
   id: string
+  idGenericDataType: string
+  idRtAttrDataType: string
   name: string
   description: string
   createdAt: Date

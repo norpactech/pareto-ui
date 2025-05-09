@@ -3,10 +3,13 @@
  *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IContext {
+export interface IRefTables {
   id: string
+  idRefTableType: string
   name: string
   description: string
+  value: string
+  sequence: number
   createdAt: Date
   createdBy: string
   updatedAt: Date

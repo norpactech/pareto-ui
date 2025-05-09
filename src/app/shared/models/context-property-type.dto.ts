@@ -3,10 +3,15 @@
  *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IContext {
+export interface IContextPropertyType {
   id: string
-  name: string
-  description: string
+  idContext: string
+  idSchema: string
+  idGenericPropertyType: string
+  length: number
+  scale: number
+  isNullable: boolean
+  defaultValue: string
   createdAt: Date
   createdBy: string
   updatedAt: Date

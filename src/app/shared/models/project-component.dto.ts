@@ -3,10 +3,14 @@
  *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IContext {
+export interface IProjectComponent {
   id: string
+  idProject: string
+  idContext: string
+  idPlugin: string
   name: string
   description: string
+  subPackage: string
   createdAt: Date
   createdBy: string
   updatedAt: Date

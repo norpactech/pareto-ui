@@ -3,10 +3,12 @@
  *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IContext {
+export interface IIndexProperty {
   id: string
-  name: string
-  description: string
+  idIndex: string
+  idProperty: string
+  idRtSortOrder: string
+  sequence: number
   createdAt: Date
   createdBy: string
   updatedAt: Date

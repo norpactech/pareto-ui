@@ -3,10 +3,13 @@
  *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IContext {
+export interface ICardinality {
   id: string
-  name: string
-  description: string
+  idProperty: string
+  idObjectReference: string
+  idRtCardinality: string
+  idRtCardinalityStrength: string
+  hasReferencialAction: boolean
   createdAt: Date
   createdBy: string
   updatedAt: Date

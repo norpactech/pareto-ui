@@ -3,10 +3,14 @@
  *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IContext {
+export interface IDataObject {
   id: string
+  idSchema: string
   name: string
   description: string
+  hasIdentifier: boolean
+  hasAudit: boolean
+  hasActive: boolean
   createdAt: Date
   createdBy: string
   updatedAt: Date

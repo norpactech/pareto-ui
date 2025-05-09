@@ -3,10 +3,14 @@
  *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IContext {
+export interface IValidation {
   id: string
+  idTenant: string
+  idRtValidationType: string
   name: string
   description: string
+  errorMsg: string
+  expression: string
   createdAt: Date
   createdBy: string
   updatedAt: Date

@@ -3,10 +3,13 @@
  *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IContext {
+export interface IGenericDataType {
   id: string
+  idTenant: string
+  sequence: number
   name: string
   description: string
+  alias: string
   createdAt: Date
   createdBy: string
   updatedAt: Date
