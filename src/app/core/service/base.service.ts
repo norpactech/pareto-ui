@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IApiResponse, IPersistResponse, IDeactReact } from '@shared/models'
-import { IBaseEntity } from '@app/shared/models/base-entity.dto';
+import { IBaseEntity, IApiResponse, IPersistResponse, IDeactReact } from '@service/model'
 import { MatDialog } from '@angular/material/dialog'
 import { ErrorDialogComponent } from '@common/dialogs/error-dialog.component'
 import { MatSnackBar } from '@angular/material/snack-bar'
