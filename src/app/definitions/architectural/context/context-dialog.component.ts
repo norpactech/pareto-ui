@@ -131,13 +131,6 @@ export class ContextDialogComponent
         })
         this.isPatching = false
         this.cdr.detectChanges()
-
-        const action = isActive ? 'Activated' : 'Deactivated'
-        this.snackBar.open(`Record Successfully ${action}.`, 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-        })
       },
       error: (err) => {
         console.error('Error saving data:', err)
@@ -166,12 +159,8 @@ export class ContextDialogComponent
 
   delete(): void {
     this.contextService.delete(this.formGroup.getRawValue()).subscribe({
-      next: (response) => {
-        this.snackBar.open(`Record Successfully Deleted`, 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-        })
+      next: () => {
+        console.log('Record deleted successfully')
       },
       error: (err) => {
         console.error('Error saving data:', err)
@@ -207,11 +196,6 @@ export class ContextDialogComponent
 
       this.contextService.persist(formData).subscribe({
         next: () => {
-          this.snackBar.open('Record Successfully Saved', 'Close', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-          })
           this.dialogRef.close(true)
         },
       })

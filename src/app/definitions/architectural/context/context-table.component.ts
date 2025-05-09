@@ -161,13 +161,6 @@ export class ContextTableComponent implements AfterViewInit {
         row.updatedAt = new Date(response.updatedAt)
         row.updatedBy = response.updatedBy
         this.cdr.detectChanges()
-
-        const action = isChecked ? 'Activated' : 'Deactivated'
-        this.snackBar.open(`Record Successfully ${action}.`, 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-        })
       },
       error: (err) => {
         // Handle errors and revert the checkbox state

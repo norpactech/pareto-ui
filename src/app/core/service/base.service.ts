@@ -6,12 +6,13 @@ import { IApiResponse, IPersistResponse, IDeactReact } from '@shared/models'
 import { IBaseEntity } from '@app/shared/models/base-entity.dto';
 import { MatDialog } from '@angular/material/dialog'
 import { ErrorDialogComponent } from '@common/dialogs/error-dialog.component'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 export abstract class BaseService<T extends IBaseEntity>  {
   protected readonly httpClient = inject(HttpClient);
   protected readonly dialog = inject(MatDialog)
 
-  constructor(private baseUrl: string) {}
+  constructor(private baseUrl: string, private snackBar: MatSnackBar) {}
 
 public get(id: string): Observable<T | null> {
   if (!id) {
@@ -143,31 +144,37 @@ public get(id: string): Observable<T | null> {
           }
           throw new Error('No response data found');
         }
+        this.snackBar.open('Record Successfully Saved', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        })
         return response.data;
       })
     );
   }
 
   public delete(data: Partial<T>): Observable<IPersistResponse> {
+
     if (!data) {
       return throwError(() => new Error('Null or undefined context data'));
     }
 
-    // Extract and validate required fields
-    const id = data.id?.toString(); // TypeScript now knows `id` exists
-    const updatedAt = data.updatedAt instanceof Date ? data.updatedAt.toISOString() : null;
-    const updatedBy = 'Change ME!'; // Default value for updatedBy
-
-    if (!id) {
+    if (!data.id) {
       return throwError(() => new Error('ID is required for deletion'));
     }
+    const id = data.id?.toString(); // TypeScript now knows `id` exists
+    const updatedBy = 'Deleted By Change ME!'; // Default value for updatedBy
 
     const params: { [key: string]: string } = {
       id,
-      updatedBy,
+      updatedBy
     };
-    if (updatedAt) {
-      params['updatedAt'] = updatedAt;
+
+    if (data.updatedAt) {
+      params['updatedAt'] = data.updatedAt instanceof Date
+      ? data.updatedAt.toISOString()
+      : new Date(data.updatedAt as string).toISOString();
     }
 
     return this.httpClient
@@ -183,6 +190,11 @@ public get(id: string): Observable<T | null> {
             }
             throw new Error('No response data found');
           }
+          this.snackBar.open(`Record Successfully Deleted`, 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+          })
           return response.data;
         })
       );
@@ -190,7 +202,7 @@ public get(id: string): Observable<T | null> {
 
   public deactReact(data: IDeactReact): Observable<IPersistResponse> {
     const { id, updatedAt, isActive } = data;
-    const action = isActive ? 'react' : 'deact';
+    const action = isActive ? 'Reactivated' : 'Deactivated';
     const updatedBy = 'Change Me!';
 
     const params: { [key: string]: string } = {
@@ -200,12 +212,17 @@ public get(id: string): Observable<T | null> {
     };
 
     return this.httpClient
-      .put<IApiResponse<IPersistResponse>>(`${this.baseUrl}/${action}`, params)
+      .put<IApiResponse<IPersistResponse>>(`${this.baseUrl}/${isActive ? 'react' : 'deact'}`, params)
       .pipe(
         map((response) => {
           if (!response.data) {
             throw new Error('No response data found');
           }
+          this.snackBar.open(`Record Successfully ${action}.`, 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+          })
           return response.data;
         })
       );
