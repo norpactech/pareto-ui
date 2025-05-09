@@ -36,7 +36,7 @@ import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operat
 
 import { ConfirmationDialogComponent } from '../../../common/dialogs/is-active.component'
 import { ContextDialogComponent } from './context-dialog.component'
-import { IDeactReact } from '@shared/models'
+import { IDeactReact } from '@service/model'
 
 @Component({
   selector: 'app-context-table',
