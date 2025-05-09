@@ -179,8 +179,8 @@ export class ContextTableComponent implements AfterViewInit {
   }
 
   showDetail(id: string): void {
-    this.ContextService.getContext(id).subscribe({
-      next: (context: IContext) => {
+    this.ContextService.get(id).subscribe({
+      next: (context: IContext | null) => {
         // Otherwise there will be an aria-hidden="true" warning in the console
         const allElements = document.querySelectorAll('*')
         allElements.forEach((element) => {
@@ -223,7 +223,7 @@ export class ContextTableComponent implements AfterViewInit {
 
         console.log(this.paginator.pageIndex)
 
-        return this.ContextService.getContexts(
+        return this.ContextService.find(
           this.paginator.pageSize,
           this.search.value as string,
           this.paginator.pageIndex,

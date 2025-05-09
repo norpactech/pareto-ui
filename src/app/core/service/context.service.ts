@@ -12,7 +12,7 @@ import {
 } from '@shared/models'
 import { Observable, throwError } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { of } from 'rxjs'
+import { BaseService } from './base.service';
 
 export interface IContextService {
   getContext(id: string): Observable<IContext>
@@ -21,7 +21,13 @@ export interface IContextService {
 @Injectable({
   providedIn: 'root',
 })
-export class ContextService {
+export class ContextService extends BaseService<IContext> {
+  constructor() {
+    super(`${environment.baseUrl}/context`)
+  }
+
+}
+  /*
   private readonly httpClient = inject(HttpClient)
   private readonly dialog = inject(MatDialog)
 
@@ -253,3 +259,4 @@ export class ContextService {
     })
   }
 }
+*/

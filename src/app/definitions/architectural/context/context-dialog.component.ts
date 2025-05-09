@@ -72,7 +72,7 @@ export class ContextDialogComponent
         distinctUntilChanged(),
         switchMap((name) => {
           const id = this.data?.id || null; // Handle null id
-          return this.contextService.checkAvailability(id, name);
+          return this.contextService.isAvailable(id, name);
         })      )
         .subscribe({
           next: (isAvailable) => {
@@ -85,9 +85,9 @@ export class ContextDialogComponent
             }
             this.cdr.markForCheck()
           },
-      error: (err) => {
-        console.error('Error checking name availability:', err);
-      },
+        error: (err) => {
+          console.error('Error checking name availability:', err);
+        },
     });
 
     this.formGroup.get('isActive')?.valueChanges.subscribe((isActive) => {
@@ -116,6 +116,9 @@ export class ContextDialogComponent
   }
 
   updateIsActive(isActive: boolean): void {
+
+    console.log('updateIsActive', this.formGroup.getRawValue())
+
     this.contextService.deactReact(this.formGroup.getRawValue()).subscribe({
       next: (response) => {
         const { updatedAt, updatedBy } = response
