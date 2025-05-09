@@ -29,13 +29,14 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ContextService } from '@core/service/context.service'
 import { FlexModule } from '@ngbracket/ngx-layout/flex'
-import { Context, IContext } from '@shared/models'
+import { IContext } from '@shared/models'
 import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
 
 import { ConfirmationDialogComponent } from '../../../common/dialogs/is-active.component'
 import { ContextDialogComponent } from './context-dialog.component'
+import { IDeactReact } from '@shared/models'
 
 @Component({
   selector: 'app-context-table',
@@ -154,21 +155,26 @@ export class ContextTableComponent implements AfterViewInit {
 
   updateIsActive(event: MatCheckboxChange, row: IContext): void {
     const isChecked = event.checked
-    const params = Context.IsActiveParams(row.id, row.updatedAt, isChecked)
+    const params: IDeactReact = {
+      id: row.id,
+      updatedAt: row.updatedAt instanceof Date ? row.updatedAt : new Date(row.updatedAt),
+      isActive: isChecked,
+    };
+
     this.ContextService.deactReact(params).subscribe({
       next: (response) => {
-        row.isActive = isChecked
-        row.updatedAt = new Date(response.updatedAt)
-        row.updatedBy = response.updatedBy
-        this.cdr.detectChanges()
+        row.isActive = isChecked;
+        row.updatedAt = new Date(response.updatedAt);
+        row.updatedBy = response.updatedBy;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         // Handle errors and revert the checkbox state
-        console.error(`Failed to update row ${row.id}:`, err)
-        row.isActive = !isChecked
-        this.cdr.detectChanges()
+        console.error(`Failed to update row ${row.id}:`, err);
+        row.isActive = !isChecked;
+        this.cdr.detectChanges();
       },
-    })
+    });
   }
 
   showDetail(id: string): void {
@@ -181,14 +187,12 @@ export class ContextTableComponent implements AfterViewInit {
             ;(element as HTMLElement).blur()
           }
         })
-
         const dialogRef = this.dialog.open(ContextDialogComponent, {
           width: '800px',
           data: context,
           autoFocus: true,
           restoreFocus: true,
         })
-
         dialogRef.afterClosed().subscribe(() => {
           this.refresh$.next()
         })
@@ -213,9 +217,6 @@ export class ContextTableComponent implements AfterViewInit {
       startWith({}),
       switchMap(() => {
         this.isLoading = true
-
-        console.log(this.paginator.pageIndex)
-
         return this.ContextService.find(
           this.paginator.pageSize,
           this.search.value as string,
