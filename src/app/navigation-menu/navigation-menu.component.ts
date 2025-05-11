@@ -23,7 +23,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router'
         Generic
       </a>
       <a mat-list-item routerLinkActive="active-link" routerLink="/definitions/architectural">
-        Architectural
+        Platform
       </a>
       <a mat-list-item routerLinkActive="active-link" routerLink="/definitions/tables">
         Tables

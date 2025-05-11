@@ -140,7 +140,7 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
               <mat-icon>menu</mat-icon>
             </button>
           }
-          <a routerLink="/home" class="logo-link">
+          <a routerLink="/dashboard" class="logo-link">
             <img src="assets/img/icons/norpac.png" alt="NorPacTech Icon" class="logo" />
             <span class="left-pad modern-font">Pareto Factory</span>
           </a>
@@ -264,7 +264,6 @@ ngOnInit() {
     )
     .subscribe();
 
-  // Listen for route changes
   this.router.events
     .pipe(
       filter(event => event instanceof NavigationEnd),
