@@ -22,7 +22,7 @@ const routes: Routes = [
         component: ManagerHomeComponent,
         canActivate: [authGuard],
         data: {
-          expectedRole: Role.Manager,
+          expectedRole: Role.Admin,
         },
       },
       {
@@ -42,7 +42,7 @@ const routes: Routes = [
         canActivate: [authGuard],
         canActivateChild: [authGuard],
         data: {
-          expectedRole: Role.Manager,
+          expectedRole: Role.Admin,
         },
       },
       {
@@ -50,7 +50,7 @@ const routes: Routes = [
         component: ReceiptLookupComponent,
         canActivate: [authGuard],
         data: {
-          expectedRole: Role.Manager,
+          expectedRole: Role.Admin,
         },
       },
     ],

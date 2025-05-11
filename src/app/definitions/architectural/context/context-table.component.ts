@@ -34,7 +34,7 @@ import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
 
-import { ConfirmationDialogComponent } from '../../../common/dialogs/is-active.component'
+import { ConfirmationDialogComponent } from '@common/dialogs/confirmation-dialog.component'
 import { ContextDialogComponent } from './context-dialog.component'
 import { IDeactReact } from '@service/model'
 
@@ -67,9 +67,7 @@ export class ContextTableComponent implements AfterViewInit {
 
   private readonly cdr = inject(ChangeDetectorRef)
   private dialog: MatDialog = inject(MatDialog)
-  private renderer: Renderer2 = inject(Renderer2)
 
-  private skipLoading = false
   private readonly ContextService = inject(ContextService)
   private readonly router = inject(Router)
   private readonly activatedRoute = inject(ActivatedRoute)
@@ -132,7 +130,7 @@ export class ContextTableComponent implements AfterViewInit {
     const allElements = document.querySelectorAll('*')
     allElements.forEach((element) => {
       if (typeof (element as HTMLElement).blur === 'function') {
-        ;(element as HTMLElement).blur()
+        (element as HTMLElement).blur()
       }
     })
 

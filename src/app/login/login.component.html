@@ -1,10 +1,9 @@
 <div fxLayout="row" fxLayoutAlign="center">
   <mat-card appearance="outlined" fxFlex="400px">
-    <mat-card-header>
-      <mat-card-title>
-        <div class="mat-headline-5">Hello, Limoncu!</div>
-      </mat-card-title>
-    </mat-card-header>
+    <mat-card-header fxLayoutAlign="center center">
+      <mat-card-title fxLayout="row" >
+        <div class="mat-headline-5">Login to Pareto Factory</div>
+      </mat-card-title>    </mat-card-header>
     <mat-card-content>
       <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)" fxLayout="column">
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">

@@ -95,12 +95,12 @@ export class LoginComponent implements OnInit {
 
   private homeRoutePerRole(role: Role) {
     switch (role) {
-      case Role.Cashier:
-        return '/pos'
-      case Role.Manager:
-        return '/manager'
+      case Role.User:
+        return '/dashboard'
+      case Role.Admin:
+        return '/dashboard'
       default:
-        return '/user/profile'
+        return '/home'
     }
   }
 }

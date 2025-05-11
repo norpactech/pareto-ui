@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common'
-import { NgOptimizedImage } from '@angular/common'
+import { NgOptimizedImage, NgIf } from '@angular/common'
 import { Component, DestroyRef, inject, OnInit } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { MatButtonModule } from '@angular/material/button'
@@ -7,10 +7,10 @@ import { MatIconModule, MatIconRegistry } from '@angular/material/icon'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { DomSanitizer } from '@angular/platform-browser'
-import { RouterLink, RouterOutlet } from '@angular/router'
+import { RouterLink, RouterOutlet, Router, ActivatedRoute, NavigationEnd } from '@angular/router'
 import { FlexLayoutModule, MediaObserver } from '@ngbracket/ngx-layout'
 import { combineLatest } from 'rxjs'
-import { tap } from 'rxjs/operators'
+import { tap, map, filter } from 'rxjs/operators'
 
 import { AuthService } from './auth/auth.service'
 import { LoadingOverlayComponent } from './common/loading-overlay.component'
@@ -30,8 +30,8 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
     }
     .app-toolbar {
       display: flex;
-      align-items: center; /* Vertically center items */
-      justify-content: space-between; /* Distribute space between items */
+      align-items: center;
+      justify-content: space-between;
     }
     .left-pad {
       display: inline-block;
@@ -50,6 +50,26 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
       align-items: center;
       text-decoration: none;
       color: black;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    .sign-in-button {
+      border: 1px solid #d0d7de;
+      color: #24292f;
+      background-color: #f6f8fa;
+      text-transform: none;
+      font-weight: 500;
+      padding: 6px 16px;
+      border-radius: 6px;
+    }
+
+    .sign-in-button:hover {
+      background-color: #e1e4e8; /* Light gray hover background */
+      color: #4CAF50; /* Green 500 */
     }
 
     .logo-link:hover {
@@ -110,6 +130,7 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
         as auth
       ) {
         <mat-toolbar
+          *ngIf="showToolbar"
           color="primary"
           fxLayoutGap="8px"
           class="app-toolbar"
@@ -149,6 +170,25 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
               aria-label="Logout">
               <mat-icon>lock_open</mat-icon>
             </button>
+          } @else {
+            <div class="auth-buttons">
+              <button
+                mat-stroked-button
+                class="sign-in-button"
+                routerLink="/login"
+                matTooltip="Sign In"
+                aria-label="Sign In">
+                Sign In
+              </button>
+              <button
+                mat-stroked-button
+                class="sign-in-button"
+                routerLink="/login"
+                matTooltip="Sign Up"
+                aria-label="Sign Up">
+                Sign Up
+              </button>
+            </div>
           }
         </mat-toolbar>
       }
@@ -185,18 +225,22 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
     MatSidenavModule,
     NgOptimizedImage,
     LoadingOverlayComponent,
+    NgIf,
   ],
 })
 export class AppComponent implements OnInit {
   currentYear: number = new Date().getFullYear()
   private readonly destroyRef = inject(DestroyRef)
   opened!: boolean
+  showToolbar = true
 
   constructor(
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     public authService: AuthService,
-    public media: MediaObserver
+    public media: MediaObserver,
+    private router: Router, // Inject Router
+    private activatedRoute: ActivatedRoute // Inject ActivatedRoute
   ) {
     iconRegistry.addSvgIcon(
       'norpac',
@@ -204,22 +248,43 @@ export class AppComponent implements OnInit {
     )
   }
 
-  ngOnInit() {
-    combineLatest([this.media.asObservable(), this.authService.authStatus$])
-      .pipe(
-        tap(([mediaValue, authStatus]) => {
-          if (!authStatus?.isAuthenticated) {
-            this.opened = false
-          } else {
-            if (mediaValue[0].mqAlias === 'xs') {
-              this.opened = false
-            } else {
-              this.opened = true
-            }
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe()
-  }
+
+
+ngOnInit() {
+  combineLatest([this.media.asObservable(), this.authService.authStatus$])
+    .pipe(
+      tap(([mediaValue, authStatus]) => {
+        if (!authStatus?.isAuthenticated) {
+          this.opened = false;
+        } else {
+          this.opened = mediaValue[0].mqAlias !== 'xs';
+        }
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    )
+    .subscribe();
+
+  // Listen for route changes
+  this.router.events
+    .pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => {
+        let route = this.activatedRoute;
+        while (route.firstChild) {
+          route = route.firstChild;
+        }
+        return route.snapshot.data['hideToolbar'] ?? false;
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    )
+    .subscribe({
+      next: hideToolbar => {
+        this.showToolbar = !hideToolbar;
+      },
+      error: err => {
+        console.error('Error in Router events:', err);
+      }
+    });
+}
+
 }

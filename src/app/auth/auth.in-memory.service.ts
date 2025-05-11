@@ -16,7 +16,7 @@ export class InMemoryAuthService extends AuthService {
     email: 'duluca@gmail.com',
     name: { first: 'Doguhan', last: 'Uluca' },
     picture: '',
-    role: Role.Manager,
+    role: Role.Admin,
     dateOfBirth: new Date(1980, 1, 1),
     userStatus: true,
     address: {
@@ -55,13 +55,11 @@ export class InMemoryAuthService extends AuthService {
     const authStatus = {
       isAuthenticated: true,
       userId: this.defaultUser._id,
-      userRole: email.includes('cashier')
-        ? Role.Cashier
-        : email.includes('clerk')
-          ? Role.Clerk
-          : email.includes('manager')
-            ? Role.Manager
-            : Role.None,
+      userRole: email.includes('user')
+        ? Role.User
+          : email.includes('admin')
+            ? Role.Admin
+            : Role.Anonymous,
     } as IAuthStatus
 
     this.defaultUser.role = authStatus.userRole

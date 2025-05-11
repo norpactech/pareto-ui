@@ -54,16 +54,16 @@
               fxLayoutGap="10px">
               <mat-label class="mat-body-2">Role</mat-label>
               <mat-radio-group formControlName="role">
-                <mat-radio-button style="margin-right: 10px" [value]="Role.None">
+                <mat-radio-button style="margin-right: 10px" [value]="Role.Anonymous">
                   <span class="mat-body-2">None</span>
                 </mat-radio-button>
-                <mat-radio-button style="margin-right: 10px" [value]="Role.Cashier">
+                <mat-radio-button style="margin-right: 10px" [value]="Role.User">
                   <span class="mat-body-2">Cashier</span>
                 </mat-radio-button>
-                <mat-radio-button style="margin-right: 10px" [value]="Role.Clerk">
+                <mat-radio-button style="margin-right: 10px" [value]="Role.User">
                   <span class="mat-body-2">Clerk</span>
                 </mat-radio-button>
-                <mat-radio-button style="margin-right: 10px" [value]="Role.Manager">
+                <mat-radio-button style="margin-right: 10px" [value]="Role.Admin">
                   <span class="mat-body-2">Manager</span>
                 </mat-radio-button>
               </mat-radio-group>

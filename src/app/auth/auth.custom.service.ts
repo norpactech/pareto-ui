@@ -41,7 +41,7 @@ export class CustomAuthService extends AuthService {
     return {
       isAuthenticated: token.email ? true : false,
       userId: token.sub,
-      userRole: $enum(Role).asValueOrDefault(token.role, Role.None),
+      userRole: $enum(Role).asValueOrDefault(token.role, Role.Anonymous),
       userEmail: token.email,
       userPicture: token.picture,
     } as IAuthStatus

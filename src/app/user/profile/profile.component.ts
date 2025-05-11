@@ -43,7 +43,6 @@ import {
   ErrorSets,
   FieldErrorDirective,
 } from '../../user-controls/field-error/field-error.directive'
-import { LemonRaterComponent } from '../../user-controls/lemon-rater/lemon-rater.component'
 import { NameInputComponent } from '../name-input/name-input.component'
 import { IName, IPhone, IUser, PhoneType, User } from '../user/user'
 import { UserService } from '../user/user.service'
@@ -58,7 +57,6 @@ import { IUSState, USStateFilter } from './data'
     AsyncPipe,
     FieldErrorDirective,
     FlexModule,
-    LemonRaterComponent,
     MatAutocompleteModule,
     MatButtonModule,
     MatDatepickerModule,
@@ -166,7 +164,7 @@ export class ProfileComponent
       email: [
         {
           value: user?.email || '',
-          disabled: this.currentUserRole !== Role.Manager,
+          disabled: this.currentUserRole !== Role.Admin,
         },
         EmailValidation,
       ],
@@ -174,7 +172,7 @@ export class ProfileComponent
       role: [
         {
           value: user?.role || '',
-          disabled: this.currentUserRole !== Role.Manager,
+          disabled: this.currentUserRole !== Role.Admin,
         },
         Validators.required,
       ],

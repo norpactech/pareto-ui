@@ -48,7 +48,7 @@ export class User implements IUser {
     public email = '',
     public name = { first: '', middle: '', last: '' } as IName,
     public picture = '',
-    public role = Role.None,
+    public role = Role.Anonymous,
     public dateOfBirth: Date | null = null,
     public userStatus = false,
     public level = 0,
@@ -71,7 +71,7 @@ export class User implements IUser {
       user.email,
       user.name,
       user.picture,
-      $enum(Role).asValueOrDefault(user.role, Role.None),
+      $enum(Role).asValueOrDefault(user.role, Role.Anonymous),
       typeof user.dateOfBirth === 'string'
         ? new Date(user.dateOfBirth)
         : user.dateOfBirth,

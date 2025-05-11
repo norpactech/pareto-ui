@@ -13,26 +13,28 @@ export abstract class BaseService<T extends IBaseEntity>  {
 
   constructor(private baseUrl: string, private snackBar: MatSnackBar) {}
 
-public get(id: string): Observable<T | null> {
-  if (!id) {
-    return throwError(() => new Error('Context id is not set'));
+  public get(id: string): Observable<T | null> {
+
+    if (!id) {
+      return throwError(() => new Error('Context id is not set'));
+    }
+
+    return this.httpClient
+      .get<IApiResponse<T>>(`${this.baseUrl}?id=${id}`)
+      .pipe(
+        map((response) => {
+          if (!response.data) {
+            if (response.error) {
+              this.handleError(response.error);
+              throw new Error(JSON.stringify(response.error));
+            }
+            return null; // Return null if no data is found
+          }
+          return response.data;
+        })
+      )
   }
 
-  return this.httpClient
-    .get<IApiResponse<T>>(`${this.baseUrl}?id=${id}`)
-    .pipe(
-      map((response) => {
-        if (!response.data) {
-          if (response.error) {
-            this.handleError(response.error);
-            throw new Error(JSON.stringify(response.error));
-          }
-          return null; // Return null if no data is found
-        }
-        return response.data;
-      })
-    );
-}
   public find(
     limit: number,
     search: string,

@@ -1,13 +1,10 @@
 export enum Role {
-  None = 'none',
-  Clerk = 'clerk',
-  Cashier = 'cashier',
-  Manager = 'manager',
+  Anonymous = 'anonymous',
+  User = 'user',
+  Admin = 'admin',
 }
 
 export enum AuthMode {
   InMemory = 'In Memory',
   CustomServer = 'Custom Server',
-  CustomGraphQL = 'Custom GraphQL',
-  Firebase = 'Firebase',
 }
