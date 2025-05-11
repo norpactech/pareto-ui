@@ -5,7 +5,6 @@ import {
   computed,
   DestroyRef,
   inject,
-  Renderer2,
   signal,
   ViewChild,
 } from '@angular/core'
@@ -27,16 +26,16 @@ import { MatSort, MatSortModule } from '@angular/material/sort'
 import { MatTableModule } from '@angular/material/table'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { ActivatedRoute, Router } from '@angular/router'
+import { ConfirmationDialogComponent } from '@common/dialogs/confirmation-dialog.component'
 import { ContextService } from '@core/service/context.service'
 import { FlexModule } from '@ngbracket/ngx-layout/flex'
+import { IDeactReact } from '@service/model'
 import { IContext } from '@shared/models'
 import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
 
-import { ConfirmationDialogComponent } from '@common/dialogs/confirmation-dialog.component'
 import { ContextDialogComponent } from './context-dialog.component'
-import { IDeactReact } from '@service/model'
 
 @Component({
   selector: 'app-context-table',
@@ -130,7 +129,7 @@ export class ContextTableComponent implements AfterViewInit {
     const allElements = document.querySelectorAll('*')
     allElements.forEach((element) => {
       if (typeof (element as HTMLElement).blur === 'function') {
-        (element as HTMLElement).blur()
+        ;(element as HTMLElement).blur()
       }
     })
 
@@ -157,22 +156,22 @@ export class ContextTableComponent implements AfterViewInit {
       id: row.id,
       updatedAt: row.updatedAt instanceof Date ? row.updatedAt : new Date(row.updatedAt),
       isActive: isChecked,
-    };
+    }
 
     this.ContextService.deactReact(params).subscribe({
       next: (response) => {
-        row.isActive = isChecked;
-        row.updatedAt = new Date(response.updatedAt);
-        row.updatedBy = response.updatedBy;
-        this.cdr.detectChanges();
+        row.isActive = isChecked
+        row.updatedAt = new Date(response.updatedAt)
+        row.updatedBy = response.updatedBy
+        this.cdr.detectChanges()
       },
       error: (err) => {
         // Handle errors and revert the checkbox state
-        console.error(`Failed to update row ${row.id}:`, err);
-        row.isActive = !isChecked;
-        this.cdr.detectChanges();
+        console.error(`Failed to update row ${row.id}:`, err)
+        row.isActive = !isChecked
+        this.cdr.detectChanges()
       },
-    });
+    })
   }
 
   showDetail(id: string): void {

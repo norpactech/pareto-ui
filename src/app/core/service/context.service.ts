@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { environment } from '@environment/environment'
 import { IContext } from '@shared/models'
-import { BaseService } from './base.service';
-import { MatSnackBar } from '@angular/material/snack-bar'
+
+import { BaseService } from './base.service'
 
 @Injectable({
   providedIn: 'root',

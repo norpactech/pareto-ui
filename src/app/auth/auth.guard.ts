@@ -39,12 +39,12 @@ function checkLogin(
 }
 
 function checkRoleMatch(role: Role, route?: ActivatedRouteSnapshot): boolean {
-  const expectedRoles = route?.data?.['expectedRole'] as Role[] | undefined;
+  const expectedRoles = route?.data?.['expectedRole'] as Role[] | undefined
 
   if (!expectedRoles || expectedRoles.length === 0) {
-    return true;
+    return true
   }
-  return expectedRoles.includes(role); // Check if the user's role matches any expected role
+  return expectedRoles.includes(role) // Check if the user's role matches any expected role
 }
 
 function showAlert(uiService: UiService, isAuth: boolean, roleMatch: boolean) {

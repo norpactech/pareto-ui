@@ -6,7 +6,10 @@
       <!-- Name Section -->
       <mat-form-field appearance="fill">
         <mat-label>Name</mat-label>
-        <input matInput formControlName="name" (blur)="formGroup.get('name')?.markAsTouched()" />
+        <input
+          matInput
+          formControlName="name"
+          (blur)="formGroup.get('name')?.markAsTouched()" />
         <ng-container *ngIf="formGroup.get('name')?.errors">
           <mat-error *ngIf="formGroup.get('name')?.hasError('nameTaken')">
             This name is already taken.

@@ -57,9 +57,9 @@ export class InMemoryAuthService extends AuthService {
       userId: this.defaultUser._id,
       userRole: email.includes('user')
         ? Role.User
-          : email.includes('admin')
-            ? Role.Admin
-            : Role.Anonymous,
+        : email.includes('admin')
+          ? Role.Admin
+          : Role.Anonymous,
     } as IAuthStatus
 
     this.defaultUser.role = authStatus.userRole

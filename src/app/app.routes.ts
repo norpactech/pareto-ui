@@ -10,13 +10,13 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full' ,
-    data: { hideToolbar: false }
+    pathMatch: 'full',
+    data: { hideToolbar: false },
   },
   {
     path: 'home',
     component: HomeComponent,
-    data: { hideToolbar: false }
+    data: { hideToolbar: false },
   },
   {
     path: 'dashboard',
@@ -24,18 +24,18 @@ export const routes: Routes = [
     canLoad: [authGuard],
     data: {
       expectedRole: Role.Admin,
-      hideToolbar: false
+      hideToolbar: false,
     },
   },
   {
     path: 'login',
     component: LoginComponent,
-    data: { hideToolbar: true }
+    data: { hideToolbar: true },
   },
   {
     path: 'login/:redirectUrl',
     component: LoginComponent,
-    data: { hideToolbar: true }
+    data: { hideToolbar: true },
   },
   {
     path: 'manager',
@@ -43,7 +43,7 @@ export const routes: Routes = [
     canLoad: [authGuard],
     data: {
       expectedRole: Role.Admin,
-      hideToolbar: false
+      hideToolbar: false,
     },
   },
   {
@@ -51,7 +51,7 @@ export const routes: Routes = [
     loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
     data: {
       expectedRole: [Role.User, Role.Admin],
-      hideToolbar: false
+      hideToolbar: false,
     },
   },
   {
@@ -61,7 +61,7 @@ export const routes: Routes = [
     canLoad: [authGuard],
     data: {
       expectedRole: [Role.User, Role.Admin],
-      hideToolbar: false
+      hideToolbar: false,
     },
   },
   {

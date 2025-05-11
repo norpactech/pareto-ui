@@ -1,5 +1,5 @@
 export interface IBaseEntity {
-  id: string;
+  id: string
   createdBy: string
   updatedAt: Date
   updatedBy: string

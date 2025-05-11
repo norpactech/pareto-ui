@@ -60,35 +60,36 @@ export class ContextDialogComponent
   isHidden = true
   private isPatching = false
 
-
   ngOnInit(): void {
     this.formGroup = this.buildForm(this.data)
     this.formReady.emit(this.formGroup)
 
     // Debouncer for the name field
-    this.formGroup.get('name')?.valueChanges
-      .pipe(
+    this.formGroup
+      .get('name')
+      ?.valueChanges.pipe(
         debounceTime(1000),
         distinctUntilChanged(),
         switchMap((name) => {
-          const id = this.data?.id || null; // Handle null id
-          return this.contextService.isAvailable(id, name);
-        })      )
-        .subscribe({
-          next: (isAvailable) => {
-            const nameControl = this.formGroup.get('name')
-            if (!isAvailable) {
-              nameControl?.setErrors({ nameTaken: true })
-              nameControl?.markAsTouched()
-            } else {
-              nameControl?.setErrors(null)
-            }
-            this.cdr.markForCheck()
-          },
-        error: (err) => {
-          console.error('Error checking name availability:', err);
+          const id = this.data?.id || null // Handle null id
+          return this.contextService.isAvailable(id, name)
+        })
+      )
+      .subscribe({
+        next: (isAvailable) => {
+          const nameControl = this.formGroup.get('name')
+          if (!isAvailable) {
+            nameControl?.setErrors({ nameTaken: true })
+            nameControl?.markAsTouched()
+          } else {
+            nameControl?.setErrors(null)
+          }
+          this.cdr.markForCheck()
         },
-    });
+        error: (err) => {
+          console.error('Error checking name availability:', err)
+        },
+      })
 
     this.formGroup.get('isActive')?.valueChanges.subscribe((isActive) => {
       if (this.isPatching) {
@@ -116,7 +117,6 @@ export class ContextDialogComponent
   }
 
   updateIsActive(isActive: boolean): void {
-
     console.log('updateIsActive', this.formGroup.getRawValue())
 
     this.contextService.deactReact(this.formGroup.getRawValue()).subscribe({

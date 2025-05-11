@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common'
-import { NgOptimizedImage, NgIf } from '@angular/common'
+import { NgIf, NgOptimizedImage } from '@angular/common'
 import { Component, DestroyRef, inject, OnInit } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { MatButtonModule } from '@angular/material/button'
@@ -7,10 +7,16 @@ import { MatIconModule, MatIconRegistry } from '@angular/material/icon'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { DomSanitizer } from '@angular/platform-browser'
-import { RouterLink, RouterOutlet, Router, ActivatedRoute, NavigationEnd } from '@angular/router'
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router'
 import { FlexLayoutModule, MediaObserver } from '@ngbracket/ngx-layout'
 import { combineLatest } from 'rxjs'
-import { tap, map, filter } from 'rxjs/operators'
+import { filter, map, tap } from 'rxjs/operators'
 
 import { AuthService } from './auth/auth.service'
 import { LoadingOverlayComponent } from './common/loading-overlay.component'
@@ -69,7 +75,7 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
 
     .sign-in-button:hover {
       background-color: #e1e4e8; /* Light gray hover background */
-      color: #4CAF50; /* Green 500 */
+      color: #4caf50; /* Green 500 */
     }
 
     .logo-link:hover {
@@ -248,42 +254,39 @@ export class AppComponent implements OnInit {
     )
   }
 
+  ngOnInit() {
+    combineLatest([this.media.asObservable(), this.authService.authStatus$])
+      .pipe(
+        tap(([mediaValue, authStatus]) => {
+          if (!authStatus?.isAuthenticated) {
+            this.opened = false
+          } else {
+            this.opened = mediaValue[0].mqAlias !== 'xs'
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe()
 
-
-ngOnInit() {
-  combineLatest([this.media.asObservable(), this.authService.authStatus$])
-    .pipe(
-      tap(([mediaValue, authStatus]) => {
-        if (!authStatus?.isAuthenticated) {
-          this.opened = false;
-        } else {
-          this.opened = mediaValue[0].mqAlias !== 'xs';
-        }
-      }),
-      takeUntilDestroyed(this.destroyRef)
-    )
-    .subscribe();
-
-  this.router.events
-    .pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => {
-        let route = this.activatedRoute;
-        while (route.firstChild) {
-          route = route.firstChild;
-        }
-        return route.snapshot.data['hideToolbar'] ?? false;
-      }),
-      takeUntilDestroyed(this.destroyRef)
-    )
-    .subscribe({
-      next: hideToolbar => {
-        this.showToolbar = !hideToolbar;
-      },
-      error: err => {
-        console.error('Error in Router events:', err);
-      }
-    });
-}
-
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        map(() => {
+          let route = this.activatedRoute
+          while (route.firstChild) {
+            route = route.firstChild
+          }
+          return route.snapshot.data['hideToolbar'] ?? false
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
+        next: (hideToolbar) => {
+          this.showToolbar = !hideToolbar
+        },
+        error: (err) => {
+          console.error('Error in Router events:', err)
+        },
+      })
+  }
 }
