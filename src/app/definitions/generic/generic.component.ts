@@ -6,7 +6,7 @@ import { GenericPropertyTypeComponent } from './generic-property-type/generic-pr
 import { PropertyTypeAttributeComponent } from './property-type-attribute/property-type-attribute.component'
 
 @Component({
-  selector: 'app-architectural',
+  selector: 'app-platform',
   template: `
     <mat-tab-group>
       <mat-tab label="Data Types">

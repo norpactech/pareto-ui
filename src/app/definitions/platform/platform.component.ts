@@ -6,7 +6,7 @@ import { ContextDataTypeComponent } from './context-data-type/context-data-type.
 import { ContextPropertyTypeComponent } from './context-property-type/context-property-type.component'
 
 @Component({
-  selector: 'app-architectural',
+  selector: 'app-platform',
   template: `
     <mat-tab-group>
       <mat-tab label="Context">
@@ -27,4 +27,4 @@ import { ContextPropertyTypeComponent } from './context-property-type/context-pr
     ContextPropertyTypeComponent,
   ],
 })
-export class ArchitecturalComponent {}
+export class PlatformComponent {}

@@ -6,15 +6,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { RouterModule, Routes } from '@angular/router'
 
 import { ConfirmationDialogComponent } from '../common/dialogs/confirmation-dialog.component'
-import { ArchitecturalComponent } from './architectural/architectural.component'
 import { GenericComponent } from './generic/generic.component'
+import { PlatformComponent } from './platform/platform.component'
 import { TablesComponent } from './tables/tables.component'
 
 const routes: Routes = [
-  { path: '', component: ArchitecturalComponent },
+  { path: '', component: PlatformComponent },
   { path: 'generic', component: GenericComponent },
   { path: 'tables', component: TablesComponent },
-  { path: 'architectural', component: ArchitecturalComponent },
+  { path: 'platform', component: PlatformComponent },
 ]
 
 @NgModule({
