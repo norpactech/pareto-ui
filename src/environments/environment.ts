@@ -8,5 +8,16 @@ import { AuthMode } from '../app/auth/auth.enum'
 export const environment = {
   production: false,
   baseUrl: 'http://localhost:8087/v01',
-  authMode: AuthMode.InMemory,
+  // authMode: AuthMode.InMemory,
+  authMode: AuthMode.CustomServer,
+}
+
+export const awsconfig = {
+  Auth: {
+    Cognito: {
+      region: 'us-west-2',
+      userPoolId: 'us-west-2_kYxBT6G5H',
+      userPoolClientId: '7172bfnjgp98t3pjhj0ktj7360',
+    },
+  },
 }

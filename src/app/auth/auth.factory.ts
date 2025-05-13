@@ -10,5 +10,4 @@ export function authFactory() {
     case AuthMode.CustomServer:
       return new CustomAuthService()
   }
-  return new InMemoryAuthService()
 }

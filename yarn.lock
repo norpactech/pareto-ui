@@ -442,7 +442,7 @@
 
 "@aws-amplify/ui-angular@^5.1.2":
   version "5.1.2"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui-angular/-/ui-angular-5.1.2.tgz"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-angular/-/ui-angular-5.1.2.tgz#fe2c584b17b09f79d14eccd93d9c8cfdca517874"
   integrity sha512-wfpSaFCH9AYr3sTNGMFu0XczMcD2mhFwi7aJI9ISJuwtO2DJoH35RoaX4bzpuR9nXCpCzX1WsZyuhoAEmSNYXQ==
   dependencies:
     "@aws-amplify/ui" "6.10.2"
@@ -4311,7 +4311,7 @@ available-typed-arrays@^1.0.7:
 
 aws-amplify@^6.14.4:
   version "6.14.4"
-  resolved "https://registry.npmjs.org/aws-amplify/-/aws-amplify-6.14.4.tgz"
+  resolved "https://registry.yarnpkg.com/aws-amplify/-/aws-amplify-6.14.4.tgz#dd90a1b563f20a5a048874c976d91edd87c91dab"
   integrity sha512-V1uRj0zg/pMsu0MWEg1tgUyR4YdO9Qfgo+P+tOtHUa0Id3SCWGnSaPCGQjIhli6kWHKT74vYsRwXdTfbKCA6xg==
   dependencies:
     "@aws-amplify/analytics" "7.0.80"

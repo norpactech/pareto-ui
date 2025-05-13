@@ -1,7 +1,7 @@
 export enum Role {
   Anonymous = 'anonymous',
-  User = 'user',
-  Admin = 'admin',
+  User = 'User',
+  Admin = 'Admin',
 }
 
 export enum AuthMode {

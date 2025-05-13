@@ -24,6 +24,8 @@ export interface IAuthStatus {
 
 export interface IServerAuthResponse {
   accessToken: string
+  refreshToken: string
+  idToken: string
 }
 
 export const defaultAuthStatus: IAuthStatus = {
@@ -35,9 +37,14 @@ export const defaultAuthStatus: IAuthStatus = {
 export abstract class AuthService implements IAuthService {
   private getAndUpdateUserIfAuthenticated = pipe(
     filter((status: IAuthStatus) => status.isAuthenticated),
+    tap((status) => console.log('User is authenticated:', status)), // Log authentication status
     mergeMap(() => this.getCurrentUser()),
+    tap((user) => console.log('Fetched current user:', user)), // Log the fetched user
     map((user: IUser) => this.currentUser$.next(user)),
-    catchError(transformError)
+    catchError((error) => {
+      console.error('Error in getAndUpdateUserIfAuthenticated:', error)
+      return transformError(error)
+    })
   )
 
   protected readonly cache = inject(CacheService)
@@ -73,6 +80,8 @@ export abstract class AuthService implements IAuthService {
 
     const loginResponse$ = this.authProvider(email, password).pipe(
       map((value) => {
+        console.log(value.accessToken)
+
         this.setToken(value.accessToken)
         const token = decode(value.accessToken)
         return this.transformJwtToken(token)
