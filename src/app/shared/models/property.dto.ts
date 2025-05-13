@@ -7,8 +7,8 @@ export interface IProperty {
   id: string
   idDataObject: string
   idGenericDataType: string
-  idGenericPropertyType: string
   idValidation: string
+  idGenericPropertyType: string
   sequence: number
   name: string
   description: string

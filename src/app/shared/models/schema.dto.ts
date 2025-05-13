@@ -7,8 +7,8 @@ export interface ISchema {
   id: string
   idTenant: string
   name: string
-  database: string
   description: string
+  database: string
   createdAt: Date
   createdBy: string
   updatedAt: Date

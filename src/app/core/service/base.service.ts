@@ -35,6 +35,48 @@ export abstract class BaseService<T extends IBaseEntity> {
     )
   }
 
+  public find(params: Record<string, unknown>): Observable<{ data: T[]; total: number }> {
+    const queryParams: Record<string, string> = {}
+
+    console.log('params', JSON.stringify(params))
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        switch (key) {
+          case 'limit':
+          case 'page':
+            queryParams[key === 'page' ? 'offset' : key] = value.toString()
+            break
+          case 'search':
+            queryParams['name'] = `*${value}*` // Transform search to wildcard format
+            break
+          case 'sortColumn':
+            queryParams['sortColumn'] = value === 'name' ? 'name' : value.toString()
+            break
+          case 'sortDirection':
+            queryParams['sortDirection'] = value.toString()
+            break
+          case 'isActive':
+            queryParams['isActive'] = value === false ? 'true' : value.toString()
+            break
+          default:
+            queryParams[key] = value.toString()
+        }
+      }
+    })
+
+    return this.httpClient
+      .get<IApiResponse<T[]>>(`${this.baseUrl}/find`, { params: queryParams })
+      .pipe(
+        map((response) => ({
+          data: response.data ?? [],
+          total: response.meta?.count ?? 0,
+        }))
+      )
+  }
+
+  // TODO: Use params
+  /*
   public find(
     limit: number,
     search: string,
@@ -77,6 +119,7 @@ export abstract class BaseService<T extends IBaseEntity> {
         }))
       )
   }
+  */
 
   public isAvailable(id: string | null, name: string): Observable<boolean> {
     if (!name) {

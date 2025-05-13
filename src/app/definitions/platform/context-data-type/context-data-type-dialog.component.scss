@@ -1,0 +1,39 @@
+
+.form-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+mat-form-field {
+  width: 100% !important;
+}
+
+.blank-line {
+  height: 16px;
+}
+
+.mono-font {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  color: #000;
+}
+
+.form-actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.form-actions button {
+  flex: 1;
+  max-width: 100px;
+}
+
+mat-error {
+  color: red;
+  font-size: 12px;
+}

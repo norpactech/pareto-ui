@@ -1,0 +1,112 @@
+<div class="filter-row">
+  <form style="margin-bottom: 8px">
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+      <div fxLayout="row" fxLayoutAlign="start center" fxFlex="auto" fxLayoutGap="10px">
+        <!-- Context ID Drop-down -->
+        <mat-form-field fxFlex="30" class="full-width">
+          <mat-select
+            placeholder="Select Context"
+            [formControl]="contextId"
+            (selectionChange)="onContextChange($event.value)">
+            <mat-option *ngFor="let context of contextList" [value]="context.id">
+              {{ context.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Search Field -->
+        <mat-form-field fxFlex="60" class="full-width">
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            matInput
+            placeholder="Search"
+            aria-label="Search"
+            [formControl]="search" />
+          <mat-hint>Search By Name</mat-hint>
+          <mat-error *ngIf="search.invalid">
+            Type more than one character to search
+          </mat-error>
+        </mat-form-field>
+
+        <!-- IsActive Filter -->
+        <mat-slide-toggle
+          [formControl]="isActive"
+          color="primary"
+          fxFlex="auto"
+          [checked]="isActiveColumn()"
+          (change)="isActiveColumn.set($event.checked)">
+          Inactive
+        </mat-slide-toggle>
+      </div>
+
+      <!-- Create Button -->
+      <button mat-raised-button color="primary" (click)="onCreate()">Create</button>
+    </div>
+  </form>
+</div>
+
+<div class="table-container">
+  @if (isLoading) {
+    <div class="loading-shade">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
+  @if (hasError) {
+    <div class="error">
+      {{ errorText }}
+    </div>
+  }
+  <mat-table
+    [dataSource]="items$"
+    matSort
+    matSortActive="name"
+    matSortDirection="asc"
+    matSortDisableClear>
+    <mat-header-row *matHeaderRowDef="displayedColumns()"></mat-header-row>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-button class="left-align-button" (click)="showDetail(row.id)">
+          {{ row.name }}
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.description }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isActive">
+      <mat-header-cell *matHeaderCellDef>Active</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="margin-right: 10px">
+        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" class="form-row">
+          <mat-checkbox
+            [checked]="row.isActive"
+            color="primary"
+            fxFlex="auto"
+            (change)="confirmIsActive($event.checked, row)">
+          </mat-checkbox>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-row
+      matRipple
+      (click)="selectedRow = row"
+      [class.selected]="selectedRow === row"
+      *matRowDef="let row; columns: displayedColumns()"></mat-row>
+  </mat-table>
+
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <button mat-icon-button (click)="refresh$.next()">
+        <mat-icon title="Refresh">refresh</mat-icon>
+      </button>
+      <span class="flex-spacer"></span>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [length]="resultsLength">
+      </mat-paginator>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>

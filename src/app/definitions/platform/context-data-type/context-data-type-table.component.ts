@@ -8,7 +8,7 @@ import {
   signal,
   ViewChild,
 } from '@angular/core'
-import { ChangeDetectorRef } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
@@ -20,6 +20,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatSelectModule } from '@angular/material/select'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatSort, MatSortModule } from '@angular/material/sort'
@@ -28,20 +29,21 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfirmationDialogComponent } from '@common/dialogs/confirmation-dialog.component'
 import { ContextService } from '@core/service/context.service'
+import { ContextDataTypeService } from '@core/service/context-data-type.service'
 import { FlexModule } from '@ngbracket/ngx-layout/flex'
 import { IDeactReact } from '@service/model'
-import { IContext } from '@shared/models'
+import { IContext, IContextDataType } from '@shared/models'
 import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
 
-import { ContextDialogComponent } from './context-dialog.component'
+import { ContextDialogComponent } from './context-data-type-dialog.component'
 
 @Component({
-  selector: 'app-context-table',
-  templateUrl: './context-table.component.html',
-  styleUrls: ['./context-table.component.scss'],
-
+  selector: 'app-context-data-type-table',
+  templateUrl: './context-data-type-table.component.html',
+  styleUrls: ['./context-data-type-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FlexModule,
     FormsModule,
@@ -52,6 +54,7 @@ import { ContextDialogComponent } from './context-dialog.component'
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatRippleModule,
+    MatSelectModule,
     MatSlideToggleModule,
     MatSortModule,
     MatTableModule,
@@ -61,13 +64,14 @@ import { ContextDialogComponent } from './context-dialog.component'
     MatCheckboxModule,
   ],
 })
-export class ContextTableComponent implements AfterViewInit {
+export class ContextDataTypeTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator
   @ViewChild(MatSort) sort!: MatSort
 
   private readonly cdr = inject(ChangeDetectorRef)
   private dialog: MatDialog = inject(MatDialog)
 
+  private readonly ContextDataTypeService = inject(ContextDataTypeService)
   private readonly ContextService = inject(ContextService)
   private readonly router = inject(Router)
   private readonly activatedRoute = inject(ActivatedRoute)
@@ -78,7 +82,7 @@ export class ContextTableComponent implements AfterViewInit {
 
   constructor(private snackBar: MatSnackBar) {}
 
-  items$!: Observable<IContext[]>
+  items$!: Observable<IContextDataType[]>
   displayedColumns = computed(() => [
     'name',
     'description',
@@ -89,7 +93,7 @@ export class ContextTableComponent implements AfterViewInit {
   resultsLength = 0
   hasError = false
   errorText = ''
-  selectedRow?: IContext
+  selectedRow?: IContextDataType
 
   search = new FormControl<string>('', null)
   isActive = new FormControl(false)
@@ -126,7 +130,7 @@ export class ContextTableComponent implements AfterViewInit {
     })
   }
 
-  confirmIsActive(isActive: boolean, row: IContext): void {
+  confirmIsActive(isActive: boolean, row: IContextDataType): void {
     const allElements = document.querySelectorAll('*')
     allElements.forEach((element) => {
       if (typeof (element as HTMLElement).blur === 'function') {
@@ -151,7 +155,41 @@ export class ContextTableComponent implements AfterViewInit {
     })
   }
 
-  updateIsActive(event: MatCheckboxChange, row: IContext): void {
+  contextId = new FormControl()
+  contextList = [
+    { id: '1', name: 'Context 1' },
+    { id: '2', name: 'Context 2' },
+    { id: '3', name: 'Context 3' },
+  ]
+
+  onContextChange(selectedContextId: string) {
+    console.log('Selected Context ID:', selectedContextId)
+
+    // TODO: Filter contextList based on selectedContextId
+  }
+
+  initContext() {
+    const params = {
+      isActive: true,
+    }
+    return this.ContextService.find(params).subscribe({
+      next: (response) => {
+        this.contextList = response.data.map((context: IContext) => ({
+          id: context.id,
+          name: context.name,
+        }))
+        if (this.contextList.length > 0) {
+          this.contextId.setValue(this.contextList[0].id)
+          console.log('Initialized contextId to:', this.contextList[0].id)
+        }
+      },
+      error: (err) => {
+        console.error('Error during search:', err)
+      },
+    })
+  }
+
+  updateIsActive(event: MatCheckboxChange, row: IContextDataType): void {
     const isChecked = event.checked
     const params: IDeactReact = {
       id: row.id,
@@ -159,7 +197,7 @@ export class ContextTableComponent implements AfterViewInit {
       isActive: isChecked,
     }
 
-    this.ContextService.deactReact(params).subscribe({
+    this.ContextDataTypeService.deactReact(params).subscribe({
       next: (response) => {
         row.isActive = isChecked
         row.updatedAt = new Date(response.updatedAt)
@@ -176,8 +214,8 @@ export class ContextTableComponent implements AfterViewInit {
   }
 
   showDetail(id: string): void {
-    this.ContextService.get(id).subscribe({
-      next: (context: IContext | null) => {
+    this.ContextDataTypeService.get(id).subscribe({
+      next: (contextDataType: IContextDataType | null) => {
         // Otherwise there will be an aria-hidden="true" warning in the console
         const allElements = document.querySelectorAll('*')
         allElements.forEach((element) => {
@@ -187,7 +225,7 @@ export class ContextTableComponent implements AfterViewInit {
         })
         const dialogRef = this.dialog.open(ContextDialogComponent, {
           width: '800px',
-          data: context,
+          data: contextDataType,
           autoFocus: true,
           restoreFocus: true,
         })
@@ -202,6 +240,7 @@ export class ContextTableComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.initContext()
     this.items$ = merge(
       this.refresh$,
       this.sort.sortChange,
@@ -216,16 +255,12 @@ export class ContextTableComponent implements AfterViewInit {
       switchMap(() => {
         this.isLoading = true
         const params = {
-          limit: this.paginator.pageSize,
-          search: this.search.value as string,
-          page: this.paginator.pageIndex,
-          sortColumn: this.sort.active,
-          sortDirection: this.sort.direction,
-          isActive: this.isActive.value ?? true,
+          isActive: this.isActive.value,
+          idContext: this.contextId.value,
         }
-        return this.ContextService.find(params)
+        return this.ContextDataTypeService.find(params)
       }),
-      map((results: { total: number; data: IContext[] }) => {
+      map((results: { total: number; data: IContextDataType[] }) => {
         this.isLoading = false
         this.hasError = false
         this.resultsLength = results.total

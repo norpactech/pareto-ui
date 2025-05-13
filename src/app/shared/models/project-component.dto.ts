@@ -6,8 +6,8 @@
 export interface IProjectComponent {
   id: string
   idProject: string
-  idContext: string
   idPlugin: string
+  idContext: string
   name: string
   description: string
   subPackage: string
