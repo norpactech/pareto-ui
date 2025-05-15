@@ -10,9 +10,7 @@ export interface ICardinality {
   idObjectReference: string
   objectReferenceName: string
   idRtCardinality: string
-  rtCardinalityName: string
   idRtCardinalityStrength: string
-  rtCardinalityStrengthName: string
   hasReferencialAction: boolean
   createdAt: Date
   createdBy: string

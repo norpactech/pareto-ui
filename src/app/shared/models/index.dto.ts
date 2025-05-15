@@ -8,7 +8,6 @@ export interface IIndex {
   idDataObject: string
   dataObjectName: string
   idRtIndexType: string
-  rtIndexTypeName: string
   name: string
   createdAt: Date
   createdBy: string

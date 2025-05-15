@@ -10,7 +10,6 @@ export interface IIndexProperty {
   idProperty: string
   propertyName: string
   idRtSortOrder: string
-  rtSortOrderName: string
   sequence: number
   createdAt: Date
   createdBy: string

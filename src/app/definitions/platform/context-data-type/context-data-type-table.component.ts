@@ -85,6 +85,7 @@ export class ContextDataTypeTableComponent implements AfterViewInit {
   items$!: Observable<IContextDataType[]>
   displayedColumns = computed(() => [
     'name',
+    'genericDataTypeName',
     'description',
     ...(this.isActiveColumn() ? ['isActive'] : []),
   ])
