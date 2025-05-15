@@ -6,8 +6,11 @@
 export interface IGenericPropertyType {
   id: string
   idTenant: string
+  tenantName: string
   idGenericDataType: string
+  genericDataTypeName: string
   idValidation: string
+  validationName: string
   name: string
   description: string
   length: number

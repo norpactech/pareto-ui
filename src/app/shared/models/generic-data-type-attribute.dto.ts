@@ -6,7 +6,9 @@
 export interface IGenericDataTypeAttribute {
   id: string
   idGenericDataType: string
+  genericDataTypeName: string
   idRtAttrDataType: string
+  rtAttrDataTypeName: string
   name: string
   description: string
   createdAt: Date

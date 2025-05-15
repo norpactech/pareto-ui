@@ -6,6 +6,7 @@
 export interface IDataObject {
   id: string
   idSchema: string
+  schemaName: string
   name: string
   description: string
   hasIdentifier: boolean

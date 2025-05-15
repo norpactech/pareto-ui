@@ -6,7 +6,9 @@
 export interface IContextDataType {
   id: string
   idContext: string
+  contextName: string
   idGenericDataType: string
+  genericDataTypeName: string
   sequence: number
   name: string
   description: string

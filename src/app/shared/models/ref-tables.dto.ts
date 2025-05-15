@@ -6,6 +6,7 @@
 export interface IRefTables {
   id: string
   idRefTableType: string
+  refTableTypeName: string
   name: string
   description: string
   value: string

@@ -5,5 +5,7 @@
  */
 export interface IProjectComponentOmit {
   idProjectComponent: string
+  projectComponentName: string
   idDataObject: string
+  dataObjectName: string
 }

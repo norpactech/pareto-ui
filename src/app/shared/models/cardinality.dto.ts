@@ -6,9 +6,13 @@
 export interface ICardinality {
   id: string
   idProperty: string
+  propertyName: string
   idObjectReference: string
+  objectReferenceName: string
   idRtCardinality: string
+  rtCardinalityName: string
   idRtCardinalityStrength: string
+  rtCardinalityStrengthName: string
   hasReferencialAction: boolean
   createdAt: Date
   createdBy: string

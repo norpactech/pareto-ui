@@ -6,7 +6,9 @@
 export interface IValidation {
   id: string
   idTenant: string
+  tenantName: string
   idRtValidationType: string
+  rtValidationTypeName: string
   name: string
   description: string
   errorMsg: string

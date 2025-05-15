@@ -14,7 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfirmationDialogComponent } from '@app/common/dialogs/confirmation-dialog.component'
-import { ContextService } from '@core/service/context.service'
+import { ContextDataTypeService } from '@core/service/context-data-type.service'
 import { IContextDataType } from '@shared/models'
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators'
 
@@ -47,7 +47,7 @@ export class ContextDialogComponent
 
   constructor(
     private formBuilder: FormBuilder,
-    private contextService: ContextService,
+    private contextDataTypeService: ContextDataTypeService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -72,7 +72,7 @@ export class ContextDialogComponent
         distinctUntilChanged(),
         switchMap((name) => {
           const id = this.data?.id || null // Handle null id
-          return this.contextService.isAvailable(id, name)
+          return this.contextDataTypeService.isAvailable(id, name)
         })
       )
       .subscribe({
@@ -119,7 +119,7 @@ export class ContextDialogComponent
   updateIsActive(isActive: boolean): void {
     console.log('updateIsActive', this.formGroup.getRawValue())
 
-    this.contextService.deactReact(this.formGroup.getRawValue()).subscribe({
+    this.contextDataTypeService.deactReact(this.formGroup.getRawValue()).subscribe({
       next: (response) => {
         const { updatedAt, updatedBy } = response
 
@@ -158,7 +158,7 @@ export class ContextDialogComponent
   }
 
   delete(): void {
-    this.contextService.delete(this.formGroup.getRawValue()).subscribe({
+    this.contextDataTypeService.delete(this.formGroup.getRawValue()).subscribe({
       next: () => {
         console.log('Record deleted successfully')
       },
@@ -169,19 +169,19 @@ export class ContextDialogComponent
   }
 
   buildForm(initialData?: IContextDataType | null): FormGroup {
-    const context = initialData
+    const contextDataType = initialData
     return this.formBuilder.group({
       // Context Fields
-      id: [context?.id || '', Validators.nullValidator],
-      name: [context?.name || '', Validators.nullValidator],
-      description: [context?.description || '', Validators.nullValidator],
+      id: [contextDataType?.id || '', Validators.nullValidator],
+      name: [contextDataType?.name || '', Validators.nullValidator],
+      description: [contextDataType?.description || '', Validators.nullValidator],
       // Audit Fields
-      createdAt: [context?.createdAt || '', Validators.nullValidator],
-      createdBy: [context?.createdBy || '', Validators.nullValidator],
-      updatedAt: [context?.updatedAt || '', Validators.nullValidator],
-      updatedBy: [context?.updatedBy || '', Validators.nullValidator],
+      createdAt: [contextDataType?.createdAt || '', Validators.nullValidator],
+      createdBy: [contextDataType?.createdBy || '', Validators.nullValidator],
+      updatedAt: [contextDataType?.updatedAt || '', Validators.nullValidator],
+      updatedBy: [contextDataType?.updatedBy || '', Validators.nullValidator],
       // Is Active
-      isActive: [context?.isActive ?? false, Validators.nullValidator],
+      isActive: [contextDataType?.isActive ?? false, Validators.nullValidator],
     })
   }
 
@@ -194,7 +194,7 @@ export class ContextDialogComponent
     if (this.formGroup.valid) {
       const formData = this.formGroup.getRawValue()
 
-      this.contextService.persist(formData).subscribe({
+      this.contextDataTypeService.persist(formData).subscribe({
         next: () => {
           this.dialogRef.close(true)
         },

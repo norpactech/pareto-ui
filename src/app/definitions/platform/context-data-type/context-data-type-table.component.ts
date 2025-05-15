@@ -156,16 +156,13 @@ export class ContextDataTypeTableComponent implements AfterViewInit {
   }
 
   contextId = new FormControl()
-  contextList = [
-    { id: '1', name: 'Context 1' },
-    { id: '2', name: 'Context 2' },
-    { id: '3', name: 'Context 3' },
-  ]
+  contextList = [{ id: '', name: '' }]
 
   onContextChange(selectedContextId: string) {
     console.log('Selected Context ID:', selectedContextId)
-
-    // TODO: Filter contextList based on selectedContextId
+    this.contextId.setValue(selectedContextId)
+    this.resetPage()
+    this.refresh$.next()
   }
 
   initContext() {
@@ -241,6 +238,7 @@ export class ContextDataTypeTableComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.initContext()
+
     this.items$ = merge(
       this.refresh$,
       this.sort.sortChange,
@@ -255,8 +253,13 @@ export class ContextDataTypeTableComponent implements AfterViewInit {
       switchMap(() => {
         this.isLoading = true
         const params = {
-          isActive: this.isActive.value,
           idContext: this.contextId.value,
+          limit: this.paginator.pageSize,
+          search: this.search.value as string,
+          page: this.paginator.pageIndex,
+          sortColumn: this.sort.active,
+          sortDirection: this.sort.direction,
+          isActive: this.isActive.value ?? true,
         }
         return this.ContextDataTypeService.find(params)
       }),

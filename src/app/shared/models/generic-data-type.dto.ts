@@ -6,6 +6,7 @@
 export interface IGenericDataType {
   id: string
   idTenant: string
+  tenantName: string
   sequence: number
   name: string
   description: string

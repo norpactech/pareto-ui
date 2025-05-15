@@ -6,8 +6,11 @@
 export interface IContextPropertyType {
   id: string
   idContext: string
+  contextName: string
   idGenericPropertyType: string
+  genericPropertyTypeName: string
   idSchema: string
+  schemaName: string
   length: number
   scale: number
   isNullable: boolean

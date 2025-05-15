@@ -6,7 +6,9 @@
 export interface IIndex {
   id: string
   idDataObject: string
+  dataObjectName: string
   idRtIndexType: string
+  rtIndexTypeName: string
   name: string
   createdAt: Date
   createdBy: string

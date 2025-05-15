@@ -6,6 +6,7 @@
 export interface ISchema {
   id: string
   idTenant: string
+  tenantName: string
   name: string
   description: string
   database: string

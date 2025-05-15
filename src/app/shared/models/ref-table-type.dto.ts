@@ -6,6 +6,7 @@
 export interface IRefTableType {
   id: string
   idTenant: string
+  tenantName: string
   name: string
   description: string
   createdAt: Date

@@ -12,6 +12,7 @@
               {{ context.name }}
             </mat-option>
           </mat-select>
+          <mat-hint>Set the Context</mat-hint>
         </mat-form-field>
 
         <!-- Search Field -->
@@ -76,6 +77,11 @@
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
       <mat-cell *matCellDef="let row">{{ row.description }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Generic Data Type">
+      <mat-header-cell *matHeaderCellDef>Generic Data Type</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.genericDataTypeName }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="isActive">

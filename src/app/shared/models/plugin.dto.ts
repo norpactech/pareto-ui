@@ -6,6 +6,7 @@
 export interface IPlugin {
   id: string
   idContext: string
+  contextName: string
   name: string
   description: string
   pluginService: string

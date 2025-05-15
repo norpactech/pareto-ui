@@ -6,6 +6,7 @@
 export interface IProjectComponentProperty {
   id: string
   idProjectComponent: string
+  projectComponentName: string
   sequence: number
   dataObjectFilter: string
   propertyFilter: string

@@ -38,8 +38,6 @@ export abstract class BaseService<T extends IBaseEntity> {
   public find(params: Record<string, unknown>): Observable<{ data: T[]; total: number }> {
     const queryParams: Record<string, string> = {}
 
-    console.log('params', JSON.stringify(params))
-
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
         switch (key) {
@@ -57,14 +55,15 @@ export abstract class BaseService<T extends IBaseEntity> {
             queryParams['sortDirection'] = value.toString()
             break
           case 'isActive':
-            queryParams['isActive'] = value === false ? 'true' : value.toString()
+            if (value === false) {
+              queryParams['isActive'] = true.toString()
+            }
             break
           default:
             queryParams[key] = value.toString()
         }
       }
     })
-
     return this.httpClient
       .get<IApiResponse<T[]>>(`${this.baseUrl}/find`, { params: queryParams })
       .pipe(
@@ -74,52 +73,6 @@ export abstract class BaseService<T extends IBaseEntity> {
         }))
       )
   }
-
-  // TODO: Use params
-  /*
-  public find(
-    limit: number,
-    search: string,
-    page: number,
-    sortColumn: string,
-    sortDirection: '' | 'asc' | 'desc' = 'asc',
-    isActive: boolean
-  ): Observable<{ data: T[]; total: number }> {
-    const params: { [key: string]: string } = {}
-
-    if (limit) {
-      params['limit'] = limit.toString()
-    }
-    if (search) {
-      params['name'] = `*${search}*`
-    }
-    if (page) {
-      params['offset'] = page.toString()
-    }
-    if (sortColumn) {
-      params['sortColumn'] = sortColumn
-    }
-    if (sortDirection) {
-      params['sortDirection'] = sortDirection
-    }
-    if (sortColumn === 'name') {
-      params['sortColumn'] = 'name'
-    }
-    // isActive button is not checked (to inactive)
-    if (isActive === false) {
-      params['isActive'] = 'true'
-    }
-
-    return this.httpClient
-      .get<IApiResponse<T[]>>(`${this.baseUrl}/find`, { params })
-      .pipe(
-        map((response) => ({
-          data: response.data ?? [],
-          total: response.meta?.count ?? 0,
-        }))
-      )
-  }
-  */
 
   public isAvailable(id: string | null, name: string): Observable<boolean> {
     if (!name) {
@@ -171,6 +124,7 @@ export abstract class BaseService<T extends IBaseEntity> {
     } else {
       params['updatedBy'] = 'Updated By Change ME!'
     }
+    console.log(`${this.baseUrl}`)
 
     const request$ = isUpdate
       ? this.httpClient.put<IApiResponse<IPersistResponse>>(`${this.baseUrl}`, params)

@@ -6,12 +6,17 @@
 export interface IProperty {
   id: string
   idDataObject: string
+  dataObjectName: string
   idGenericDataType: string
+  genericDataTypeName: string
   idValidation: string
+  validationName: string
   idGenericPropertyType: string
+  genericPropertyTypeName: string
   sequence: number
   name: string
   description: string
+  fkViewable: boolean
   length: number
   scale: number
   isNullable: boolean

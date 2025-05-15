@@ -6,6 +6,7 @@
 export interface IProject {
   id: string
   idTenant: string
+  tenantName: string
   name: string
   description: string
   domain: string

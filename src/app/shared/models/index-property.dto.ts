@@ -6,8 +6,11 @@
 export interface IIndexProperty {
   id: string
   idIndex: string
+  indexName: string
   idProperty: string
+  propertyName: string
   idRtSortOrder: string
+  rtSortOrderName: string
   sequence: number
   createdAt: Date
   createdBy: string
