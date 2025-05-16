@@ -3,7 +3,7 @@ import { MatTabsModule } from '@angular/material/tabs'
 
 import { ContextTableComponent } from './context/context-table.component'
 import { ContextDataTypeTableComponent } from './context-data-type/context-data-type-table.component'
-import { ContextPropertyTypeComponent } from './context-property-type/context-property-type.component'
+import { ContextPropertyTypeTableComponent } from './context-property-type/context-property-type-table.component'
 
 @Component({
   selector: 'app-platform',
@@ -16,7 +16,7 @@ import { ContextPropertyTypeComponent } from './context-property-type/context-pr
         <app-context-data-type-table></app-context-data-type-table>
       </mat-tab>
       <mat-tab label="Property Types">
-        <app-context-property-type></app-context-property-type>
+        <app-context-property-type-table></app-context-property-type-table>
       </mat-tab>
     </mat-tab-group>
   `,
@@ -24,7 +24,7 @@ import { ContextPropertyTypeComponent } from './context-property-type/context-pr
     MatTabsModule,
     ContextTableComponent,
     ContextDataTypeTableComponent,
-    ContextPropertyTypeComponent,
+    ContextPropertyTypeTableComponent,
   ],
 })
 export class PlatformComponent {}
