@@ -5,7 +5,7 @@
  */
 import { Injectable } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { IContextDataType } from '@app/core/model'
+import { IIndex } from '@app/core/model'
 import { environment } from '@environment/environment'
 
 import { BaseService } from './base.service'
@@ -13,8 +13,8 @@ import { BaseService } from './base.service'
 @Injectable({
   providedIn: 'root',
 })
-export class ContextDataTypeService extends BaseService<IContextDataType> {
+export class IndexService extends BaseService<IIndex> {
   constructor() {
-    super(environment.baseUrl + '/context-data-type', new MatSnackBar())
+    super(environment.baseUrl + '/index', new MatSnackBar())
   }
 }

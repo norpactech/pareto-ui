@@ -1,7 +1,12 @@
+/**
+ * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved.
+ *
+ * For license details, see the LICENSE file in this project root.
+ */
 import { Injectable } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { IContext } from '@app/core/model'
 import { environment } from '@environment/environment'
-import { IContext } from '@shared/models'
 
 import { BaseService } from './base.service'
 
@@ -10,6 +15,6 @@ import { BaseService } from './base.service'
 })
 export class ContextService extends BaseService<IContext> {
   constructor() {
-    super(`${environment.baseUrl}/context`, new MatSnackBar())
+    super(environment.baseUrl + '/context', new MatSnackBar())
   }
 }

@@ -5,7 +5,7 @@
  */
 import { Injectable } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { IContextDataType } from '@app/core/model'
+import { IValidation } from '@app/core/model'
 import { environment } from '@environment/environment'
 
 import { BaseService } from './base.service'
@@ -13,8 +13,8 @@ import { BaseService } from './base.service'
 @Injectable({
   providedIn: 'root',
 })
-export class ContextDataTypeService extends BaseService<IContextDataType> {
+export class ValidationService extends BaseService<IValidation> {
   constructor() {
-    super(environment.baseUrl + '/context-data-type', new MatSnackBar())
+    super(environment.baseUrl + '/validation', new MatSnackBar())
   }
 }

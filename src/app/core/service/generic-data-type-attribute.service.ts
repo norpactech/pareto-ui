@@ -5,7 +5,7 @@
  */
 import { Injectable } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { IContextDataType } from '@app/core/model'
+import { IGenericDataTypeAttribute } from '@app/core/model'
 import { environment } from '@environment/environment'
 
 import { BaseService } from './base.service'
@@ -13,8 +13,8 @@ import { BaseService } from './base.service'
 @Injectable({
   providedIn: 'root',
 })
-export class ContextDataTypeService extends BaseService<IContextDataType> {
+export class GenericDataTypeAttributeService extends BaseService<IGenericDataTypeAttribute> {
   constructor() {
-    super(environment.baseUrl + '/context-data-type', new MatSnackBar())
+    super(environment.baseUrl + '/generic-data-type-attribute', new MatSnackBar())
   }
 }
