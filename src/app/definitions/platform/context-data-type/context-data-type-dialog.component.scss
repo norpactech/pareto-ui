@@ -5,7 +5,19 @@
 }
 
 mat-form-field {
-  width: 100% !important;
+  width: 100%;
+}
+
+.form-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.form-row mat-form-field {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .blank-line {
@@ -35,4 +47,10 @@ mat-form-field {
 mat-error {
   color: red;
   font-size: 12px;
+}
+
+.dialog-scroll-container {
+  max-height: 80vh;
+  overflow-y: auto;
+  padding-right: 8px;
 }

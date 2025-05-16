@@ -19,6 +19,7 @@ import {
 } from '@angular/router'
 import { ITenant } from '@app/core/model'
 import { TenantService } from '@core/service'
+import { TenantStateService } from '@core/state/tenant-state.service'
 import { FlexLayoutModule, MediaObserver } from '@ngbracket/ngx-layout'
 import { combineLatest } from 'rxjs'
 import { filter, map, tap } from 'rxjs/operators'
@@ -279,6 +280,7 @@ export class AppComponent implements OnInit {
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     public tenantService: TenantService,
+    public tenantStateService: TenantStateService,
     public authService: AuthService,
     public media: MediaObserver,
     private router: Router, // Inject Router
@@ -318,7 +320,7 @@ export class AppComponent implements OnInit {
     const idTenant = (event.target as HTMLSelectElement).value
     const tenant = this.tenants.find((t) => t.id === idTenant)
     if (tenant) {
-      this.tenantService.setTenant(tenant)
+      this.tenantStateService.setTenant(tenant)
     }
   }
 
@@ -327,7 +329,7 @@ export class AppComponent implements OnInit {
     // Set tenant directly on init if selectedIdTenant is set
     const tenant = this.tenants.find((t) => t.id === this.selectedIdTenant)
     if (tenant) {
-      this.tenantService.setTenant(tenant)
+      this.tenantStateService.setTenant(tenant)
     }
 
     combineLatest([this.media.asObservable(), this.authService.authStatus$])
