@@ -85,8 +85,9 @@ export class ContextDataTypeTableComponent implements AfterViewInit {
   items$!: Observable<IContextDataType[]>
   displayedColumns = computed(() => [
     'name',
-    'genericDataTypeName',
     'description',
+    'contextValue',
+    'genericDataTypeName',
     ...(this.isActiveColumn() ? ['isActive'] : []),
   ])
 
@@ -168,6 +169,8 @@ export class ContextDataTypeTableComponent implements AfterViewInit {
 
   initContext() {
     const params = {
+      sortColumn: 'name',
+      sortDirection: 'asc',
       isActive: true,
     }
     return this.ContextService.find(params).subscribe({
@@ -179,6 +182,7 @@ export class ContextDataTypeTableComponent implements AfterViewInit {
         if (this.contextList.length > 0) {
           this.contextId.setValue(this.contextList[0].id)
           console.log('Initialized contextId to:', this.contextList[0].id)
+          this.refresh$.next()
         }
       },
       error: (err) => {
