@@ -1,9 +1,12 @@
-import { AsyncPipe } from '@angular/common'
+import { AsyncPipe, CommonModule } from '@angular/common'
 import { NgIf, NgOptimizedImage } from '@angular/common'
 import { Component, DestroyRef, inject, OnInit } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { FormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
+import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon'
+import { MatSelectModule } from '@angular/material/select'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { DomSanitizer } from '@angular/platform-browser'
@@ -14,6 +17,8 @@ import {
   RouterLink,
   RouterOutlet,
 } from '@angular/router'
+import { ITenant } from '@app/core/model'
+import { TenantService } from '@core/service'
 import { FlexLayoutModule, MediaObserver } from '@ngbracket/ngx-layout'
 import { combineLatest } from 'rxjs'
 import { filter, map, tap } from 'rxjs/operators'
@@ -58,11 +63,6 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
       color: black;
     }
 
-    .auth-buttons {
-      display: flex;
-      gap: 5px;
-    }
-
     .sign-in-button {
       border: 1px solid #d0d7de;
       color: #24292f;
@@ -77,7 +77,23 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
       background-color: #e1e4e8; /* Light gray hover background */
       color: #4caf50; /* Green 500 */
     }
+    .flex-spacer {
+      flex: 1 1 auto;
+    }
 
+    .tenant-label {
+      margin-right: 8px;
+      font-weight: 500;
+    }
+    .tenant-select {
+      height: 36px;
+      min-width: 180px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      padding: 0 8px;
+      font-size: 1rem;
+      vertical-align: middle;
+    }
     .logo-link:hover {
       color: black;
     }
@@ -152,6 +168,18 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
           </a>
           <span class="flex-spacer"></span>
           @if (auth?.status?.isAuthenticated) {
+            <div>
+              <span class="tenant-label ">Tenant:</span>
+              <select
+                class="tenant-select"
+                [(ngModel)]="selectedIdTenant"
+                (change)="onTenantChange($event)">
+                <option *ngFor="let tenant of tenants" [value]="tenant.id">
+                  {{ tenant.name }}
+                </option>
+              </select>
+            </div>
+            <span class="flex-spacer"></span>
             <button
               mat-mini-fab
               routerLink="/user/profile"
@@ -232,6 +260,10 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
     NgOptimizedImage,
     LoadingOverlayComponent,
     NgIf,
+    MatSelectModule,
+    MatFormFieldModule,
+    FormsModule,
+    CommonModule,
   ],
 })
 export class AppComponent implements OnInit {
@@ -240,9 +272,13 @@ export class AppComponent implements OnInit {
   opened!: boolean
   showToolbar = true
 
+  tenants = [{ id: '', name: '' }]
+  selectedIdTenant: string = this.tenants[0]?.id ?? ''
+
   constructor(
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
+    public tenantService: TenantService,
     public authService: AuthService,
     public media: MediaObserver,
     private router: Router, // Inject Router
@@ -254,7 +290,46 @@ export class AppComponent implements OnInit {
     )
   }
 
+  initTenant() {
+    const params = {
+      sortColumn: 'name',
+      sortDirection: 'asc',
+      isActive: true,
+    }
+    return this.tenantService.find(params).subscribe({
+      next: (response) => {
+        console.log('Fetching tenants with params:', params)
+        this.tenants = response.data.map((tenant: ITenant) => ({
+          id: tenant.id,
+          name: tenant.name,
+        }))
+        if (this.tenants.length > 0) {
+          this.selectedIdTenant = this.tenants[0].id
+          console.log('Initialized selectedIdTenant to:', this.tenants[0].id)
+        }
+      },
+      error: (err) => {
+        console.error('Error during search:', err)
+      },
+    })
+  }
+
+  onTenantChange(event: Event) {
+    const idTenant = (event.target as HTMLSelectElement).value
+    const tenant = this.tenants.find((t) => t.id === idTenant)
+    if (tenant) {
+      this.tenantService.setTenant(tenant)
+    }
+  }
+
   ngOnInit() {
+    this.initTenant()
+    // Set tenant directly on init if selectedIdTenant is set
+    const tenant = this.tenants.find((t) => t.id === this.selectedIdTenant)
+    if (tenant) {
+      this.tenantService.setTenant(tenant)
+    }
+
     combineLatest([this.media.asObservable(), this.authService.authStatus$])
       .pipe(
         tap(([mediaValue, authStatus]) => {
