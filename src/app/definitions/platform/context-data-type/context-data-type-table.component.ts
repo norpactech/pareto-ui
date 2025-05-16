@@ -29,15 +29,14 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IContext, IContextDataType } from '@app/core/model'
 import { ConfirmationDialogComponent } from '@common/dialogs/confirmation-dialog.component'
-import { ContextService } from '@core/service/context.service'
-import { ContextDataTypeService } from '@core/service/context-data-type.service'
+import { ContextDataTypeService, ContextService } from '@core/service'
 import { FlexModule } from '@ngbracket/ngx-layout/flex'
 import { IDeactReact } from '@service/model'
 import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
 
-import { ContextDialogComponent } from './context-data-type-dialog.component'
+import { ContextDataTypeDialogComponent } from './context-data-type-dialog.component'
 
 @Component({
   selector: 'app-context-data-type-table',
@@ -62,6 +61,7 @@ import { ContextDialogComponent } from './context-data-type-dialog.component'
     ReactiveFormsModule,
     CommonModule,
     MatCheckboxModule,
+    MatSelectModule,
   ],
 })
 export class ContextDataTypeTableComponent implements AfterViewInit {
@@ -85,9 +85,9 @@ export class ContextDataTypeTableComponent implements AfterViewInit {
   items$!: Observable<IContextDataType[]>
   displayedColumns = computed(() => [
     'name',
-    'description',
     'contextValue',
     'genericDataTypeName',
+    'description',
     ...(this.isActiveColumn() ? ['isActive'] : []),
   ])
 
@@ -113,9 +113,13 @@ export class ContextDataTypeTableComponent implements AfterViewInit {
   }
 
   onCreate(): void {
-    const dialogRef = this.dialog.open(ContextDialogComponent, {
+    const dialogRef = this.dialog.open(ContextDataTypeDialogComponent, {
       width: '800px',
-      data: null,
+      data: {
+        idContext: this.contextId.value,
+        contextName:
+          this.contextList.find((c) => c.id === this.contextId.value)?.name ?? '',
+      },
       autoFocus: true,
       restoreFocus: true,
     })
@@ -225,7 +229,7 @@ export class ContextDataTypeTableComponent implements AfterViewInit {
             ;(element as HTMLElement).blur()
           }
         })
-        const dialogRef = this.dialog.open(ContextDialogComponent, {
+        const dialogRef = this.dialog.open(ContextDataTypeDialogComponent, {
           width: '800px',
           data: contextDataType,
           autoFocus: true,

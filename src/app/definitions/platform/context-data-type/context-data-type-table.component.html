@@ -74,11 +74,6 @@
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="description">
-      <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{ row.description }}</mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="contextValue">
       <mat-header-cell *matHeaderCellDef>Context Value</mat-header-cell>
       <mat-cell *matCellDef="let row">{{ row.contextValue }}</mat-cell>
@@ -87,6 +82,11 @@
     <ng-container matColumnDef="genericDataTypeName">
       <mat-header-cell *matHeaderCellDef>Generic Data Type</mat-header-cell>
       <mat-cell *matCellDef="let row">{{ row.genericDataTypeName }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.description }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="isActive">
