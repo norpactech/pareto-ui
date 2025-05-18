@@ -217,7 +217,8 @@ export class ContextTableComponent implements AfterViewInit {
         this.isLoading = true
         const params = {
           limit: this.paginator.pageSize,
-          search: this.search.value as string,
+          searchColumn: 'name',
+          searchValue: this.search.value as string,
           page: this.paginator.pageIndex,
           sortColumn: this.sort.active,
           sortDirection: this.sort.direction,

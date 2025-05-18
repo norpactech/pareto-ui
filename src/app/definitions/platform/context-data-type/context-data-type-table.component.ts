@@ -185,7 +185,6 @@ export class ContextDataTypeTableComponent implements AfterViewInit {
         }))
         if (this.contextList.length > 0) {
           this.contextId.setValue(this.contextList[0].id)
-          console.log('Initialized contextId to:', this.contextList[0].id)
           this.refresh$.next()
         }
       },
@@ -262,9 +261,9 @@ export class ContextDataTypeTableComponent implements AfterViewInit {
       switchMap(() => {
         this.isLoading = true
         const params = {
-          idContext: this.contextId.value,
           limit: this.paginator.pageSize,
-          search: this.search.value as string,
+          searchColumn: 'name',
+          searchValue: this.search.value as string,
           page: this.paginator.pageIndex,
           sortColumn: this.sort.active,
           sortDirection: this.sort.direction,

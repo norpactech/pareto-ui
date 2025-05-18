@@ -34,7 +34,7 @@ import { FlexModule } from '@ngbracket/ngx-layout/flex'
 import { IDeactReact } from '@service/model'
 import { merge, Observable, of, Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
-import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators'
+import { catchError, map, startWith, switchMap } from 'rxjs/operators'
 
 import { ContextPropertyTypeDialogComponent } from './context-property-type-dialog.component'
 
@@ -83,6 +83,7 @@ export class ContextPropertyTypeTableComponent implements AfterViewInit {
 
   items$!: Observable<IContextPropertyType[]>
   displayedColumns = computed(() => [
+    'contextName',
     'genericPropertyTypeName',
     'length',
     'scale',
@@ -211,10 +212,6 @@ export class ContextPropertyTypeTableComponent implements AfterViewInit {
       this.refresh$,
       this.sort.sortChange,
       this.paginator.page,
-      this.search.valueChanges.pipe(
-        debounceTime(1000),
-        tap(() => this.resetPage())
-      ),
       this.isActive.valueChanges.pipe(tap(() => this.resetPage()))
     ).pipe(
       startWith({}),
@@ -222,7 +219,6 @@ export class ContextPropertyTypeTableComponent implements AfterViewInit {
         this.isLoading = true
         const params = {
           limit: this.paginator.pageSize,
-          search: this.search.value as string,
           page: this.paginator.pageIndex,
           sortColumn: 'pareto.schema.name',
           sortDirection: this.sort.direction,

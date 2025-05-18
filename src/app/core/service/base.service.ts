@@ -45,9 +45,6 @@ export abstract class BaseService<T extends IBaseEntity> {
           case 'page':
             queryParams[key === 'page' ? 'offset' : key] = value.toString()
             break
-          case 'search':
-            queryParams['name'] = `*${value}*` // Transform search to wildcard format
-            break
           case 'sortColumn':
             queryParams['sortColumn'] = value === 'name' ? 'name' : value.toString()
             break
@@ -64,6 +61,14 @@ export abstract class BaseService<T extends IBaseEntity> {
         }
       }
     })
+    if (params['searchColumn'] && params['searchValue']) {
+      queryParams[params['searchColumn'].toString()] =
+        `*${params['searchValue'].toString()}*`
+
+      delete queryParams['searchColumn']
+      delete queryParams['searchValue']
+    }
+
     return this.httpClient
       .get<IApiResponse<T[]>>(`${this.baseUrl}/find`, { params: queryParams })
       .pipe(

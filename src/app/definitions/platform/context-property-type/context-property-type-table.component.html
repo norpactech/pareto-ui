@@ -2,20 +2,6 @@
   <form style="margin-bottom: 8px">
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
       <div fxLayout="row" fxLayoutAlign="start center" fxFlex="auto" fxLayoutGap="10px">
-        <!-- Search Field -->
-        <mat-form-field fxFlex="60" class="full-width">
-          <mat-icon matPrefix>search</mat-icon>
-          <input
-            matInput
-            placeholder="Search"
-            aria-label="Search"
-            [formControl]="search" />
-          <mat-hint>Search By Name</mat-hint>
-          <mat-error *ngIf="search.invalid">
-            Type more than one character to search
-          </mat-error>
-        </mat-form-field>
-
         <!-- IsActive Filter -->
         <mat-slide-toggle
           [formControl]="isActive"
@@ -52,8 +38,17 @@
     matSortDisableClear>
     <mat-header-row *matHeaderRowDef="displayedColumns()"></mat-header-row>
 
+    <ng-container matColumnDef="contextName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Context</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-button class="left-align-button" (click)="showDetail(row.id)">
+          {{ row.contextName }}
+        </button>
+      </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="genericPropertyTypeName">
-      <mat-header-cell *matHeaderCellDef>Generic Property Type</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Generic Property</mat-header-cell>
       <mat-cell *matCellDef="let row">{{ row.genericPropertyTypeName }}</mat-cell>
     </ng-container>
 
