@@ -307,7 +307,10 @@ export class AppComponent implements OnInit {
         }))
         if (this.tenants.length > 0) {
           this.selectedIdTenant = this.tenants[0].id
-          console.log('Initialized selectedIdTenant to:', this.tenants[0].id)
+          const tenant = this.tenants.find((t) => t.id === this.selectedIdTenant)
+          if (tenant) {
+            this.tenantStateService.setTenant(tenant)
+          }
         }
       },
       error: (err) => {
@@ -315,7 +318,6 @@ export class AppComponent implements OnInit {
       },
     })
   }
-
   onTenantChange(event: Event) {
     const idTenant = (event.target as HTMLSelectElement).value
     const tenant = this.tenants.find((t) => t.id === idTenant)
@@ -326,11 +328,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.initTenant()
-    // Set tenant directly on init if selectedIdTenant is set
-    const tenant = this.tenants.find((t) => t.id === this.selectedIdTenant)
-    if (tenant) {
-      this.tenantStateService.setTenant(tenant)
-    }
 
     combineLatest([this.media.asObservable(), this.authService.authStatus$])
       .pipe(

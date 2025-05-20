@@ -201,10 +201,13 @@ export class ContextDialogComponent
     if (this.formGroup.valid) {
       const formData = this.formGroup.getRawValue()
 
+      const tenant = this.tenantStateService.getTenant()
+      console.log('tenant', tenant)
+      console.log('tenant.id', tenant?.id)
+
       formData.idTenant = '402a1c12-dd5d-4cfd-847c-a5a81f21b610'
 
       if (!formData.idTenant) {
-        const tenant = this.tenantStateService.getTenant()
         if (tenant?.id) {
           formData.idTenant = '402a1c12-dd5d-4cfd-847c-a5a81f21b610'
         }
