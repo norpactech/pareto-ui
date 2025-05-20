@@ -2,7 +2,7 @@ import { Component } from '@angular/core'
 import { MatTabsModule } from '@angular/material/tabs'
 
 import { GenericDataTypeTableComponent } from './generic-data-type/generic-data-type-table.component'
-import { GenericPropertyTypeComponent } from './generic-property-type/generic-property-type.component'
+import { GenericPropertyTypeTableComponent } from './generic-property-type/generic-property-type-table.component'
 import { PropertyTypeAttributeComponent } from './property-type-attribute/property-type-attribute.component'
 
 @Component({
@@ -13,7 +13,7 @@ import { PropertyTypeAttributeComponent } from './property-type-attribute/proper
         <app-generic-data-type-table></app-generic-data-type-table>
       </mat-tab>
       <mat-tab label="Property Types">
-        <app-generic-property-type></app-generic-property-type>
+        <app-generic-property-type-table></app-generic-property-type-table>
       </mat-tab>
       <mat-tab label="Property Type Attributes">
         <app-property-type-attribute></app-property-type-attribute>
@@ -23,7 +23,7 @@ import { PropertyTypeAttributeComponent } from './property-type-attribute/proper
   imports: [
     MatTabsModule,
     GenericDataTypeTableComponent,
-    GenericPropertyTypeComponent,
+    GenericPropertyTypeTableComponent,
     PropertyTypeAttributeComponent,
   ],
 })
