@@ -220,7 +220,7 @@ export class ContextPropertyTypeTableComponent implements AfterViewInit {
         const params = {
           limit: this.paginator.pageSize,
           page: this.paginator.pageIndex,
-          sortColumn: 'pareto.schema.name',
+          sortColumn: 'pareto.generic_property_type.name',
           sortDirection: this.sort.direction,
           isActive: this.isActive.value ?? true,
         }

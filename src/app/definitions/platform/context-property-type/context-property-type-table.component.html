@@ -33,13 +33,13 @@
   <mat-table
     [dataSource]="items$"
     matSort
-    matSortActive="name"
+    matSortActive="genericPropertyTypeName"
     matSortDirection="asc"
     matSortDisableClear>
     <mat-header-row *matHeaderRowDef="displayedColumns()"></mat-header-row>
 
     <ng-container matColumnDef="contextName">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Context</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Context</mat-header-cell>
       <mat-cell *matCellDef="let row">
         <button mat-button class="left-align-button" (click)="showDetail(row.id)">
           {{ row.contextName }}
@@ -48,7 +48,9 @@
     </ng-container>
 
     <ng-container matColumnDef="genericPropertyTypeName">
-      <mat-header-cell *matHeaderCellDef>Generic Property</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header
+        >Generic Property</mat-header-cell
+      >
       <mat-cell *matCellDef="let row">{{ row.genericPropertyTypeName }}</mat-cell>
     </ng-container>
 

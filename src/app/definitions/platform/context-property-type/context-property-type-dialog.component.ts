@@ -15,8 +15,18 @@ import { MatInputModule } from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfirmationDialogComponent } from '@app/common/dialogs/confirmation-dialog.component'
-import { IContextPropertyType } from '@app/core/model'
-import { ContextPropertyTypeService } from '@core/service'
+import {
+  IContext,
+  IContextPropertyType,
+  IGenericPropertyType,
+  ISchema,
+} from '@app/core/model'
+import {
+  ContextPropertyTypeService,
+  ContextService,
+  GenericPropertyTypeService,
+  SchemaService,
+} from '@core/service'
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators'
 
 import { BaseFormDirective } from '../../../common/base-form.class'
@@ -49,7 +59,10 @@ export class ContextPropertyTypeDialogComponent
 
   constructor(
     private formBuilder: FormBuilder,
+    private ContextService: ContextService,
     private ContextPropertyTypeService: ContextPropertyTypeService,
+    private GenericPropertyTypeService: GenericPropertyTypeService,
+    private SchemaService: SchemaService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -62,10 +75,97 @@ export class ContextPropertyTypeDialogComponent
   isHidden = true
   private isPatching = false
 
+  contextList: { id: string; name: string }[] = []
+
+  initContext() {
+    const params = {
+      sortColumn: 'name',
+      sortDirection: 'asc',
+      isActive: true,
+    }
+    return this.ContextService.find(params).subscribe({
+      next: (response) => {
+        this.contextList = response.data.map((type: IContext) => ({
+          id: type.id,
+          name: type.name,
+        }))
+        const ctrl = this.formGroup.get('idContext')
+        // Only set if not already set
+        if (ctrl && !ctrl.value && this.contextList.length > 0) {
+          ctrl.setValue(this.contextList[0].id)
+          console.log('Initialized idContext to:', this.contextList[0].id)
+        }
+      },
+      error: (err) => {
+        console.error('Error during search:', err)
+      },
+    })
+  }
+
+  schemaList: { id: string; name: string }[] = []
+
+  initSchema() {
+    const params = {
+      sortColumn: 'name',
+      sortDirection: 'asc',
+      isActive: true,
+    }
+    return this.SchemaService.find(params).subscribe({
+      next: (response) => {
+        this.schemaList = response.data.map((type: ISchema) => ({
+          id: type.id,
+          name: type.name,
+        }))
+        const ctrl = this.formGroup.get('idSchema')
+        // Only set if not already set
+        if (ctrl && !ctrl.value && this.schemaList.length > 0) {
+          ctrl.setValue(this.schemaList[0].id)
+          console.log('Initialized idSchema to:', this.schemaList[0].id)
+        }
+      },
+      error: (err) => {
+        console.error('Error during search:', err)
+      },
+    })
+  }
+  genericPropertyTypeList: { id: string; name: string }[] = []
+
+  initGenericPropertyType() {
+    const params = {
+      sortColumn: 'name',
+      sortDirection: 'asc',
+      isActive: true,
+    }
+    return this.GenericPropertyTypeService.find(params).subscribe({
+      next: (response) => {
+        this.genericPropertyTypeList = response.data.map(
+          (type: IGenericPropertyType) => ({
+            id: type.id,
+            name: type.name,
+          })
+        )
+        const ctrl = this.formGroup.get('idGenericPropertyType')
+        // Only set if not already set
+        if (ctrl && !ctrl.value && this.genericPropertyTypeList.length > 0) {
+          ctrl.setValue(this.genericPropertyTypeList[0].id)
+          console.log(
+            'Initialized idGenericPropertyType to:',
+            this.genericPropertyTypeList[0].id
+          )
+        }
+      },
+      error: (err) => {
+        console.error('Error during search:', err)
+      },
+    })
+  }
+
   ngOnInit(): void {
     this.formGroup = this.buildForm(this.data)
     this.formReady.emit(this.formGroup)
-
+    this.initContext()
+    this.initGenericPropertyType()
+    this.initSchema()
     // Debouncer for the name field
     this.formGroup
       .get('name')
@@ -171,17 +271,28 @@ export class ContextPropertyTypeDialogComponent
   }
 
   buildForm(initialData?: IContextPropertyType | null): FormGroup {
-    const ContextDataType = initialData
+    const ContextPropertyType = initialData
     return this.formBuilder.group({
-      // ContextDataType Fields
+      // ContextPropertyType Fields
+      id: [ContextPropertyType?.id || '', Validators.nullValidator],
+      idContext: [ContextPropertyType?.idContext || '', Validators.nullValidator],
+      contextName: [ContextPropertyType?.contextName || ''],
+      idGenericPropertyType: [ContextPropertyType?.idGenericPropertyType || ''],
+      genericPropertyTypeName: [ContextPropertyType?.genericPropertyTypeName || ''],
+      idSchema: [ContextPropertyType?.idSchema || ''],
+      schemaName: [ContextPropertyType?.schemaName || ''],
+      length: [ContextPropertyType?.length || ''],
+      scale: [ContextPropertyType?.scale || ''],
+      isNullable: [ContextPropertyType?.isNullable ?? false],
+      defaultValue: [ContextPropertyType?.defaultValue || ''],
 
       // Audit Fields
-      createdAt: [ContextDataType?.createdAt || '', Validators.nullValidator],
-      createdBy: [ContextDataType?.createdBy || '', Validators.nullValidator],
-      updatedAt: [ContextDataType?.updatedAt || '', Validators.nullValidator],
-      updatedBy: [ContextDataType?.updatedBy || '', Validators.nullValidator],
+      createdAt: [ContextPropertyType?.createdAt || '', Validators.nullValidator],
+      createdBy: [ContextPropertyType?.createdBy || '', Validators.nullValidator],
+      updatedAt: [ContextPropertyType?.updatedAt || '', Validators.nullValidator],
+      updatedBy: [ContextPropertyType?.updatedBy || '', Validators.nullValidator],
       // Is Active
-      isActive: [ContextDataType?.isActive ?? false, Validators.nullValidator],
+      isActive: [ContextPropertyType?.isActive ?? false, Validators.nullValidator],
     })
   }
 
