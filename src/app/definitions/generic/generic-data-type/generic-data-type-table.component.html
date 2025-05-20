@@ -2,19 +2,6 @@
   <form style="margin-bottom: 8px">
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
       <div fxLayout="row" fxLayoutAlign="start center" fxFlex="auto" fxLayoutGap="10px">
-        <!-- Context ID Drop-down -->
-        <mat-form-field fxFlex="30" class="full-width">
-          <mat-select
-            placeholder="Select Context"
-            [formControl]="contextId"
-            (selectionChange)="onContextChange($event.value)">
-            <mat-option *ngFor="let context of contextList" [value]="context.id">
-              {{ context.name }}
-            </mat-option>
-          </mat-select>
-          <mat-hint>Set the Context</mat-hint>
-        </mat-form-field>
-
         <!-- Search Field -->
         <mat-form-field fxFlex="60" class="full-width">
           <mat-icon matPrefix>search</mat-icon>
@@ -60,13 +47,13 @@
   <mat-table
     [dataSource]="items$"
     matSort
-    matSortActive="name"
+    matSortActive="sequence"
     matSortDirection="asc"
     matSortDisableClear>
     <mat-header-row *matHeaderRowDef="displayedColumns()"></mat-header-row>
 
     <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
       <mat-cell *matCellDef="let row">
         <button mat-button class="left-align-button" (click)="showDetail(row.id)">
           {{ row.name }}
@@ -74,19 +61,19 @@
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="contextValue">
-      <mat-header-cell *matHeaderCellDef>Context Value</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{ row.contextValue }}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="genericDataTypeName">
-      <mat-header-cell *matHeaderCellDef>Generic Data Type</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{ row.genericDataTypeName }}</mat-cell>
+    <ng-container matColumnDef="alias">
+      <mat-header-cell *matHeaderCellDef>Alias</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.alias }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
       <mat-cell *matCellDef="let row">{{ row.description }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="sequence">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Sequence</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.sequence }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="isActive">
