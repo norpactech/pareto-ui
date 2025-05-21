@@ -16,21 +16,10 @@ import { MatSelectModule } from '@angular/material/select'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfirmationDialogComponent } from '@app/common/dialogs/confirmation-dialog.component'
 import { RefTableType } from '@app/core/enums'
-import {
-  IGenericDataType,
-  IGenericDataTypeAttribute,
-  IRefTables,
-  IRefTableType,
-} from '@app/core/model'
-import {
-  GenericDataTypeAttributeService,
-  GenericDataTypeService,
-  RefTablesService,
-  RefTableTypeService,
-} from '@core/service'
-import { Observable } from 'rxjs'
+import { IGenericDataType, IGenericDataTypeAttribute } from '@app/core/model'
+import { GenericDataTypeAttributeService, GenericDataTypeService } from '@core/service'
+import { TableUtils } from '@core/utils/table.utils'
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators'
-import { map } from 'rxjs/operators'
 
 import { BaseFormDirective } from '../../../common/base-form.class'
 import { ErrorSets } from '../../../user-controls/field-error/field-error.directive'
@@ -64,8 +53,7 @@ export class GenericDataTypeAttributeDialogComponent
     private formBuilder: FormBuilder,
     private genericDataTypeAttributeService: GenericDataTypeAttributeService,
     private genericDataDataTypeService: GenericDataTypeService,
-    private refTablesService: RefTablesService,
-    private refTableTypeService: RefTableTypeService,
+    private tableUtils: TableUtils,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -79,7 +67,6 @@ export class GenericDataTypeAttributeDialogComponent
   private isPatching = false
 
   genericDataTypeList: { id: string; name: string }[] = []
-
   initGenericDataType() {
     const params = {
       sortColumn: 'name',
@@ -106,55 +93,20 @@ export class GenericDataTypeAttributeDialogComponent
   }
 
   attributeDataTypeList: { id: string; name: string }[] = []
-
   initAttributeDataType() {
-    this.getRefTableType().subscribe({
-      next: (refTableType) => {
-        if (!refTableType) {
-          console.error('No RefTableType found')
-          return
+    this.tableUtils.findRefTable(RefTableType.ATTR_DATA_TYPE).subscribe({
+      next: (list) => {
+        this.attributeDataTypeList = list
+        const ctrl = this.formGroup.get('idRtAttrDataType')
+        if (ctrl && !ctrl.value && list.length > 0) {
+          ctrl.setValue(list[0].id)
+          console.log('Initialized idRtAttrDataType to:', list[0].id)
         }
-        const params = {
-          sortColumn: 'name',
-          sortDirection: 'asc',
-          searchColumn: 'idRefTableType',
-          searchValue: refTableType.id,
-        }
-        this.refTablesService.find(params).subscribe({
-          next: (response) => {
-            this.attributeDataTypeList = response.data.map((type: IRefTables) => ({
-              id: type.id,
-              name: type.name,
-            }))
-            const ctrl = this.formGroup.get('idRtAttrDataType')
-            // Only set if not already set
-            if (ctrl && !ctrl.value && this.attributeDataTypeList.length > 0) {
-              ctrl.setValue(this.attributeDataTypeList[0].id)
-              console.log(
-                'Initialized idRtAttrDataType to:',
-                this.attributeDataTypeList[0].id
-              )
-            }
-          },
-          error: (err) => {
-            console.error('Error during search:', err)
-          },
-        })
       },
       error: (err) => {
-        console.error('Error fetching RefTableType:', err)
+        console.error('Error fetching attribute data types:', err)
       },
-    })
-  }
-
-  getRefTableType(): Observable<IRefTableType | null> {
-    const params = {
-      searchColumn: 'name',
-      searchValue: RefTableType.ATTR_DATA_TYPE,
-    }
-    return this.refTableTypeService
-      .find(params)
-      .pipe(map((response) => response.data?.[0] ?? null))
+    }) // Debouncer for the name field
   }
 
   ngOnInit(): void {
@@ -162,7 +114,7 @@ export class GenericDataTypeAttributeDialogComponent
     this.formReady.emit(this.formGroup)
     this.initGenericDataType()
     this.initAttributeDataType()
-    // Debouncer for the name field
+
     this.formGroup
       .get('name')
       ?.valueChanges.pipe(
