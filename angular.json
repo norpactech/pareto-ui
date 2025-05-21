@@ -50,8 +50,7 @@
                 "inject": false
               }
             ],
-            "scripts": [
-            ],
+            "scripts": [],
             "browser": "src/main.ts"
           },
           "configurations": {

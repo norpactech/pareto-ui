@@ -5,3 +5,13 @@ export const environment = {
   baseUrl: 'http://localhost:3000',
   authMode: AuthMode.CustomServer,
 }
+
+export const awsconfig = {
+  Auth: {
+    Cognito: {
+      region: 'us-west-2',
+      userPoolId: 'us-west-2_kYxBT6G5H',
+      userPoolClientId: '7172bfnjgp98t3pjhj0ktj7360',
+    },
+  },
+}

@@ -15,22 +15,30 @@ import { MatInputModule } from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfirmationDialogComponent } from '@app/common/dialogs/confirmation-dialog.component'
-import { IGenericDataType, IGenericPropertyType, IValidation } from '@app/core/model'
+import { RefTableType } from '@app/core/enums'
 import {
+  IGenericDataType,
+  IGenericDataTypeAttribute,
+  IRefTables,
+  IRefTableType,
+} from '@app/core/model'
+import {
+  GenericDataTypeAttributeService,
   GenericDataTypeService,
-  GenericPropertyTypeService,
-  ValidationService,
+  RefTablesService,
+  RefTableTypeService,
 } from '@core/service'
-import { TenantStateService } from '@core/state/tenant-state.service'
+import { Observable } from 'rxjs'
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators'
+import { map } from 'rxjs/operators'
 
 import { BaseFormDirective } from '../../../common/base-form.class'
 import { ErrorSets } from '../../../user-controls/field-error/field-error.directive'
 
 @Component({
-  selector: 'app-generic-property-type-dialog',
-  templateUrl: './generic-property-type-dialog.component.html',
-  styleUrls: ['./generic-property-type-dialog.component.scss'],
+  selector: 'app-generic-data-type-attribute-dialog',
+  templateUrl: './generic-data-type-attribute-dialog.component.html',
+  styleUrls: ['./generic-data-type-attribute-dialog.component.scss'],
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -46,23 +54,23 @@ import { ErrorSets } from '../../../user-controls/field-error/field-error.direct
     MatSelectModule,
   ],
 })
-export class ContextDialogComponent
-  extends BaseFormDirective<IGenericPropertyType>
+export class GenericDataTypeAttributeDialogComponent
+  extends BaseFormDirective<IGenericDataTypeAttribute>
   implements OnInit, OnChanges
 {
   ErrorSets = ErrorSets
 
   constructor(
     private formBuilder: FormBuilder,
-    private genericPropertyTypeService: GenericPropertyTypeService,
-    private genericDataTypeService: GenericDataTypeService,
-    private validationService: ValidationService,
-    private tenantStateService: TenantStateService,
+    private genericDataTypeAttributeService: GenericDataTypeAttributeService,
+    private genericDataDataTypeService: GenericDataTypeService,
+    private refTablesService: RefTablesService,
+    private refTableTypeService: RefTableTypeService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: IGenericPropertyType,
-    private dialogRef: MatDialogRef<ContextDialogComponent>
+    @Inject(MAT_DIALOG_DATA) public data: IGenericDataTypeAttribute,
+    private dialogRef: MatDialogRef<GenericDataTypeAttributeDialogComponent>
   ) {
     super()
   }
@@ -78,7 +86,7 @@ export class ContextDialogComponent
       sortDirection: 'asc',
       isActive: true,
     }
-    return this.genericDataTypeService.find(params).subscribe({
+    return this.genericDataDataTypeService.find(params).subscribe({
       next: (response) => {
         this.genericDataTypeList = response.data.map((type: IGenericDataType) => ({
           id: type.id,
@@ -97,43 +105,63 @@ export class ContextDialogComponent
     })
   }
 
-  validationList: { id: string | null; name: string }[] = []
+  attributeDataTypeList: { id: string; name: string }[] = []
 
-  initValidation() {
-    const params = {
-      sortColumn: 'name',
-      sortDirection: 'asc',
-      isActive: true,
-    }
-    return this.validationService.find(params).subscribe({
-      next: (response) => {
-        // Add the null option first
-        this.validationList = [
-          { id: null, name: '' },
-          ...response.data.map((type: IValidation) => ({
-            id: type.id,
-            name: type.name,
-          })),
-        ]
-        const ctrl = this.formGroup.get('idValidation')
-        // Only set if not already set
-        if (ctrl && !ctrl.value && this.validationList.length > 0) {
-          ctrl.setValue(this.validationList[0].id)
-          console.log('Initialized idValidation to:', this.validationList[0].id)
+  initAttributeDataType() {
+    this.getRefTableType().subscribe({
+      next: (refTableType) => {
+        if (!refTableType) {
+          console.error('No RefTableType found')
+          return
         }
+        const params = {
+          sortColumn: 'name',
+          sortDirection: 'asc',
+          searchColumn: 'idRefTableType',
+          searchValue: refTableType.id,
+        }
+        this.refTablesService.find(params).subscribe({
+          next: (response) => {
+            this.attributeDataTypeList = response.data.map((type: IRefTables) => ({
+              id: type.id,
+              name: type.name,
+            }))
+            const ctrl = this.formGroup.get('idRtAttrDataType')
+            // Only set if not already set
+            if (ctrl && !ctrl.value && this.attributeDataTypeList.length > 0) {
+              ctrl.setValue(this.attributeDataTypeList[0].id)
+              console.log(
+                'Initialized idRtAttrDataType to:',
+                this.attributeDataTypeList[0].id
+              )
+            }
+          },
+          error: (err) => {
+            console.error('Error during search:', err)
+          },
+        })
       },
       error: (err) => {
-        console.error('Error during search:', err)
+        console.error('Error fetching RefTableType:', err)
       },
     })
+  }
+
+  getRefTableType(): Observable<IRefTableType | null> {
+    const params = {
+      searchColumn: 'name',
+      searchValue: RefTableType.ATTR_DATA_TYPE,
+    }
+    return this.refTableTypeService
+      .find(params)
+      .pipe(map((response) => response.data?.[0] ?? null))
   }
 
   ngOnInit(): void {
     this.formGroup = this.buildForm(this.data)
     this.formReady.emit(this.formGroup)
     this.initGenericDataType()
-    this.initValidation()
-
+    this.initAttributeDataType()
     // Debouncer for the name field
     this.formGroup
       .get('name')
@@ -142,7 +170,7 @@ export class ContextDialogComponent
         distinctUntilChanged(),
         switchMap((name) => {
           const id = this.data?.id || null // Handle null id
-          return this.genericPropertyTypeService.isAvailable(id, name)
+          return this.genericDataTypeAttributeService.isAvailable(id, name)
         })
       )
       .subscribe({
@@ -189,23 +217,25 @@ export class ContextDialogComponent
   updateIsActive(isActive: boolean): void {
     console.log('updateIsActive', this.formGroup.getRawValue())
 
-    this.genericPropertyTypeService.deactReact(this.formGroup.getRawValue()).subscribe({
-      next: (response) => {
-        const { updatedAt, updatedBy } = response
+    this.genericDataTypeAttributeService
+      .deactReact(this.formGroup.getRawValue())
+      .subscribe({
+        next: (response) => {
+          const { updatedAt, updatedBy } = response
 
-        this.isPatching = true
-        this.formGroup.patchValue({
-          isActive: isActive,
-          updatedAt: new Date(updatedAt),
-          updatedBy: updatedBy,
-        })
-        this.isPatching = false
-        this.cdr.detectChanges()
-      },
-      error: (err) => {
-        console.error('Error saving data:', err)
-      },
-    })
+          this.isPatching = true
+          this.formGroup.patchValue({
+            isActive: isActive,
+            updatedAt: new Date(updatedAt),
+            updatedBy: updatedBy,
+          })
+          this.isPatching = false
+          this.cdr.detectChanges()
+        },
+        error: (err) => {
+          console.error('Error saving data:', err)
+        },
+      })
   }
 
   confirmDelete(): void {
@@ -228,7 +258,7 @@ export class ContextDialogComponent
   }
 
   delete(): void {
-    this.genericPropertyTypeService.delete(this.formGroup.getRawValue()).subscribe({
+    this.genericDataTypeAttributeService.delete(this.formGroup.getRawValue()).subscribe({
       next: () => {
         console.log('Record deleted successfully')
       },
@@ -238,32 +268,33 @@ export class ContextDialogComponent
     })
   }
 
-  buildForm(initialData?: IGenericPropertyType | null): FormGroup {
-    const genericPropertyType = initialData
+  buildForm(initialData?: IGenericDataTypeAttribute | null): FormGroup {
+    const genericDataTypeAttribute = initialData
 
     return this.formBuilder.group({
       // Context Fields
-      id: [genericPropertyType?.id || '', Validators.nullValidator],
-      idTenant: [genericPropertyType?.idTenant || '', Validators.nullValidator],
+      id: [genericDataTypeAttribute?.id || '', Validators.nullValidator],
       idGenericDataType: [
-        genericPropertyType?.idGenericDataType || '',
+        genericDataTypeAttribute?.idGenericDataType || '',
         Validators.nullValidator,
       ],
-      idValidation: [genericPropertyType?.idValidation || ''],
-      name: [genericPropertyType?.name || '', Validators.nullValidator],
-      description: [genericPropertyType?.description || '', Validators.nullValidator],
-      length: [genericPropertyType?.length || '', Validators.nullValidator],
-      scale: [genericPropertyType?.scale || '', Validators.nullValidator],
-      isNullable: [genericPropertyType?.isNullable ?? false, Validators.nullValidator],
-      defaultValue: [genericPropertyType?.defaultValue || '', Validators.nullValidator],
+      idRtAttrDataType: [
+        genericDataTypeAttribute?.idRtAttrDataType || '',
+        Validators.nullValidator,
+      ],
+      name: [genericDataTypeAttribute?.name || '', Validators.nullValidator],
+      description: [
+        genericDataTypeAttribute?.description || '',
+        Validators.nullValidator,
+      ],
 
       // Audit Fields
-      createdAt: [genericPropertyType?.createdAt || '', Validators.nullValidator],
-      createdBy: [genericPropertyType?.createdBy || '', Validators.nullValidator],
-      updatedAt: [genericPropertyType?.updatedAt || '', Validators.nullValidator],
-      updatedBy: [genericPropertyType?.updatedBy || '', Validators.nullValidator],
+      createdAt: [genericDataTypeAttribute?.createdAt || '', Validators.nullValidator],
+      createdBy: [genericDataTypeAttribute?.createdBy || '', Validators.nullValidator],
+      updatedAt: [genericDataTypeAttribute?.updatedAt || '', Validators.nullValidator],
+      updatedBy: [genericDataTypeAttribute?.updatedBy || '', Validators.nullValidator],
       // Is Active
-      isActive: [genericPropertyType?.isActive ?? false, Validators.nullValidator],
+      isActive: [genericDataTypeAttribute?.isActive ?? false, Validators.nullValidator],
     })
   }
 
@@ -275,14 +306,7 @@ export class ContextDialogComponent
   submit(): void {
     if (this.formGroup.valid) {
       const formData = this.formGroup.getRawValue()
-      const tenant = this.tenantStateService.getTenant()
-
-      if (!formData.idTenant) {
-        if (tenant?.id) {
-          formData.idTenant = tenant.id
-        }
-      }
-      this.genericPropertyTypeService.persist(formData).subscribe({
+      this.genericDataTypeAttributeService.persist(formData).subscribe({
         next: () => {
           this.dialogRef.close(true)
         },

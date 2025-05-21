@@ -26,7 +26,9 @@
       "@service/*": ["src/app/core/service/*"],
       "@shared/*": ["src/app/shared/*"],
       "@core/*": ["src/app/core/*"],
-      "@environment/*": ["src/environments/*"]
+      "@environment/*": ["src/environments/*"],
+      "@utils/*": ["src/app/core/utils/*"],
+      "@enums/*": ["src/app/core/enums/*"]
     }
   },
   "angularCompilerOptions": {

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ErrorDialogComponent } from '@common/dialogs/error-dialog.component'
 import { IApiResponse, IBaseEntity, IDeactReact, IPersistResponse } from '@service/model'
+import { TextUtils } from '@utils/text.utils'
 import { Observable, throwError } from 'rxjs'
 import { map } from 'rxjs/operators'
 
@@ -62,8 +63,12 @@ export abstract class BaseService<T extends IBaseEntity> {
       }
     })
     if (params['searchColumn'] && params['searchValue']) {
-      queryParams[params['searchColumn'].toString()] =
-        `*${params['searchValue'].toString()}*`
+      if (TextUtils.isUUID(params['searchValue'].toString())) {
+        queryParams[params['searchColumn'].toString()] = params['searchValue'].toString()
+      } else {
+        queryParams[params['searchColumn'].toString()] =
+          `*${params['searchValue'].toString()}*`
+      }
 
       delete queryParams['searchColumn']
       delete queryParams['searchValue']
