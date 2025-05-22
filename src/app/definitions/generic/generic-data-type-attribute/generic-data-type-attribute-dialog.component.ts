@@ -18,7 +18,7 @@ import { ConfirmationDialogComponent } from '@app/common/dialogs/confirmation-di
 import { RefTableType } from '@app/core/enums'
 import { IGenericDataType, IGenericDataTypeAttribute } from '@app/core/model'
 import { GenericDataTypeAttributeService, GenericDataTypeService } from '@core/service'
-import { TableUtils } from '@core/utils/table.utils'
+import { TableUtils } from '@core/utils'
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators'
 
 import { BaseFormDirective } from '../../../common/base-form.class'

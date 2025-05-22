@@ -3,4 +3,5 @@
  *
  * For license details, see the LICENSE file in this project root.
  */
+export * from './table.utils'
 export * from './text.utils'
