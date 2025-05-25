@@ -7,7 +7,8 @@ import { AuthMode } from '../app/auth/auth.enum'
 
 export const environment = {
   production: false,
-  baseUrl: 'http://v02.norpactech.com:8087/v01',
+  // baseUrl: 'http://localhost:8087/v01',
+  baseUrl: 'https://dev.api.paretofactory.com/v01',
   // authMode: AuthMode.InMemory,
   authMode: AuthMode.CustomServer,
 }
