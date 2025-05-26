@@ -1,7 +1,7 @@
 import { AuthMode } from '../app/auth/auth.enum'
 
 export const environment = {
-  production: true,
+  production: false,
   baseUrl: 'https://dev.api.paretofactory.com/v01',
   authMode: AuthMode.CustomServer,
 }
