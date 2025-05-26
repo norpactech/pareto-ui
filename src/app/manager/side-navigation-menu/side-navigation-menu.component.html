@@ -1,0 +1,62 @@
+<mat-nav-list>
+  <mat-list-item routerLink="#">
+    <span><b>Definitions</b></span>
+  </mat-list-item>
+  <mat-expansion-panel [class.mat-elevation-z0]="true">
+    <mat-expansion-panel-header> Generic </mat-expansion-panel-header>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        routerLinkActive="active-link"
+        routerLink="/definitions/generic/data-types">
+        <span>Data Types</span>
+      </a>
+      <a
+        mat-list-item
+        routerLinkActive="active-link"
+        routerLink="/definitions/generic/property-types">
+        <span>Property Types</span>
+      </a>
+      <a
+        mat-list-item
+        routerLinkActive="active-link"
+        routerLink="/definitions/generic/property-type-attributes">
+        <span matTooltip="Property Type Attributes" matTooltipPosition="above"
+          >Property Type Attributes</span
+        >
+      </a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+  <mat-expansion-panel [class.mat-elevation-z0]="true">
+    <mat-expansion-panel-header> Platform </mat-expansion-panel-header>
+    <mat-nav-list>
+      <a mat-list-item routerLinkActive="active-link" routerLink="/definitions/platform"
+        >Context</a
+      >
+      <a mat-list-item routerLink="#">Data Types</a>
+      <a mat-list-item routerLink="#">Property Types</a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+  <mat-expansion-panel [class.mat-elevation-z0]="true">
+    <mat-expansion-panel-header> Tables </mat-expansion-panel-header>
+    <mat-nav-list>
+      <a mat-list-item routerLinkActive="active-link" routerLink="/definitions/tables"
+        >Table</a
+      >
+      <a mat-list-item routerLink="#">Menu 2</a>
+      <a mat-list-item routerLink="#">Menu 3</a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+
+  <mat-list-item routerLink="#">
+    <span><b>Manager</b></span>
+  </mat-list-item>
+  <mat-expansion-panel [class.mat-elevation-z0]="true">
+    <mat-expansion-panel-header> Users </mat-expansion-panel-header>
+    <mat-nav-list>
+      <a mat-list-item routerLinkActive="active-link" routerLink="/manager/users">
+        <span>Users</span>
+      </a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+</mat-nav-list>

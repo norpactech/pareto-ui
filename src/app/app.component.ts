@@ -26,7 +26,7 @@ import { filter, map, tap } from 'rxjs/operators'
 
 import { AuthService } from './auth/auth.service'
 import { LoadingOverlayComponent } from './common/loading-overlay.component'
-import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component'
+import { SideNavigationMenuModule } from './manager/side-navigation-menu/side-navigation-menu.module'
 
 @Component({
   selector: 'app-root',
@@ -141,6 +141,9 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
       margin-right: 8px; /* Center the image and add spacing below it */
       height: 20px; /* Set a fixed height for the image */
     }
+    .app-sidenav {
+      width: 250px;
+    }
   `,
   template: `
     <app-loading-overlay></app-loading-overlay>
@@ -233,8 +236,10 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
           [mode]="media.isActive('xs') ? 'over' : 'side'"
           [fixedInViewport]="media.isActive('xs')"
           fixedTopGap="56"
-          [(opened)]="opened">
-          <app-navigation-menu></app-navigation-menu>
+          [(opened)]="opened"
+          [class.mat-elevation-z4]="true"
+          class="app-sidenav">
+          <app-side-navigation-menu></app-side-navigation-menu>
         </mat-sidenav>
         <mat-sidenav-content>
           <div class="main-content">
@@ -251,7 +256,6 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
   imports: [
     FlexLayoutModule,
     RouterLink,
-    NavigationMenuComponent,
     RouterOutlet,
     AsyncPipe,
     MatIconModule,
@@ -265,6 +269,7 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
     MatFormFieldModule,
     FormsModule,
     CommonModule,
+    SideNavigationMenuModule,
   ],
 })
 export class AppComponent implements OnInit {
