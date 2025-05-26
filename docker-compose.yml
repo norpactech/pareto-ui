@@ -1,13 +1,15 @@
-version: '2'
 services:
-  web-app:
-    build: .
+  pareto-ui::
+    image: ghcr.io/norpactech/pareto-ui:dev
+    container_name: pareto-ui
+    restart: always
+    environment:
+      - PLACEHOLDER=dev
     ports:
-      - '8080:3000'
-    links:
-      - server
+      - '8088:80'
+    networks:
+      - pareto_network
 
-  server:
-    image: duluca/pareto-factory-swagger-server
-    ports:
-      - '3000:3000'
+networks:
+  pareto_network:
+    external: true
