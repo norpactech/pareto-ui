@@ -8,7 +8,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "pareto-factory": {
+    "pareto-ui": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -20,7 +20,7 @@
           "options": {
             "allowedCommonJsDependencies": ["fake-jwt-sign"],
             "outputPath": {
-              "base": "dist/pareto-factory"
+              "base": "dist/pareto-ui"
             },
             "index": "src/index.html",
             "polyfills": ["zone.js"],
@@ -81,7 +81,7 @@
               "sourceMap": true,
               "namedChunks": true
             },
-            "pareto-factory-server": {
+            "pareto-ui-server": {
               "budgets": [
                 {
                   "type": "initial",
@@ -97,7 +97,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.pareto-factory-server.ts"
+                  "with": "src/environments/environment.dev.ts"
                 }
               ],
               "outputHashing": "all"
@@ -109,14 +109,14 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "proxyConfig": "proxy.conf.json",
-            "buildTarget": "pareto-factory:build"
+            "buildTarget": "pareto-ui:build"
           },
           "configurations": {
             "production": {
-              "buildTarget": "pareto-factory:build:production"
+              "buildTarget": "pareto-ui:build:production"
             },
             "development": {
-              "buildTarget": "pareto-factory:build:development"
+              "buildTarget": "pareto-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -124,7 +124,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "pareto-factory:build"
+            "buildTarget": "pareto-ui:build"
           }
         },
         "test": {
@@ -158,13 +158,13 @@
         "e2e": {
           "builder": "@cypress/schematic:cypress",
           "options": {
-            "devServerTarget": "pareto-factory:serve",
+            "devServerTarget": "pareto-ui:serve",
             "watch": true,
             "headless": false
           },
           "configurations": {
             "production": {
-              "devServerTarget": "pareto-factory:serve:production"
+              "devServerTarget": "pareto-ui:serve:production"
             }
           }
         },
@@ -177,11 +177,11 @@
         "cypress-run": {
           "builder": "@cypress/schematic:cypress",
           "options": {
-            "devServerTarget": "pareto-factory:serve"
+            "devServerTarget": "pareto-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "pareto-factory:serve:production"
+              "devServerTarget": "pareto-ui:serve:production"
             }
           }
         },
@@ -195,14 +195,14 @@
         "ct": {
           "builder": "@cypress/schematic:cypress",
           "options": {
-            "devServerTarget": "pareto-factory:serve",
+            "devServerTarget": "pareto-ui:serve",
             "watch": true,
             "headless": false,
             "testingType": "component"
           },
           "configurations": {
             "development": {
-              "devServerTarget": "pareto-factory:serve:development"
+              "devServerTarget": "pareto-ui:serve:development"
             }
           }
         },
@@ -210,7 +210,7 @@
           "builder": "@angular/fire:deploy",
           "options": {
             "version": 2,
-            "browserTarget": "pareto-factory:build:firebase"
+            "browserTarget": "pareto-ui:build:firebase"
           }
         }
       }

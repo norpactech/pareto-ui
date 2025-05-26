@@ -1,7 +1,7 @@
 # docker build -t pareto-ui:latest .
 # docker exec -it <container_name_or_id> bash
 
-FROM node:20-alpine AS builder
+FROM node:20-alpine3.20
 
 WORKDIR /app
 
@@ -9,14 +9,10 @@ COPY package*.json ./
 COPY . .
 
 RUN yarn install --frozen-lockfile
-RUN yarn build
+RUN yarn build:dev
 
-# Production stage
-FROM nginx:alpine
-
-# Copy built Angular app to Nginx html directory
-COPY --from=builder /app/dist/pareto-factory /usr/share/nginx/html
+RUN yarn global add http-server
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["http-server", "dist/pareto-ui/browser", "-p", "80"]
