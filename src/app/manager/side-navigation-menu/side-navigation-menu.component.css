@@ -1,5 +1,5 @@
 .active-link {
-  font-weight: bold;
+  font-weight: bold !important;
   border-left: 3px solid green;
 }
 .mat-mdc-subheader {

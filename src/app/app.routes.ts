@@ -65,6 +65,45 @@ export const routes: Routes = [
     },
   },
   {
+    path: 'project',
+    loadChildren: () =>
+      import('./pages/project/project.module').then((m) => m.ProjectModule),
+    canLoad: [authGuard],
+    data: {
+      expectedRole: [Role.User, Role.Admin],
+      hideToolbar: false,
+    },
+  },
+  {
+    path: 'model',
+    loadChildren: () => import('./pages/model/model.module').then((m) => m.ModelModule),
+    canLoad: [authGuard],
+    data: {
+      expectedRole: [Role.User, Role.Admin],
+      hideToolbar: false,
+    },
+  },
+  {
+    path: 'system',
+    loadChildren: () =>
+      import('./pages/system/system.module').then((m) => m.SystemModule),
+    canLoad: [authGuard],
+    data: {
+      expectedRole: [Role.User, Role.Admin],
+      hideToolbar: false,
+    },
+  },
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('./pages/account/account.module').then((m) => m.AccountModule),
+    canLoad: [authGuard],
+    data: {
+      expectedRole: [Role.User, Role.Admin],
+      hideToolbar: false,
+    },
+  },
+  {
     path: '**',
     loadComponent: () =>
       import('./page-not-found/page-not-found.component').then(
