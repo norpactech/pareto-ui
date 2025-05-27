@@ -1,5 +1,61 @@
 <mat-nav-list>
   <mat-list-item routerLink="#">
+    <span><b>Project</b></span>
+  </mat-list-item>
+  <mat-nav-list>
+    <a mat-list-item routerLinkActive="active-link" routerLink="project/component">
+      <span>Component</span>
+    </a>
+    <a mat-list-item routerLinkActive="active-link" routerLink="project/component-omit">
+      <span>Component Omit</span>
+    </a>
+    <a
+      mat-list-item
+      routerLinkActive="active-link"
+      routerLink="project/component-property">
+      <span>Component Property</span>
+    </a>
+  </mat-nav-list>
+
+  <mat-list-item routerLink="#">
+    <span><b>Model</b></span>
+  </mat-list-item>
+  <mat-nav-list>
+    <a mat-list-item routerLinkActive="active-link" routerLink="model/schema">
+      <span>Schema</span>
+    </a>
+  </mat-nav-list>
+  <mat-expansion-panel [class.mat-elevation-z0]="true">
+    <mat-expansion-panel-header> Data Object </mat-expansion-panel-header>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        routerLinkActive="active-link"
+        routerLink="model/data-object/property">
+        <span>Property</span>
+      </a>
+      <a
+        mat-list-item
+        routerLinkActive="active-link"
+        routerLink="model/data-object/property-type">
+        <span>Property Type</span>
+      </a>
+      <a
+        mat-list-item
+        routerLinkActive="active-link"
+        routerLink="model/data-object/index">
+        <span>Index</span>
+      </a>
+      <a
+        mat-list-item
+        routerLinkActive="active-link"
+        routerLink="model/data-object/index-property">
+        <span>Index Property</span>
+      </a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+
+  <mat-list-item routerLink="">
     <span><b>Definitions</b></span>
   </mat-list-item>
   <mat-expansion-panel [class.mat-elevation-z0]="true">
@@ -22,7 +78,7 @@
         routerLinkActive="active-link"
         routerLink="/definitions/generic/property-type-attributes">
         <span matTooltip="Property Type Attributes" matTooltipPosition="above"
-          >Property Type Attributes</span
+          >Property Type <br />Attributes</span
         >
       </a>
     </mat-nav-list>
@@ -30,33 +86,56 @@
   <mat-expansion-panel [class.mat-elevation-z0]="true">
     <mat-expansion-panel-header> Platform </mat-expansion-panel-header>
     <mat-nav-list>
-      <a mat-list-item routerLinkActive="active-link" routerLink="/definitions/platform"
+      <a
+        mat-list-item
+        routerLinkActive="active-link"
+        routerLink="/definitions/platform/context"
         >Context</a
       >
-      <a mat-list-item routerLink="#">Data Types</a>
-      <a mat-list-item routerLink="#">Property Types</a>
+      <a
+        mat-list-item
+        routerLinkActive="active-link"
+        routerLink="/definitions/platform/data-types"
+        >Data Types</a
+      >
+      <a
+        mat-list-item
+        routerLinkActive="active-link"
+        routerLink="/definitions/platform/property-types"
+        >Property Types</a
+      >
     </mat-nav-list>
   </mat-expansion-panel>
   <mat-expansion-panel [class.mat-elevation-z0]="true">
-    <mat-expansion-panel-header> Tables </mat-expansion-panel-header>
+    <mat-expansion-panel-header> System </mat-expansion-panel-header>
     <mat-nav-list>
-      <a mat-list-item routerLinkActive="active-link" routerLink="/definitions/tables"
-        >Table</a
+      <a
+        mat-list-item
+        routerLinkActive="active-link"
+        routerLink="system/reference-table-type"
+        >Reference Table <br />Type</a
       >
-      <a mat-list-item routerLink="#">Menu 2</a>
-      <a mat-list-item routerLink="#">Menu 3</a>
+      <a mat-list-item routerLinkActive="active-link" routerLink="system/reference-table"
+        >Reference Table</a
+      >
+      <a mat-list-item routerLinkActive="active-link" routerLink="system/validators"
+        >Validators</a
+      >
+      <a mat-list-item routerLinkActive="active-link" routerLink="system/plugin"
+        >Plugin</a
+      >
     </mat-nav-list>
   </mat-expansion-panel>
 
   <mat-list-item routerLink="#">
-    <span><b>Manager</b></span>
+    <span><b>Account</b></span>
   </mat-list-item>
-  <mat-expansion-panel [class.mat-elevation-z0]="true">
-    <mat-expansion-panel-header> Users </mat-expansion-panel-header>
-    <mat-nav-list>
-      <a mat-list-item routerLinkActive="active-link" routerLink="/manager/users">
-        <span>Users</span>
-      </a>
-    </mat-nav-list>
-  </mat-expansion-panel>
+  <mat-nav-list>
+    <a mat-list-item routerLinkActive="active-link" routerLink="account/tenant">
+      <span>Tenant</span>
+    </a>
+    <a mat-list-item routerLinkActive="active-link" routerLink="/manager/users">
+      <span>User</span>
+    </a>
+  </mat-nav-list>
 </mat-nav-list>
