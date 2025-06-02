@@ -2,9 +2,10 @@ import { Routes } from '@angular/router'
 
 import { Role } from './auth/auth.enum'
 import { authGuard } from './auth/auth.guard'
+import { LoginComponent } from './auth/pages/login/login.component'
+import { SignUpComponent } from './auth/pages/sign-up/sign-up.component'
 import { DashboardComponent } from './home/dashboard.component'
 import { HomeComponent } from './home/home.component'
-import { LoginComponent } from './login/login.component'
 
 export const routes: Routes = [
   {
@@ -35,6 +36,11 @@ export const routes: Routes = [
   {
     path: 'login/:redirectUrl',
     component: LoginComponent,
+    data: { hideToolbar: true },
+  },
+  {
+    path: 'sign-up',
+    component: SignUpComponent,
     data: { hideToolbar: true },
   },
   {

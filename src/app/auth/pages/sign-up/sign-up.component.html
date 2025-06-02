@@ -1,0 +1,183 @@
+<div fxLayout="row">
+  <div fxLayout="column" fxFlex="600px">
+    <mat-card appearance="outlined" fxFlex="400px">
+      <mat-card-header fxLayoutAlign="center center">
+        <mat-card-title fxLayout="row">
+          <div class="mat-headline-5">Welcome to Pareto Factory</div>
+        </mat-card-title>
+      </mat-card-header>
+      <!-- <img mat-card-image src="/assets/img/favicon/favicon-16x16.png" alt="logo" /> -->
+      <mat-card-content>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+          Ipsum has been the industry's standard dummy text ever since the 1500s, when an
+          unknown printer took a galley of type and scrambled it to make a type specimen
+          book.
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxLayout="column">
+    <mat-card appearance="outlined" fxFlex="400px" fxLayoutAlign="center">
+      <mat-card-content>
+        <form [formGroup]="loginForm" fxLayout="column">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <!-- <mat-icon>email</mat-icon> -->
+            <mat-form-field fxFlex>
+              <input
+                matInput
+                placeholder="E-mail"
+                aria-label="E-mail"
+                formControlName="email"
+                #email />
+              <mat-error [input]="email" [group]="loginForm" appFieldError="invalid">
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <!-- <mat-icon matPrefix>vpn_key</mat-icon> -->
+            <mat-form-field fxFlex>
+              <input
+                matInput
+                placeholder="Password"
+                aria-label="Password"
+                type="password"
+                formControlName="password"
+                #password />
+              <mat-hint>Minimum 8 characters</mat-hint>
+              <mat-error
+                [input]="password"
+                [group]="loginForm"
+                [appFieldError]="['required', 'minlength', 'maxlength']">
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <!-- <mat-icon matPrefix>vpn_key</mat-icon> -->
+            <mat-form-field fxFlex>
+              <input
+                matInput
+                placeholder="Repeat Password"
+                aria-label="RepeatPassword"
+                type="password"
+                formControlName="repeatPassword"
+                #password />
+              <mat-hint>Minimum 8 characters</mat-hint>
+              <mat-error
+                [input]="password"
+                [group]="loginForm"
+                [appFieldError]="['required', 'minlength', 'maxlength']">
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" class="top-pad">
+            <div fxLayout="column">
+              @if (loginError) {
+                <div class="mat-caption error">{{ loginError }}</div>
+              }
+              <div class="flex-spacer"></div>
+              <button
+                class="px-0"
+                mat-raised-button
+                type="submit"
+                color="warning"
+                [disabled]="loginForm.invalid"
+                (click)="onSignUp()">
+                Sign up
+              </button>
+            </div>
+          </div>
+          <div fxLayout="row" class="top-pad"></div>
+          <div fxLayout="row" class="top-pad">
+            @if (loginError) {
+              <div class="mat-caption error">{{ loginError }}</div>
+            }
+            <div class="flex-spacer"></div>
+            <!-- <button
+              class="px-5"
+              mat-raised-button
+              type="submit"
+              color="primary"
+              [disabled]="loginForm.invalid"
+              (click)="goToLogin()">
+              Login
+            </button> -->
+            <a href="/login">Login</a>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-content>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <span>Authentication Mode: </span><i>{{ authMode }}</i>
+        </div>
+        @if (authMode !== AuthMode.InMemory) {
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <span>Demo Credentials: </span
+            ><button
+              mat-button
+              (click)="
+                this.loginForm.patchValue({
+                  email: 'duluca@gmail.com',
+                  password: 'l0l1pop!!',
+                })
+              ">
+              Fill
+            </button>
+          </div>
+        }
+        @if (authMode === AuthMode.InMemory) {
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title> Fake Login Info </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-grid-list cols="3" rowHeight="48px" role="list">
+                <mat-grid-tile [colspan]="3" role="listitem" style="background: pink">
+                  Use any 8 character string as password
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-grid-tile-header>Role</mat-grid-tile-header>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="2">
+                  <mat-grid-tile-header>E-mail</mat-grid-tile-header>
+                </mat-grid-tile>
+                @for (role of roles; track role; let oddRow = $odd) {
+                  <div>
+                    <mat-grid-tile
+                      role="listitem"
+                      [style.background]="oddRow ? 'lightGray' : 'white'">
+                      {{ role }}
+                    </mat-grid-tile>
+                    <mat-grid-tile
+                      [colspan]="2"
+                      role="listitem"
+                      [style.background]="oddRow ? 'lightGray' : 'white'">
+                      <div fxFlex fxLayoutAlign="end center">
+                        @if (role.toLowerCase() === 'none') {
+                          <div>Any &#64;test.com email</div>
+                        } @else {
+                          {{ role.toLowerCase() }}&#64;test.com
+                        }
+                        <button
+                          mat-button
+                          (click)="
+                            this.loginForm.patchValue({
+                              email: role.toLowerCase() + '@test.com',
+                              password: 'whatever',
+                            })
+                          ">
+                          Fill
+                        </button>
+                      </div>
+                    </mat-grid-tile>
+                  </div>
+                }
+              </mat-grid-list>
+            </mat-expansion-panel>
+          </mat-accordion>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

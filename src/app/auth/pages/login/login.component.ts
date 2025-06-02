@@ -12,12 +12,12 @@ import { FlexModule } from '@ngbracket/ngx-layout/flex'
 import { combineLatest } from 'rxjs'
 import { catchError, filter, first, tap } from 'rxjs/operators'
 
-import { environment } from '../../environments/environment'
-import { AuthMode, Role } from '../auth/auth.enum'
-import { AuthService } from '../auth/auth.service'
-import { UiService } from '../common/ui.service'
-import { EmailValidation, PasswordValidation } from '../common/validations'
-import { FieldErrorDirective } from '../user-controls/field-error/field-error.directive'
+import { environment } from '../../../../environments/environment'
+import { UiService } from '../../../common/ui.service'
+import { EmailValidation, PasswordValidation } from '../../../common/validations'
+import { FieldErrorDirective } from '../../../user-controls/field-error/field-error.directive'
+import { AuthMode, Role } from '../../auth.enum'
+import { AuthService } from '../../auth.service'
 
 @Component({
   selector: 'app-login',
@@ -102,5 +102,9 @@ export class LoginComponent implements OnInit {
       default:
         return '/home'
     }
+  }
+
+  onSignUp(): void {
+    this.router.navigateByUrl('/sign-up')
   }
 }

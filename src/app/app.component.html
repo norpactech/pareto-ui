@@ -1,0 +1,106 @@
+<app-loading-overlay></app-loading-overlay>
+<div class="app-container">
+  @if (
+    {
+      status: authService.authStatus$ | async,
+      user: authService.currentUser$ | async,
+    };
+    as auth
+  ) {
+    <mat-toolbar
+      *ngIf="showToolbar"
+      color="primary"
+      fxLayoutGap="8px"
+      class="app-toolbar"
+      [class.app-is-mobile]="media.isActive('xs')">
+      @if (auth?.status?.isAuthenticated) {
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
+      <a routerLink="/dashboard" class="logo-link">
+        <img src="assets/img/icons/norpac.png" alt="NorPacTech Icon" class="logo" />
+        <span class="left-pad modern-font">Pareto Factory</span>
+      </a>
+      <span class="flex-spacer"></span>
+      @if (auth?.status?.isAuthenticated) {
+        <div>
+          <span class="tenant-label">Tenant:</span>
+          <select
+            class="tenant-select"
+            [(ngModel)]="selectedIdTenant"
+            (change)="onTenantChange($event)">
+            <option *ngFor="let tenant of tenants" [value]="tenant.id">
+              {{ tenant.name }}
+            </option>
+          </select>
+        </div>
+        <span class="flex-spacer"></span>
+        <button
+          mat-mini-fab
+          routerLink="/user/profile"
+          matTooltip="Profile"
+          aria-label="User Profile">
+          @if (auth?.user?.picture) {
+            <img
+              alt="Profile picture"
+              class="image-cropper"
+              [ngSrc]="auth.user?.picture ?? ''"
+              width="40px"
+              height="40px"
+              fill />
+          } @else {
+            <mat-icon>account_circle</mat-icon>
+          }
+        </button>
+        <button
+          mat-mini-fab
+          routerLink="/user/logout"
+          matTooltip="Logout"
+          aria-label="Logout">
+          <mat-icon>lock_open</mat-icon>
+        </button>
+      } @else {
+        <div class="auth-buttons">
+          <button
+            mat-stroked-button
+            class="sign-in-button"
+            routerLink="/login"
+            matTooltip="Sign In"
+            aria-label="Sign In">
+            Sign In
+          </button>
+          <button
+            mat-stroked-button
+            class="sign-in-button"
+            routerLink="/sign-up"
+            matTooltip="Sign Up"
+            aria-label="Sign Up">
+            Sign Up
+          </button>
+        </div>
+      }
+    </mat-toolbar>
+  }
+  <mat-sidenav-container class="app-sidenav-container">
+    <mat-sidenav
+      #sidenav
+      [mode]="media.isActive('xs') ? 'over' : 'side'"
+      [fixedInViewport]="media.isActive('xs')"
+      fixedTopGap="56"
+      [(opened)]="opened"
+      [class.mat-elevation-z4]="true"
+      class="app-sidenav">
+      <app-side-navigation-menu></app-side-navigation-menu>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="main-content">
+        <router-outlet></router-outlet>
+      </div>
+      <footer>
+        &copy; {{ currentYear }} Northern Pacific Technologies, LLC. All rights reserved.
+        <br /><i>Be Consistent!</i>
+      </footer>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
