@@ -10,12 +10,13 @@ div[fxLayout] {
   height: auto;
 }
 
-.login-link:hover {
+.signup-link:hover {
   color: #00470b !important;
   font-weight: bold;
 }
-.login-link {
-  text-decoration: none;
+.signup-link {
+  /* text-decoration: none; */
+  font-weight: 550;
 }
 
 .full-width {
@@ -100,6 +101,6 @@ div[fxLayout] {
   transform: scale(1.1);
 }
 
-.signup-container {
+.login-container {
   background-color: #ececec;
 }

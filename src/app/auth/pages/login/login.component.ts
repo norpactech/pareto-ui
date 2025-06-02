@@ -22,14 +22,7 @@ import { AuthService } from '../../auth.service'
 @Component({
   selector: 'app-login',
   templateUrl: 'login.component.html',
-  styles: `
-    .error {
-      color: red;
-    }
-    div[fxLayout] {
-      margin-top: 32px;
-    }
-  `,
+  styleUrl: './login.component.css',
   imports: [
     FlexModule,
     MatCardModule,
