@@ -104,3 +104,16 @@ div[fxLayout] {
 .login-container {
   background-color: #ececec;
 }
+
+.centered-box {
+  padding: 20px;
+  background-color: #fafafa;
+}
+
+.body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center; /* Horizontal center */
+  align-items: center; /* Vertical center */
+}
