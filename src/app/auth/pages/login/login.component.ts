@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Component, inject, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
@@ -66,6 +67,7 @@ export class LoginComponent implements OnInit {
   }
 
   async login(submittedForm: FormGroup) {
+
     this.authService
       .login(submittedForm.value.email, submittedForm.value.password)
       .pipe(catchError((err) => (this.loginError = err)))

@@ -9,6 +9,11 @@ export const PasswordValidation = [
   Validators.minLength(8),
   Validators.maxLength(50),
 ]
+export const ConfimationCodeValidator = [
+  Validators.required,
+  Validators.minLength(6),
+  Validators.maxLength(15),
+]
 export const USAZipCodeValidation = [
   Validators.required,
   Validators.pattern(/^\d{5}(?:[-\s]\d{4})?$/),
