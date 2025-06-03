@@ -4,16 +4,16 @@
   </mat-list-item>
   <mat-nav-list>
     <a mat-list-item routerLinkActive="active-link" routerLink="project/component">
-      <span>Component</span>
+      <span class="fs-14">Component</span>
     </a>
     <a mat-list-item routerLinkActive="active-link" routerLink="project/component-omit">
-      <span>Component Omit</span>
+      <span class="fs-14">Component Omit</span>
     </a>
     <a
       mat-list-item
       routerLinkActive="active-link"
       routerLink="project/component-property">
-      <span>Component Property</span>
+      <span class="fs-14">Component Property</span>
     </a>
   </mat-nav-list>
 
@@ -22,7 +22,7 @@
   </mat-list-item>
   <mat-nav-list>
     <a mat-list-item routerLinkActive="active-link" routerLink="model/schema">
-      <span>Schema</span>
+      <span class="fs-14">Schema</span>
     </a>
   </mat-nav-list>
   <mat-expansion-panel [class.mat-elevation-z0]="true">
@@ -32,25 +32,25 @@
         mat-list-item
         routerLinkActive="active-link"
         routerLink="model/data-object/property">
-        <span>Property</span>
+        <span class="fs-14">Property</span>
       </a>
       <a
         mat-list-item
         routerLinkActive="active-link"
         routerLink="model/data-object/property-type">
-        <span>Property Type</span>
+        <span class="fs-14">Property Type</span>
       </a>
       <a
         mat-list-item
         routerLinkActive="active-link"
         routerLink="model/data-object/index">
-        <span>Index</span>
+        <span class="fs-14">Index</span>
       </a>
       <a
         mat-list-item
         routerLinkActive="active-link"
         routerLink="model/data-object/index-property">
-        <span>Index Property</span>
+        <span class="fs-14">Index Property</span>
       </a>
     </mat-nav-list>
   </mat-expansion-panel>
@@ -65,19 +65,22 @@
         mat-list-item
         routerLinkActive="active-link"
         routerLink="/definitions/generic/data-types">
-        <span>Data Types</span>
+        <span class="fs-14">Data Types</span>
       </a>
       <a
         mat-list-item
         routerLinkActive="active-link"
         routerLink="/definitions/generic/property-types">
-        <span>Property Types</span>
+        <span class="fs-14">Property Types</span>
       </a>
       <a
         mat-list-item
         routerLinkActive="active-link"
         routerLink="/definitions/generic/property-type-attributes">
-        <span matTooltip="Property Type Attributes" matTooltipPosition="above"
+        <span
+          class="fs-14"
+          matTooltip="Property Type Attributes"
+          matTooltipPosition="above"
           >Property Type <br />Attributes</span
         >
       </a>
@@ -90,19 +93,19 @@
         mat-list-item
         routerLinkActive="active-link"
         routerLink="/definitions/platform/context"
-        >Context</a
+        ><span class="fs-14">Context</span></a
       >
       <a
         mat-list-item
         routerLinkActive="active-link"
         routerLink="/definitions/platform/data-types"
-        >Data Types</a
+        ><span class="fs-14">Data Types</span></a
       >
       <a
         mat-list-item
         routerLinkActive="active-link"
         routerLink="/definitions/platform/property-types"
-        >Property Types</a
+        ><span class="fs-14">Property Types</span></a
       >
     </mat-nav-list>
   </mat-expansion-panel>
@@ -113,29 +116,29 @@
         mat-list-item
         routerLinkActive="active-link"
         routerLink="system/reference-table-type"
-        >Reference Table <br />Type</a
+        ><span class="fs-14">Reference Table <br />Type</span></a
       >
       <a mat-list-item routerLinkActive="active-link" routerLink="system/reference-table"
-        >Reference Table</a
+        ><span class="fs-14">Reference Table</span></a
       >
       <a mat-list-item routerLinkActive="active-link" routerLink="system/validators"
-        >Validators</a
+        ><span class="fs-14">Validators</span></a
       >
       <a mat-list-item routerLinkActive="active-link" routerLink="system/plugin"
-        >Plugin</a
+        ><span class="fs-14">Plugin</span></a
       >
     </mat-nav-list>
   </mat-expansion-panel>
 
   <mat-list-item routerLink="#">
-    <span><b>Account</b></span>
+    <span class="fs-14"><b>Account</b></span>
   </mat-list-item>
   <mat-nav-list>
     <a mat-list-item routerLinkActive="active-link" routerLink="account/tenant">
-      <span>Tenant</span>
+      <span class="fs-14">Tenant</span>
     </a>
     <a mat-list-item routerLinkActive="active-link" routerLink="/manager/users">
-      <span>User</span>
+      <span class="fs-14">User</span>
     </a>
   </mat-nav-list>
 </mat-nav-list>

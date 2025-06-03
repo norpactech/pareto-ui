@@ -71,6 +71,12 @@ export abstract class AuthService implements IAuthService {
     password: string
   ): Observable<IServerAuthResponse>
 
+  // protected abstract signUpAuthProvider(
+  //   email: string,
+  //   password: string,
+  //   repeatedPassword: string
+  // ): Observable<IServerAuthResponse>
+
   protected abstract transformJwtToken(token: unknown): IAuthStatus
 
   protected abstract getCurrentUser(): Observable<User>

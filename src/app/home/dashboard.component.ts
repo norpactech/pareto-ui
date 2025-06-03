@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common'
 import { Component } from '@angular/core'
 
 import { AuthService } from '../auth/auth.service'
-import { LoginComponent } from '../login/login.component'
+import { LoginComponent } from '../auth/pages/login/login.component'
 
 @Component({
   selector: 'app-home',
@@ -18,5 +18,5 @@ import { LoginComponent } from '../login/login.component'
   imports: [LoginComponent, AsyncPipe],
 })
 export class DashboardComponent {
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService) { }
 }
