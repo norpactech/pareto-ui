@@ -2,7 +2,8 @@ import { AuthMode } from '../app/auth/auth.enum'
 
 export const environment = {
   production: true,
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'https://dev.api.paretofactory.com/v01',
+  cognitoBaseUrl: 'https://dev.api.paretofactory.com',
   authMode: AuthMode.CustomServer,
 }
 

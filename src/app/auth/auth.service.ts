@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { inject } from '@angular/core'
 import { jwtDecode as decode } from 'jwt-decode'
 import { BehaviorSubject, Observable, pipe, throwError } from 'rxjs'

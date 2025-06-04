@@ -1,0 +1,124 @@
+.error {
+  color: red;
+}
+div[fxLayout] {
+  margin-top: 32px;
+}
+
+.card-img-top {
+  max-width: 80px;
+  height: auto;
+}
+
+.signup-link:hover {
+  color: #00470b !important;
+  font-weight: bold;
+  cursor: pointer;
+}
+.signup-link {
+  /* text-decoration: none; */
+  font-weight: 550;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.rounded-form .mat-form-field-outline {
+  border-radius: 30px;
+}
+
+.sign-up-button:hover {
+  font-weight: bold;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.separator span {
+  padding: 0 10px;
+  color: #888;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.separator span {
+  padding: 0 10px;
+  color: #888;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap; /* Ensures responsiveness */
+}
+
+.icon img {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.icon img:hover {
+  transform: scale(1.1);
+}
+
+.login-container {
+  background-color: #ececec;
+}
+
+.centered-box {
+  padding: 20px;
+  background-color: #fafafa;
+}
+
+.body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center; /* Horizontal center */
+  align-items: center; /* Vertical center */
+}
+
+.forgot-passoword {
+  margin-top: -30px !important;
+}

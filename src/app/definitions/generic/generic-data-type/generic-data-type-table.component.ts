@@ -76,7 +76,7 @@ export class GenericDataTypeTableComponent implements AfterViewInit {
   readonly refresh$ = new Subject<void>()
   readonly isActiveColumn = signal(false)
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackBar: MatSnackBar) { }
 
   items$!: Observable<IGenericDataType[]>
   displayedColumns = computed(() => [
@@ -132,7 +132,7 @@ export class GenericDataTypeTableComponent implements AfterViewInit {
     const allElements = document.querySelectorAll('*')
     allElements.forEach((element) => {
       if (typeof (element as HTMLElement).blur === 'function') {
-        ;(element as HTMLElement).blur()
+        ; (element as HTMLElement).blur()
       }
     })
 
@@ -184,7 +184,7 @@ export class GenericDataTypeTableComponent implements AfterViewInit {
         const allElements = document.querySelectorAll('*')
         allElements.forEach((element) => {
           if (typeof (element as HTMLElement).blur === 'function') {
-            ;(element as HTMLElement).blur()
+            ; (element as HTMLElement).blur()
           }
         })
         const dialogRef = this.dialog.open(ContextDialogComponent, {

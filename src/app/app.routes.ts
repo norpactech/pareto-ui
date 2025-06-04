@@ -2,9 +2,10 @@ import { Routes } from '@angular/router'
 
 import { Role } from './auth/auth.enum'
 import { authGuard } from './auth/auth.guard'
+import { LoginComponent } from './auth/pages/login/login.component'
+import { SignUpComponent } from './auth/pages/sign-up/sign-up.component'
 import { DashboardComponent } from './home/dashboard.component'
 import { HomeComponent } from './home/home.component'
-import { LoginComponent } from './login/login.component'
 
 export const routes: Routes = [
   {
@@ -38,6 +39,11 @@ export const routes: Routes = [
     data: { hideToolbar: true },
   },
   {
+    path: 'sign-up',
+    component: SignUpComponent,
+    data: { hideToolbar: true },
+  },
+  {
     path: 'manager',
     loadChildren: () => import('./manager/manager.module').then((m) => m.ManagerModule),
     canLoad: [authGuard],
@@ -58,6 +64,45 @@ export const routes: Routes = [
     path: 'definitions',
     loadChildren: () =>
       import('./definitions/definitions.module').then((m) => m.DefinitionsModule),
+    canLoad: [authGuard],
+    data: {
+      expectedRole: [Role.User, Role.Admin],
+      hideToolbar: false,
+    },
+  },
+  {
+    path: 'project',
+    loadChildren: () =>
+      import('./pages/project/project.module').then((m) => m.ProjectModule),
+    canLoad: [authGuard],
+    data: {
+      expectedRole: [Role.User, Role.Admin],
+      hideToolbar: false,
+    },
+  },
+  {
+    path: 'model',
+    loadChildren: () => import('./pages/model/model.module').then((m) => m.ModelModule),
+    canLoad: [authGuard],
+    data: {
+      expectedRole: [Role.User, Role.Admin],
+      hideToolbar: false,
+    },
+  },
+  {
+    path: 'system',
+    loadChildren: () =>
+      import('./pages/system/system.module').then((m) => m.SystemModule),
+    canLoad: [authGuard],
+    data: {
+      expectedRole: [Role.User, Role.Admin],
+      hideToolbar: false,
+    },
+  },
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('./pages/account/account.module').then((m) => m.AccountModule),
     canLoad: [authGuard],
     data: {
       expectedRole: [Role.User, Role.Admin],

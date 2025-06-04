@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@angular/core'
 import { sign } from 'fake-jwt-sign' // For InMemoryAuthService only
 import { Observable, of, throwError } from 'rxjs'
@@ -46,6 +47,7 @@ export class InMemoryAuthService extends AuthService {
     email: string,
     _password: string
   ): Observable<IServerAuthResponse> {
+
     email = email.toLowerCase()
 
     if (!email.endsWith('@test.com')) {
@@ -70,6 +72,7 @@ export class InMemoryAuthService extends AuthService {
         algorithm: 'none',
       }),
     } as IServerAuthResponse
+
 
     return of(authResponse)
   }

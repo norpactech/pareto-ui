@@ -1,0 +1,33 @@
+.active-link {
+  font-weight: bold !important;
+  border-left: 3px solid green;
+}
+.mat-mdc-subheader {
+  font-weight: bold;
+}
+mat-nav-list {
+  padding: 0 5px; /* Add padding to ensure text is 10px from the edge */
+}
+
+.toolbar-item-spacer {
+  flex: 1 1 auto;
+}
+
+.app-container {
+  height: 90%;
+  margin: 0;
+}
+.app-sidenav {
+  width: 230px;
+}
+.app-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.fs-14 {
+  font-size: 14px !important;
+  font-weight: 500;
+}

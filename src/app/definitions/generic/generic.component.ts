@@ -27,4 +27,4 @@ import { GenericPropertyTypeTableComponent } from './generic-property-type/gener
     GenericDataTypeAttributeTableComponent,
   ],
 })
-export class GenericComponent {}
+export class GenericComponent { }
