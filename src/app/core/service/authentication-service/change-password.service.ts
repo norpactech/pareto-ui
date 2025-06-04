@@ -7,13 +7,13 @@ import { Injectable } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { environment } from '@environment/environment'
 
-import { SignUpBaseService } from './signup-base.service'
+import { AuthenticationBaseService } from './authentication-base.service'
 
 @Injectable({
   providedIn: 'root',
 })
-export class SignUp extends SignUpBaseService {
+export class ChangePassword extends AuthenticationBaseService {
   constructor() {
-    super(environment.cognitoBaseUrl + '/sign-up', new MatSnackBar())
+    super(environment.cognitoBaseUrl + '/change-password', new MatSnackBar())
   }
 }

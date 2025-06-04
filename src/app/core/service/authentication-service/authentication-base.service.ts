@@ -7,9 +7,14 @@ import { IApiResponse, IPersistResponse } from '@service/model'
 import { Observable, throwError } from 'rxjs'
 import { map } from 'rxjs/operators'
 
-import { ISignUp, ISignUpConfirmation } from '../../model/sign-up.dto'
+import {
+  IChangePassword,
+  IForgotPassword,
+  ISignUp,
+  ISignUpConfirmation,
+} from '../../model/sign-up.dto'
 
-export abstract class SignUpBaseService {
+export abstract class AuthenticationBaseService {
   protected readonly httpClient = inject(HttpClient)
   protected readonly dialog = inject(MatDialog)
 
@@ -41,8 +46,6 @@ export abstract class SignUpBaseService {
       username: data.username,
       password: data.password,
     }
-
-    console.log(`${this.baseUrl}`)
 
     const request$ = this.httpClient.post<IApiResponse<IPersistResponse>>(
       `${this.baseUrl}`,
@@ -76,8 +79,6 @@ export abstract class SignUpBaseService {
       confirmationCode: data.confirmationCode,
     }
 
-    console.log(`${this.baseUrl}`)
-
     const request$ = this.httpClient.post<IApiResponse<IPersistResponse>>(
       `${this.baseUrl}`,
       params
@@ -93,6 +94,71 @@ export abstract class SignUpBaseService {
           throw new Error('No response data found')
         }
         this.snackBar.open('Record Successfully Saved', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        })
+        return response.data
+      })
+    )
+  }
+
+  public forgotPassword(data: IForgotPassword): Observable<IPersistResponse> {
+    if (!data) {
+      return throwError(() => new Error('Null or undefined context data'))
+    }
+    const params: { [key: string]: string } = {
+      username: data.username,
+    }
+
+    const request$ = this.httpClient.post<IApiResponse<IPersistResponse>>(
+      `${this.baseUrl}`,
+      params
+    )
+
+    return request$.pipe(
+      map((response) => {
+        if (!response.data) {
+          if (response.error) {
+            this.handleError(response.error)
+            throw new Error(JSON.stringify(response.error))
+          }
+          throw new Error('No response data found')
+        }
+        this.snackBar.open('Cofirmation code successfully sent to your email', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        })
+        return response.data
+      })
+    )
+  }
+  public changePassword(data: IChangePassword): Observable<IPersistResponse> {
+    if (!data) {
+      return throwError(() => new Error('Null or undefined context data'))
+    }
+    const params: { [key: string]: string } = {
+      username: data.username,
+      confirmationCode: data.confirmationCode,
+      password: data.password,
+    }
+
+    const request$ = this.httpClient.post<IApiResponse<IPersistResponse>>(
+      `${this.baseUrl}`,
+      params
+    )
+
+    return request$.pipe(
+      map((response) => {
+        if (!response.data) {
+          if (response.error) {
+            this.handleError(response.error)
+            throw new Error(JSON.stringify(response.error))
+          }
+          throw new Error('No response data found')
+        }
+        this.snackBar.open('Password changed successfully.', 'Close', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'bottom',
