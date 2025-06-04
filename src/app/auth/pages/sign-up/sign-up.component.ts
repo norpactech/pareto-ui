@@ -1,6 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { CommonModule } from '@angular/common'
-import { Component, inject } from '@angular/core'
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { Component, inject, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { MatExpansionModule } from '@angular/material/expansion'
@@ -10,14 +11,13 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AuthMode, Role } from '@app/auth/auth.enum'
-// import { AuthService } from '@app/auth/auth.service' //to do for signup functionality
 import { UiService } from '@app/common/ui.service'
-import { EmailValidation, PasswordValidation } from '@app/common/validations'
+import { ConfimationCodeValidator, EmailValidation, PasswordValidation } from '@app/common/validations'
+import { SignUp } from '@app/core/service/authentication-service/signup.service'
+import { SignUpConfirmation } from '@app/core/service/authentication-service/signup-comfirmation.service'
 import { FieldErrorDirective } from '@app/user-controls/field-error/field-error.directive'
 import { environment } from '@environment/environment'
 import { FlexModule } from '@ngbracket/ngx-layout'
-
-// import { SignUpService } from './service/sign-up.service' //to do for signup functionality
 
 @Component({
   selector: 'app-sign-up',
@@ -35,27 +35,32 @@ import { FlexModule } from '@ngbracket/ngx-layout'
     MatButtonModule,
     MatExpansionModule,
     MatGridListModule,
-  ],
+    FormsModule
+  ]
 })
-export class SignUpComponent {
+export class SignUpComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder)
-  // private readonly signUpAuthService = inject(SignUpService) //to do for signup functionality
   private readonly router = inject(Router)
   private readonly route = inject(ActivatedRoute)
   private readonly uiService = inject(UiService)
+  private readonly SignUp = inject(SignUp)
+  private readonly SignUpConfirmation = inject(SignUpConfirmation)
 
   loginForm!: FormGroup
+  confirmationCodeForm!: FormGroup
   loginError = ''
   roles = Object.keys(Role)
   authMode = environment.authMode
   AuthMode = AuthMode
+
+  isConfirmationShow: boolean = false;
+  isPasswordMatch: boolean = false;
 
   get redirectUrl() {
     return this.route.snapshot.queryParamMap.get('redirectUrl') || ''
   }
 
   ngOnInit() {
-    // this.signUpAuthService.signUp() //to do for signup functionality
     this.buildLoginForm()
   }
 
@@ -63,75 +68,47 @@ export class SignUpComponent {
     this.loginForm = this.formBuilder.group({
       email: ['', EmailValidation],
       password: ['', PasswordValidation],
-      repeatPassword: [''],
+      repeatPassword: ['', PasswordValidation],
+    })
+
+    this.confirmationCodeForm = this.formBuilder.group({
+      confirmationCode: ['', ConfimationCodeValidator]
     })
   }
 
-  // this code will be remove used as reference//
-
-  // async login(submittedForm: FormGroup) {
-  //   this.signUpAuthService
-  //     .login(submittedForm.value.email, submittedForm.value.password)
-  //     .pipe(catchError((err) => (this.loginError = err)))
-
-  //   combineLatest([this.signUpAuthService.authStatus$, this.signUpAuthService.currentUser$])
-  //     .pipe(
-  //       filter(([authStatus, user]) => authStatus.isAuthenticated && user?._id !== ''),
-  //       first(),
-  //       tap(([authStatus, user]) => {
-  //         this.uiService.showToast(
-  //           `Welcome ${user.fullName}! Role: ${authStatus.userRole}`
-  //         )
-  //         this.router.navigate([
-  //           this.redirectUrl || this.homeRoutePerRole(user.role as Role),
-  //         ])
-  //       })
-  //     )
-  //     .subscribe()
-  // }
-
-  // to continue and make it work the signup
-  // async signUp(submittedForm: FormGroup) {
-  //   this.signUpAuthService
-  //     .signUp(
-  //       submittedForm.value.email,
-  //       submittedForm.value.password,
-  //       submittedForm.value.repeatPassword
-  //     )
-  //     .pipe(catchError((err) => (this.loginError = err)))
-
-  //   combineLatest([
-  //     this.signUpAuthService.authStatus$,
-  //     this.signUpAuthService.currentUser$,
-  //   ])
-  //     .pipe(
-  //       filter(([authStatus, user]) => authStatus.isAuthenticated && user?._id !== ''),
-  //       first(),
-  //       tap(([authStatus, user]) => {
-  //         this.uiService.showToast(
-  //           `Welcome ${user.fullName}! Role: ${authStatus.userRole}`
-  //         )
-  //         this.router.navigate([
-  //           this.redirectUrl || this.homeRoutePerRole(user.role as Role),
-  //         ])
-  //       })
-  //     )
-  //     .subscribe()
-  // }
-
-  private homeRoutePerRole(role: Role) {
-    switch (role) {
-      case Role.User:
-        return '/dashboard'
-      case Role.Admin:
-        return '/dashboard'
-      default:
-        return '/home'
+  handleConfirmationCode() {
+    if (this.confirmationCodeForm.get('confirmationCode')?.value) {
+      const params = {
+        username: this.loginForm.get('email')?.value,
+        confirmationCode: this.confirmationCodeForm.get('confirmationCode')?.value
+      }
+      this.SignUpConfirmation.signUpConfirmation(params).subscribe({
+        next: (value) => {
+          console.log('value: ', value)
+          this.router.navigateByUrl('/login');
+        },
+      })
     }
   }
 
-  onSignUp(): void {
-    this.router.navigateByUrl('/sign-up')
+  async onSignUp() {
+    this.isPasswordMatch = false;
+    if (this.loginForm.get('password')?.value === this.loginForm.get('repeatPassword')?.value) {
+
+      const params = {
+        username: this.loginForm.get('email')?.value,
+        password: this.loginForm.get('password')?.value
+      }
+
+      this.SignUp.signUp(params).subscribe({
+        next: (value) => {
+          this.isConfirmationShow = true;
+          console.log('value: ', value)
+        },
+      })
+    } else {
+      this.isPasswordMatch = true;
+    }
   }
 
   goToLogin(): void {

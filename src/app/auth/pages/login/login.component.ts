@@ -1,5 +1,8 @@
+/* eslint-disable prettier/prettier */
+
+import { CommonModule } from '@angular/common'
 import { Component, inject, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { MatExpansionModule } from '@angular/material/expansion'
@@ -8,13 +11,15 @@ import { MatGridListModule } from '@angular/material/grid-list'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { ActivatedRoute, Router } from '@angular/router'
+import { ChangePassword } from '@app/core/service/authentication-service/change-password.service'
+import { ForgotPassword } from '@app/core/service/authentication-service/forgot-password.service'
 import { FlexModule } from '@ngbracket/ngx-layout/flex'
 import { combineLatest } from 'rxjs'
 import { catchError, filter, first, tap } from 'rxjs/operators'
 
 import { environment } from '../../../../environments/environment'
 import { UiService } from '../../../common/ui.service'
-import { EmailValidation, PasswordValidation } from '../../../common/validations'
+import { ConfimationCodeValidator, EmailValidation, PasswordValidation } from '../../../common/validations'
 import { FieldErrorDirective } from '../../../user-controls/field-error/field-error.directive'
 import { AuthMode, Role } from '../../auth.enum'
 import { AuthService } from '../../auth.service'
@@ -24,6 +29,7 @@ import { AuthService } from '../../auth.service'
   templateUrl: 'login.component.html',
   styleUrl: './login.component.css',
   imports: [
+    CommonModule,
     FlexModule,
     MatCardModule,
     ReactiveFormsModule,
@@ -42,12 +48,20 @@ export class LoginComponent implements OnInit {
   private readonly router = inject(Router)
   private readonly route = inject(ActivatedRoute)
   private readonly uiService = inject(UiService)
+  private readonly ForgotPassword = inject(ForgotPassword)
+  private readonly ChangePassword = inject(ChangePassword)
 
   loginForm!: FormGroup
+  forgotPassword!: FormGroup
+  changePassword!: FormGroup
+
   loginError = ''
   roles = Object.keys(Role)
   authMode = environment.authMode
   AuthMode = AuthMode
+
+  displayType: string = 'login'; // set the display type based on the auth mode
+  isConfirmationCodeSent: boolean = false;
 
   get redirectUrl() {
     return this.route.snapshot.queryParamMap.get('redirectUrl') || ''
@@ -63,9 +77,20 @@ export class LoginComponent implements OnInit {
       email: ['', EmailValidation],
       password: ['', PasswordValidation],
     })
+
+    this.forgotPassword = this.formBuilder.group({
+      email: ['', EmailValidation],
+    })
+
+    this.changePassword = this.formBuilder.group({
+      username: ['', Validators.required],
+      confirmationCode: ['', ConfimationCodeValidator],
+      newPassword: ['', Validators.required],
+    })
   }
 
   async login(submittedForm: FormGroup) {
+
     this.authService
       .login(submittedForm.value.email, submittedForm.value.password)
       .pipe(catchError((err) => (this.loginError = err)))
@@ -99,5 +124,43 @@ export class LoginComponent implements OnInit {
 
   onSignUp(): void {
     this.router.navigateByUrl('/sign-up')
+  }
+
+  goToLogin() {
+    this.displayType = 'login';
+  }
+  goToForgotPassword() {
+    this.displayType = 'forgot-password';
+  }
+
+  goToChangePassword() {
+    this.displayType = 'change-password';
+  }
+
+  handleForgotPassword() {
+    const forgotPasswordParams = {
+      username: this.forgotPassword.get('email')?.value,
+    }
+
+    this.ForgotPassword.forgotPassword(forgotPasswordParams).subscribe({
+      next: (value) => {
+        console.log('value: ', value)
+        this.isConfirmationCodeSent = true
+      },
+    })
+  }
+
+  handleChangePassword() {
+    const changePasswordParams = {
+      username: this.changePassword.get('username')?.value,
+      confirmationCode: this.changePassword.get('confirmationCode')?.value,
+      password: this.changePassword.get('newPassword')?.value,
+    }
+    this.ChangePassword.changePassword(changePasswordParams).subscribe({
+      next: (value) => {
+        console.log('value: ', value)
+        this.goToLogin();
+      },
+    })
   }
 }

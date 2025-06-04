@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { inject } from '@angular/core'
 import { jwtDecode as decode } from 'jwt-decode'
 import { BehaviorSubject, Observable, pipe, throwError } from 'rxjs'
@@ -70,12 +71,6 @@ export abstract class AuthService implements IAuthService {
     email: string,
     password: string
   ): Observable<IServerAuthResponse>
-
-  // protected abstract signUpAuthProvider(
-  //   email: string,
-  //   password: string,
-  //   repeatedPassword: string
-  // ): Observable<IServerAuthResponse>
 
   protected abstract transformJwtToken(token: unknown): IAuthStatus
 

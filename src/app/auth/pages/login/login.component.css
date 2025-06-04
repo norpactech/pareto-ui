@@ -13,6 +13,7 @@ div[fxLayout] {
 .signup-link:hover {
   color: #00470b !important;
   font-weight: bold;
+  cursor: pointer;
 }
 .signup-link {
   /* text-decoration: none; */
@@ -116,4 +117,8 @@ div[fxLayout] {
   display: flex;
   justify-content: center; /* Horizontal center */
   align-items: center; /* Vertical center */
+}
+
+.forgot-passoword {
+  margin-top: -30px !important;
 }

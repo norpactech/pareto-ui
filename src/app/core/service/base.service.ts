@@ -15,7 +15,7 @@ export abstract class BaseService<T extends IBaseEntity> {
   constructor(
     private baseUrl: string,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   public get(id: string): Observable<T | null> {
     if (!id) {
