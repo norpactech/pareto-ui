@@ -9,10 +9,10 @@ export const PasswordValidation = [
   Validators.minLength(8),
   Validators.maxLength(50),
 ]
-export const ConfimationCodeValidator = [
+export const ConfimationCodeValidator = [Validators.required, Validators.minLength(6)]
+export const PasswordValidator = [
   Validators.required,
-  Validators.minLength(6),
-  Validators.maxLength(15),
+  Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/),
 ]
 export const USAZipCodeValidation = [
   Validators.required,
