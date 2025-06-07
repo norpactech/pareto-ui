@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component'
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full',
     data: { hideToolbar: false },
   },
