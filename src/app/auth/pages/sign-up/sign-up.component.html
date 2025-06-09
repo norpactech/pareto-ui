@@ -52,7 +52,26 @@
                         type="password"
                         formControlName="password"
                         #password />
-                      <mat-hint>Minimum 8 characters</mat-hint>
+                      @if (
+                        loginForm.get('password')?.invalid &&
+                        loginForm.get('password')?.touched
+                      ) {
+                        <mat-hint class="text-danger"
+                          >Minimum 8 characters, with number, uppercase &
+                          lowercase.</mat-hint
+                        >
+                      }
+                      @if (
+                        loginForm.get('password')?.value !==
+                          loginForm.get('repeatPassword')?.value &&
+                        loginForm.get('password')?.touched &&
+                        loginForm.get('repeatPassword')?.value
+                      ) {
+                        <mat-hint class="text-danger">
+                          Entered passwords must match.</mat-hint
+                        >
+                      }
+
                       <mat-error
                         [input]="password"
                         [group]="loginForm"
@@ -69,7 +88,27 @@
                         type="password"
                         formControlName="repeatPassword"
                         #password />
-                      <mat-hint>Minimum 8 characters</mat-hint>
+
+                      @if (
+                        loginForm.get('repeatPassword')?.invalid &&
+                        loginForm.get('repeatPassword')?.touched
+                      ) {
+                        <mat-hint class="text-danger"
+                          >Minimum 8 characters, with number, uppercase &
+                          lowercase.</mat-hint
+                        >
+                      }
+                      @if (
+                        loginForm.get('password')?.value !==
+                          loginForm.get('repeatPassword')?.value &&
+                        loginForm.get('repeatPassword')?.touched &&
+                        loginForm.get('repeatPassword')?.value
+                      ) {
+                        <mat-hint class="text-danger">
+                          Entered passwords must match.</mat-hint
+                        >
+                      }
+
                       <mat-error
                         [input]="password"
                         [group]="loginForm"
