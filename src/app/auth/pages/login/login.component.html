@@ -60,12 +60,15 @@
                           type="password"
                           formControlName="password"
                           #password />
-                        <mat-hint>Minimum 8 characters</mat-hint>
-                        <mat-error
-                          [input]="password"
-                          [group]="loginForm"
-                          [appFieldError]="['required', 'minlength', 'maxlength']">
-                        </mat-error>
+                        @if (
+                          loginForm.get('password')?.touched &&
+                          loginForm.get('password')?.invalid
+                        ) {
+                          <mat-hint class="text-danger"
+                            >Minimum 8 characters, with number, uppercase &
+                            lowercase.</mat-hint
+                          >
+                        }
                       </mat-form-field>
                     </div>
                     <div fxLayout="row" class="top-pad">
@@ -257,21 +260,30 @@
                         autocomplete="new-password"
                         [attr.autocomplete]="'off'"
                         #newPassword />
-                      <mat-hint
-                        *ngIf="changePassword.get('newPassword')?.invalid"
-                        class="text-danger"
-                        >Minimum 8 characters, with number, uppercase &
-                        lowercase.</mat-hint
-                      >
-                      <mat-hint
-                        *ngIf="
-                          changePassword.get('repeatPassword')?.value !==
-                            changePassword.get('newPassword')?.value &&
-                          changePassword.get('newPassword')?.valid
-                        "
-                        class="text-danger">
-                        Entered passwords must match.</mat-hint
-                      >
+
+                      @if (
+                        changePassword.get('newPassword')?.invalid &&
+                        changePassword.get('newPassword')?.touched
+                      ) {
+                        <mat-hint
+                          *ngIf="changePassword.get('newPassword')?.invalid"
+                          class="text-danger"
+                          >Minimum 8 characters, with number, uppercase &
+                          lowercase.</mat-hint
+                        >
+                      }
+
+                      @if (
+                        changePassword.get('repeatPassword')?.value !==
+                          changePassword.get('newPassword')?.value &&
+                        changePassword.get('newPassword')?.valid &&
+                        changePassword.get('newPassword')?.touched &&
+                        changePassword.get('repeatPassword')?.value
+                      ) {
+                        <mat-hint class="text-danger">
+                          Entered passwords must match.</mat-hint
+                        >
+                      }
                     </mat-form-field>
                   </div>
 
@@ -287,22 +299,28 @@
                         name="repeat-password"
                         autocomplete="repeat-password"
                         [attr.autocomplete]="'off'"
-                        #repeatPassword />
-                      <mat-hint
-                        *ngIf="changePassword.get('repeatPassword')?.invalid"
-                        class="text-danger">
-                        Minimum 8 characters, with number, uppercase &
-                        lowercase.</mat-hint
-                      >
-                      <mat-hint
-                        *ngIf="
-                          changePassword.get('repeatPassword')?.value !==
-                            changePassword.get('newPassword')?.value &&
-                          changePassword.get('repeatPassword')?.valid
-                        "
-                        class="text-danger">
-                        Entered passwords must match.</mat-hint
-                      >
+                        #repeatPassword
+                        class="repeatPassword" />
+                      @if (
+                        changePassword.get('repeatPassword')?.invalid &&
+                        changePassword.get('repeatPassword')?.touched
+                      ) {
+                        <mat-hint class="text-danger">
+                          Minimum 8 characters, with number, uppercase &
+                          lowercase.</mat-hint
+                        >
+                      }
+                      @if (
+                        changePassword.get('repeatPassword')?.value !==
+                          changePassword.get('newPassword')?.value &&
+                        changePassword.get('repeatPassword')?.valid &&
+                        changePassword.get('repeatPassword')?.touched &&
+                        changePassword.get('newPassword')?.value
+                      ) {
+                        <mat-hint class="text-danger">
+                          Entered passwords must match.</mat-hint
+                        >
+                      }
                     </mat-form-field>
                   </div>
 

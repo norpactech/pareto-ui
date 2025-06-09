@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AuthMode, Role } from '@app/auth/auth.enum'
 import { UiService } from '@app/common/ui.service'
-import { ConfimationCodeValidator, EmailValidation, PasswordValidation } from '@app/common/validations'
+import { ConfimationCodeValidator, EmailValidation, PasswordValidator } from '@app/common/validations'
 import { SignUp } from '@app/core/service/authentication-service/signup.service'
 import { SignUpConfirmation } from '@app/core/service/authentication-service/signup-comfirmation.service'
 import { FieldErrorDirective } from '@app/user-controls/field-error/field-error.directive'
@@ -67,9 +67,13 @@ export class SignUpComponent implements OnInit {
   buildLoginForm() {
     this.loginForm = this.formBuilder.group({
       email: ['', EmailValidation],
-      password: ['', PasswordValidation],
-      repeatPassword: ['', PasswordValidation],
-    })
+      password: ['', PasswordValidator],
+      repeatPassword: ['', PasswordValidator],
+    },
+      {
+        updateOn: 'blur'
+      }
+    )
 
     this.confirmationCodeForm = this.formBuilder.group({
       confirmationCode: ['', ConfimationCodeValidator]
@@ -94,7 +98,6 @@ export class SignUpComponent implements OnInit {
   async onSignUp() {
     this.isPasswordMatch = false;
     if (this.loginForm.get('password')?.value === this.loginForm.get('repeatPassword')?.value) {
-
       const params = {
         username: this.loginForm.get('email')?.value,
         password: this.loginForm.get('password')?.value

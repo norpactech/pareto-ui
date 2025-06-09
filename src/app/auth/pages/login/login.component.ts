@@ -77,7 +77,10 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', EmailValidation],
       password: ['', PasswordValidator],
-    })
+    },
+      {
+        updateOn: 'blur'
+      })
 
     this.forgotPassword = this.formBuilder.group({
       email: ['', EmailValidation],
