@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatGridListModule } from '@angular/material/grid-list'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router'
 import { ChangePassword } from '@app/core/service/authentication-service/change-password.service'
 import { ForgotPassword } from '@app/core/service/authentication-service/forgot-password.service'
@@ -19,11 +20,10 @@ import { catchError, filter, first, tap } from 'rxjs/operators'
 
 import { environment } from '../../../../environments/environment'
 import { UiService } from '../../../common/ui.service'
-import { ConfimationCodeValidator, EmailValidation, PasswordValidation } from '../../../common/validations'
+import { ConfimationCodeValidator, EmailValidation, PasswordValidator } from '../../../common/validations'
 import { FieldErrorDirective } from '../../../user-controls/field-error/field-error.directive'
 import { AuthMode, Role } from '../../auth.enum'
 import { AuthService } from '../../auth.service'
-
 @Component({
   selector: 'app-login',
   templateUrl: 'login.component.html',
@@ -40,6 +40,7 @@ import { AuthService } from '../../auth.service'
     MatButtonModule,
     MatExpansionModule,
     MatGridListModule,
+    MatProgressSpinnerModule
   ],
 })
 export class LoginComponent implements OnInit {
@@ -75,7 +76,7 @@ export class LoginComponent implements OnInit {
   buildLoginForm() {
     this.loginForm = this.formBuilder.group({
       email: ['', EmailValidation],
-      password: ['', PasswordValidation],
+      password: ['', PasswordValidator],
     })
 
     this.forgotPassword = this.formBuilder.group({
@@ -85,8 +86,13 @@ export class LoginComponent implements OnInit {
     this.changePassword = this.formBuilder.group({
       username: ['', Validators.required],
       confirmationCode: ['', ConfimationCodeValidator],
-      newPassword: ['', Validators.required],
-    })
+      newPassword: ['', PasswordValidator],
+      repeatPassword: ['', PasswordValidator]
+    },
+      {
+        updateOn: 'blur'
+      }
+    )
   }
 
   async login(submittedForm: FormGroup) {
@@ -135,6 +141,8 @@ export class LoginComponent implements OnInit {
 
   goToChangePassword() {
     this.displayType = 'change-password';
+
+
   }
 
   handleForgotPassword() {
@@ -145,7 +153,10 @@ export class LoginComponent implements OnInit {
     this.ForgotPassword.forgotPassword(forgotPasswordParams).subscribe({
       next: (value) => {
         console.log('value: ', value)
-        this.isConfirmationCodeSent = true
+
+        setTimeout(() => {
+          this.goToChangePassword()
+        }, 2000);
       },
     })
   }

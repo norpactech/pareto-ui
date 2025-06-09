@@ -6,7 +6,7 @@ div[fxLayout] {
 }
 
 .card-img-top {
-  max-width: 80px;
+  max-width: 50px;
   height: auto;
 }
 
@@ -16,7 +16,6 @@ div[fxLayout] {
   cursor: pointer;
 }
 .signup-link {
-  /* text-decoration: none; */
   font-weight: 550;
 }
 
@@ -120,5 +119,5 @@ div[fxLayout] {
 }
 
 .forgot-passoword {
-  margin-top: -30px !important;
+  margin-bottom: -30px !important;
 }
