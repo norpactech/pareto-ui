@@ -1,6 +1,6 @@
 /**
- * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved.
- *
+ * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved. 
+ *  
  * For license details, see the LICENSE file in this project root.
  */
 import { Injectable } from '@angular/core'
@@ -14,7 +14,7 @@ import { BaseService } from './base.service'
   providedIn: 'root',
 })
 export class ProjectComponentService extends BaseService<IProjectComponent> {
-  constructor() {
+  constructor() {  
     super(environment.baseUrl + '/project-component', new MatSnackBar())
   }
 }

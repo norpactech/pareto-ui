@@ -1,18 +1,18 @@
 /**
- * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved.
- *
+ * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved. 
+ *  
  * For license details, see the LICENSE file in this project root.
  */
 export * from './cardinality.dto'
 export * from './context.dto'
 export * from './context-data-type.dto'
 export * from './context-property-type.dto'
+export * from './data-index.dto'
+export * from './data-index-property.dto'
 export * from './data-object.dto'
 export * from './generic-data-type.dto'
 export * from './generic-data-type-attribute.dto'
 export * from './generic-property-type.dto'
-export * from './index.dto'
-export * from './index-property.dto'
 export * from './plugin.dto'
 export * from './project.dto'
 export * from './project-component.dto'

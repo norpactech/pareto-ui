@@ -1,12 +1,10 @@
 /**
- * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved.
- *
+ * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved. 
+ *  
  * For license details, see the LICENSE file in this project root.
  */
 export interface IGenericPropertyType {
   id: string
-  idTenant: string
-  tenantName: string
   idGenericDataType: string
   genericDataTypeName: string
   idValidation: string

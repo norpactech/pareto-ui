@@ -1,12 +1,12 @@
 /**
- * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved.
- *
+ * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved. 
+ *  
  * For license details, see the LICENSE file in this project root.
  */
 export interface IProject {
   id: string
-  idTenant: string
-  tenantName: string
+  idSchema: string
+  schemaName: string
   name: string
   description: string
   domain: string

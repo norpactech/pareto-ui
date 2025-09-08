@@ -1,12 +1,12 @@
 /**
- * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved.
- *
+ * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved. 
+ *  
  * For license details, see the LICENSE file in this project root.
  */
-export interface IIndexProperty {
+export interface IDataIndexProperty {
   id: string
-  idIndex: string
-  indexName: string
+  idDataIndex: string
+  dataIndexName: string
   idProperty: string
   propertyName: string
   idRtSortOrder: string

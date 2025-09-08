@@ -1,6 +1,6 @@
 /**
- * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved.
- *
+ * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved. 
+ *  
  * For license details, see the LICENSE file in this project root.
  */
 import { Injectable } from '@angular/core'
@@ -14,7 +14,7 @@ import { BaseService } from './base.service'
   providedIn: 'root',
 })
 export class GenericDataTypeService extends BaseService<IGenericDataType> {
-  constructor() {
+  constructor() {  
     super(environment.baseUrl + '/generic-data-type', new MatSnackBar())
   }
 }

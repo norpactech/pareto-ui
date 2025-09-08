@@ -1,6 +1,6 @@
 /**
- * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved.
- *
+ * © 2025 Northern Pacific Technologies, LLC. All Rights Reserved. 
+ *  
  * For license details, see the LICENSE file in this project root.
  */
 export interface IContextPropertyType {
@@ -9,8 +9,6 @@ export interface IContextPropertyType {
   contextName: string
   idGenericPropertyType: string
   genericPropertyTypeName: string
-  idSchema: string
-  schemaName: string
   length: number
   scale: number
   isNullable: boolean
